@@ -1,0 +1,19 @@
+<Command>trStringQuestVarSet("ysn1", "Yeebaagooon")</Command>
+
+<Command>trStringQuestVarSet("ysn1", "Yaabeegooon")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yeeboogaaan")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yeebaogooon")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yoobaageeen")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yoobeegaaan")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yaaboogeeen")</Command>
+
+<Command>trStringQuestVarSet("ysn1", "Yeetaagooon")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yeedaagooon")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yeebaaqooon")</Command>
+
+<Command>trStringQuestVarSet("ysn1", "Yaybegone")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yeebaagoon")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yaabaagaaan")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yeebeegeeen")</Command>
+<Command>trStringQuestVarSet("ysn1", "Yooboogooon")</Command>
+<Command>trStringQuestVarSet("ysn1", "yEAbEaGOooN")</Command>

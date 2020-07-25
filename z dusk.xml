@@ -1,0 +1,148 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+<!-- Z DUSK Triggers -->
+
+<Conditions>
+	<Condition name="$$22289$$Always">
+		<Expression>true</Expression>
+	</Condition>
+
+</Conditions>
+
+<Effects>
+	<Effect name="$$22355$$SetIdleProcessing">
+    	<Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+    	<Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+	</Effect>
+
+	<!-- Startup Inventory -->
+	<Effect name="ZD Inventory Startup">
+		<Param name="StringID" dispName="Plain Text Trigger" varType="event">-1</Param>
+		<Param name="ImageID" dispName="Image Trigger" varType="event">-1</Param>
+		<Command>trQuestVarSet("iwindowt", 6);</Command>
+		<Command>trQuestVarSet("iwindowb", 0);</Command>
+		<Command>trQuestVarSet("inventorySize", 0);</Command><!-- this is a comment -->
+		<Command>trQuestVarSet("itemSelected", 0);</Command>
+		<Command>trQuestVarSet("plainTextTrigger", %StringID%);</Command>
+		<Command>trQuestVarSet("imageTrigger", %ImageID%);</Command>
+	</Effect>
+
+	<!-- Add to Inventory -->
+	<Effect name="ZD Inventory Add">
+		<Param name="name" dispName="Item Name" varType="string">Note</Param>
+		<Param name="no" dispName="Number" varType="float">0</Param>
+		<Param name="d1" dispName="Desc 1" varType="string">none</Param>
+		<Param name="d2" dispName="Desc 2" varType="string">none</Param>
+		<Param name="d3" dispName="Desc 3" varType="string">none</Param>
+		<Param name="EventID" dispName="$$22362$$Trigger" varType="event">-1</Param>
+			<Command>for (x=trQuestVarGet("inventorySize"); >0) {</Command>
+				<Command>if (trStringQuestVarGet("item"+x+"name") == "%name%") {</Command>
+					<Command>break;</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<Command>for (insert=0; >1) {} for (next=0; >1) {}</Command> <!-- declaring insert variable -->
+			<Command>if (x == 0) {</Command> <!-- if completely new item -->
+				<Command>insert = 1;</Command>
+			<Command>} else {</Command> <!-- there is already another in the series -->
+				<Command>for (y=x; >1) {</Command>
+					<Command>if (trStringQuestVarGet("item"+y+"name") == "%name%") {</Command> <!-- search down the series -->
+						<Command>if (trQuestVarGet("item"+y+"number") > %no%) {</Command> <!-- reached an item that's higher in series -->
+							<Command>break;</Command>
+						<Command>}</Command>
+					<Command>} else {</Command>
+						<Command>break;</Command>
+					<Command>}</Command>
+				<Command>}</Command>
+				<Command>insert = y + 1;</Command> <!-- we know where to insert now -->
+			<Command>}</Command>
+			<Command>trQuestVarSet("inventorySize", trQuestVarGet("inventorySize") + 1);</Command> 
+			<Command>for (i=trQuestVarGet("inventorySize"); >insert) {</Command>
+				<Command>next = i - 1;</Command>
+				<Command>trStringQuestVarSet("item"+i+"name", trStringQuestVarGet("item"+next+"name"));</Command>
+				<Command>trQuestVarSet("item"+i+"number", trQuestVarGet("item"+next+"number"));</Command>
+				<Command>trStringQuestVarSet("item"+i+"d1", trStringQuestVarGet("item"+next+"d1"));</Command>
+				<Command>trStringQuestVarSet("item"+i+"d2", trStringQuestVarGet("item"+next+"d2"));</Command>
+				<Command>trStringQuestVarSet("item"+i+"d3", trStringQuestVarGet("item"+next+"d3"));</Command>
+				<Command>trQuestVarSet("item"+i+"event", trQuestVarGet("item"+next+"event"));</Command>
+			<Command>}</Command>
+			<Command>trStringQuestVarSet("item"+insert+"name", "%name%");</Command>
+			<Command>trQuestVarSet("item"+insert+"number", %no%);</Command>
+			<Command>trStringQuestVarSet("item"+insert+"d1", "%d1%");</Command>
+			<Command>trStringQuestVarSet("item"+insert+"d2", "%d2%");</Command>
+			<Command>trStringQuestVarSet("item"+insert+"d3", "%d3%");</Command>
+			<Command>if (%EventID% == -1) {</Command>
+				<Command>if ("%d1%" == "image") {</Command>
+					<Command>trQuestVarSet("item"+insert+"event", trQuestVarGet("imageTrigger"));</Command>
+				<Command>} else {</Command>
+					<Command>trQuestVarSet("item"+insert+"event", trQuestVarGet("plainTextTrigger"));</Command>
+				<Command>}</Command>
+			<command>} else {</command>
+				<Command>trQuestVarSet("item"+insert+"event", %EventID%);</Command>
+			<Command>}</Command>
+	</Effect>
+
+	<Effect name="ZD Inventory Select">
+		<Command>trEventFire(1*trQuestVarGet("item"+1*trQuestVarGet("itemSelected")+"event"));</Command>
+	</Effect>
+
+	<!-- Inventory Display -->
+	<Effect name="ZD Inventory Display">
+		<Command><![CDATA[trChatSend(0, "<color=0.2,0.2,1><u>Inventory</u></color>");]]></Command>
+		<Command>if (trQuestVarGet("inventorySize") == 0) {</Command>
+			<Command><![CDATA[trChatSend(0, "<color=1,1,1>--</color>");]]></Command>
+		<Command>} else {</Command>
+			<Command>for (x=trQuestVarGet("iwindowt"); >trQuestVarGet("inventorySize")){}</Command>
+			<Command>for (z=x; >trQuestVarGet("iwindowb")-1) {</Command>
+				<!-- if selected, highlight it -->
+				<Command>if (z == 1*trQuestVarGet("itemSelected")) {</Command>
+					<Command>if (trQuestVarGet("item"+z+"number") > 0) {</Command>
+						<Command><![CDATA[trChatSend(0, "<color=1,1,1>"+trStringQuestVarGet("item"+z+"name")+" "+1*trQuestVarGet("item"+z+"number")+"</color>");]]></Command>
+					<Command>} else {</Command>
+						<Command><![CDATA[trChatSend(0, "<color=1,1,1>"+trStringQuestVarGet("item"+z+"name")+"</color>");]]></Command>
+					<Command>}</Command>
+				<!-- otherwise, it gets the normie color -->
+				<Command>} else {</Command>
+					<Command>if (trQuestVarGet("item"+z+"number") > 0) {</Command>
+						<Command>trChatSend(0, ""+trStringQuestVarGet("item"+z+"name")+" "+1*trQuestVarGet("item"+z+"number")+"");</Command>
+					<Command>} else {</Command>
+						<Command>trChatSend(0, ""+trStringQuestVarGet("item"+z+"name")+"");</Command>
+					<Command>}</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+	</Effect>
+
+	<!-- Scroll up and down through inventory -->
+	<Effect name="ZD Inventory Scroll">
+		<Param name="dir" dispName="Direction" varType="bool">true</Param>
+		<Param name="unused1" dispName="" varType="string">Up is true. Down is false.</Param>
+		<Command>if (%dir%) {</Command> <!-- Scroll up -->
+			<Command>trQuestVarSet("itemSelected", trQuestVarGet("itemSelected") + 1);</Command>
+			<Command>if (trQuestVarGet("itemSelected") > trQuestVarGet("inventorySize")) {</Command>
+				<Command>trQuestVarSet("itemSelected", 1);</Command>
+			<Command>}</Command>
+		<Command>} else {</Command> <!-- Scroll down -->
+			<Command>trQuestVarSet("itemSelected", trQuestVarGet("itemSelected") - 1);</Command>
+			<Command>if (0 >= trQuestVarGet("itemSelected")) {</Command>
+				<Command>trQuestVarSet("itemSelected", trQuestVarGet("inventorySize"));</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<!-- If outside the window -->
+		<Command>if (trQuestVarGet("itemSelected") > trQuestVarGet("iwindowt")) {</Command>
+			<Command>trQuestVarSet("iwindowt", trQuestVarGet("itemSelected"));</Command>
+			<Command>trQuestVarSet("iwindowb", trQuestVarGet("iwindowt") - 6);</Command>
+		<Command>}</Command>
+		<Command>if (trQuestVarGet("iwindowb") > trQuestVarGet("itemSelected")) {</Command>
+			<Command>trQuestVarSet("iwindowb", trQuestVarGet("itemSelected"));</Command>
+			<Command>trQuestVarSet("iwindowt", trQuestVarGet("iwindowb") + 6);</Command>
+		<Command>}</Command>
+	</Effect>
+
+	<!-- Test -->
+
+	
+
+</Effects>
+
+</trigger>

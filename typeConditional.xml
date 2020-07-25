@@ -1,0 +1,723 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+  <!-- Conditonal Effects - By Nottud -->
+
+<Conditions>
+
+   <Condition name="$$22289$$Always">
+      <Expression>true</Expression>
+   </Condition>
+
+</Conditions>
+
+<Effects>
+
+   <Effect name="$$22355$$SetIdleProcessing">
+      <Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+      <Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+   </Effect>
+
+   <Effect name="conditional Always">
+      <Command>if(true){</Command>
+   </Effect>
+
+   <Effect name="conditional Timer">
+      <Param name="Param1" dispName="$$22291$$Seconds" VarType="long">0</Param>
+      <Command>if((trTime()-cActivationTime) >= %Param1%){</Command>
+   </Effect>
+
+   <Effect name="conditional Timer ms">
+      <Param name="Param1" dispName="$$22293$$Milliseconds" VarType="long">0</Param>
+      <Command>if((trTimeMS()-(cActivationTime*1000)) >= %Param1%){</Command>
+   </Effect>
+
+   <Effect name="conditional Distance to Unit">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Param name="DstObject" dispName="$$22296$$Target Unit" VarType="unit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitDistanceToUnit("%DstObject%") %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="conditional Units in Area">
+      <Param name="DstObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="Player" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="UnitType" dispName="$$22302$$Unit Type" VarType="string">Unit</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22304$$Count" VarType="float">1</Param>
+      <Command>if(trCountUnitsInArea("%DstObject%",%Player%,"%UnitType%",%Dist%) %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Units in Area 2">
+      <Param name="DstObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="Player" dispName="$$22301$$Player" VarType="float">0</Param>
+      <Param name="UnitType" dispName="$$22302$$Unit Type" VarType="string">Unit</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22304$$Count" VarType="float">1</Param>
+      <Command>if(trCountUnitsInArea("%DstObject%",%Player%,"%UnitType%",%Dist%) %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Distance to Point">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Param name="DstPoint" dispName="" varType="area">0</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitDistanceToPoint(%DstPoint%) %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="conditional Is Alive">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitAlive()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional Is Dead">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitDead()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional Visible to Player">
+         <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitVisToPlayer()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional Units in LOS">
+         <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitHasLOS(%PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Tech Available">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="TechID" dispName="$$22311$$Tech" VarType="tech">0</Param>
+      <Command>if(trTechStatusActive(%PlayerID%, %TechID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Tech Researching">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="TechID" dispName="$$22311$$Tech" VarType="tech">0</Param>
+      <Command>if(trTechStatusResearching(%PlayerID%, %TechID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Percent Complete">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="unit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Percent" dispName="$$22315$$Percent" VarType="long">100</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitPercentComplete() %Op% %Percent%){</Command>
+   </Effect>
+
+   <Effect name="conditional Percent Damaged">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="unit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Percent" dispName="$$22315$$Percent" VarType="long">100</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitPercentDamaged() %Op% %Percent%){</Command>
+   </Effect>
+
+   <Effect name="conditional All Units Dead">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>if(trPlayerUnitCount(%PlayerID%)==0){</Command>
+   </Effect>
+
+   <Effect name="conditional All Buildings Dead">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>if(trPlayerBuildingCount(%PlayerID%)==0){</Command>
+   </Effect>
+
+   <Effect name="conditional All Units And Buildings Dead">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>if(trPlayerUnitAndBuildingCount(%PlayerID%)==0){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Is Building">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="ProtoUnit" dispName="$$19160$$Unit" VarType="protounit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22321$$Number" VarType="long">1</Param>
+      <Command>if(trPlayerCountBuildingInProgress(%PlayerID%, "%ProtoUnit%") %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Unit Count">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="ProtoUnit" dispName="$$19160$$Unit" VarType="protounit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22321$$Number" VarType="long">1</Param>
+      <Command>if(trPlayerUnitCountSpecific(%PlayerID%, "%ProtoUnit%") %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Unit Count 2">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="float">0</Param>
+      <Param name="ProtoUnit" dispName="$$19160$$Unit" VarType="protounit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22321$$Number" VarType="long">1</Param>
+      <Command>if(trPlayerUnitCountSpecific(%PlayerID%, "%ProtoUnit%") %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Resource Count">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="Resource" dispName="$$22324$$Resource" VarType="resource">food</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22321$$Number" VarType="long">1</Param>
+      <Command>if(trPlayerResourceCount(%PlayerID%, "%Resource%") %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Defeated">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>if(trPlayerDefeated(%PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Active">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>if(trPlayerActive(%PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Player At Pop Cap">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>if(trPlayerAtPopCap(%PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Player Population">
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22321$$Number" VarType="long">1</Param>
+      <Command>if(trPlayerGetPopulation(%PlayerID%) %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Units Garrisoned">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="unit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22321$$Number" VarType="long">1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitGetContained() %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional Unit Selected">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="unit">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitIsSelected()){</Command>
+   </Effect>
+
+   <Effect name="conditional Unit Type Selected">
+      <Param name="ProtoUnit" dispName="$$19160$$Unit" VarType="protounit">default</Param>
+      <Command>if(trUnitTypeIsSelected("%ProtoUnit%")){</Command>
+   </Effect>
+
+   <Effect name="conditional Diplomacy Change">
+      <Param name="Player1" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="Status" dispName="$$22340$$Status" varType="alliance">ally</Param>
+      <Param name="Player2" dispName="$$22301$$Player" varType="player">0</Param>
+      <Command>if(trPlayerGetDiplomacy(%Player1%, %Player2%) == "%Status%"){</Command>
+   </Effect>
+
+   <Effect name="conditional Units Owned">
+      <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitIsOwnedBy(%Player%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Abort Cinematic">
+      <Command>if(trCinematicAbort()){</Command>
+   </Effect>
+
+   <Effect name="conditional Difficulty Level">
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Level" dispName="$$22344$$Level" VarType="long">0</Param>
+      <Command>if(trGetWorldDifficulty() %Op% %Level%){</Command>
+   </Effect>
+
+   <!-- Conditions that shouldn't exist -->
+   <Effect name="conditional Gadget Visible">
+      <Param name="Gadget" dispName="$$22346$$Gadget" VarType="string">AgeUpgradeDialog</Param>
+      <Command>if(trIsGadgetVisible("%Gadget%")){</Command>
+   </Effect>
+
+   <!-- Army Related -->
+   <Effect name="conditional Army Distance to Unit">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="DstObject" dispName="$$22296$$Target Unit" VarType="unit">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitDistanceToUnit("%DstObject%") %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="conditional Army Distance to Point">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="DstPoint" dispName="" varType="area">0</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitDistanceToPoint(%DstPoint%) %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="conditional Army in LOS">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitHasLOS(%PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Army Visible to Player">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitVisToPlayer()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional Army Is Alive">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitAlive()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional Army Is Dead">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitDead()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional Army Owned">
+      <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitIsOwnedBy(%Player%)){</Command>
+   </Effect>
+
+  <!-- X-Pack -->
+
+   <Effect name="conditional Unit On Lush">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+       <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="Lush" dispName="$$23478$$Lush:" varType="bool">true</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitOnLush(%Lush%,%Player%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Unit Is Garrisoned In">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="unit">default</Param>
+       <Param name="UnitType" dispName="$$23937$$Container Type" varType="string">All</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitGetIsContained("%UnitType%")){</Command>
+   </Effect>
+
+   <Effect name="conditional Chat Contains">
+      <Param name="Text" dispName="$$20494$$Text" varType="stringid">default</Param>
+       <Param name="PlayerID" dispName="$$22444$$From Player" VarType="player">0</Param>
+      <Command>if(trChatHistoryContains("%Text%", %PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional Stat Value">
+       <Param name="PlayerID" dispName="$$22534$$Fake Player" VarType="player">0</Param>
+       <Param name="StatID" dispName="$$23856$$Stat Type" VarType="kbstat">0</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Value" dispName="$$23859$$Value" VarType="long">0</Param>
+      <Command>if(trGetStatValue(%PlayerID%, %StatID%) %Op% %Value%){</Command>
+   </Effect>
+
+   <Effect name="conditional God Power Active">
+      <Param name="PowerName" dispName="$$22451$$Power" varType="godpower">default</Param>
+       <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Command>if(trCheckGPActive("%PowerName%", %Player%)){</Command>
+   </Effect>
+
+   <Effect name="conditional God Power Used">
+      <Param name="PowerName" dispName="$$22451$$Power" varType="godpower">default</Param>
+       <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Command>if(trGetGPUsedTime("%PowerName%", %Player%) > 0){</Command>
+   </Effect>
+
+   <Effect name="conditional Quest Var Check">
+      <Param name="QuestVar" dispName="$$23952$$Var Name" varType="string">QV1</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Value" dispName="$$23859$$Value" VarType="float">1</Param>
+      <Command>if(trQuestVarGet("%QuestVar%") %Op% %Value%){</Command>
+   </Effect>
+
+   <Effect name="conditional Quest Var Compare">
+      <Param name="QuestVar" dispName="$$23963$$Var Name 1" varType="string">QV1</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="QuestVar2" dispName="$$23962$$Var Name 2" varType="string">QV2</Param>
+      <Command>if(trQuestVarGet("%QuestVar%") %Op% trQuestVarGet("%QuestVar2%")){</Command>
+   </Effect>
+
+  <!-- New Conditions -->
+
+   <Effect name="conditional UNIT Built Building">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" varType="unit">default</Param>
+      <Param name="ProtoUnit" dispName="$$22412$$ProtoUnit To Build" VarType="protounit">default</Param>
+      <Param name="DstPoint" dispName="$$22413$$Build Location" varType="area">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trUnitBuildUnit("%ProtoUnit%", vector(%DstPoint%));</Command>
+   </Effect>
+
+   <Effect name="conditional UNITS In Area By Type">
+      <Param name="DstObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="Player" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22304$$Count" VarType="float">1</Param>
+      <Command>if(trCountUnitsInArea("%DstObject%",%Player%,"%ProtoName%",%Dist%) %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional MOVE To Unit">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" varType="unit">default</Param>
+      <Param name="DstObject" dispName="$$22296$$Target Unit" varType="unit">default</Param>
+      <Param name="AttackMove" dispName="$$22416$$Attack Move" varType="bool">false</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trUnitMoveToUnit("%DstObject%", %AttackMove%);</Command>
+   </Effect>
+
+   <Effect name="conditional CAMERA Cut">
+       <Param name="CameraInfo" dispName="$$22382$$Set Cut" VarType="camerainfo"></Param>
+      <Param name="Param1" dispName="$$22293$$Milliseconds" VarType="long">1000</Param>
+      <Command>if((trTimeMS()-(cActivationTime*1000)) >= %Param1%){</Command>
+       <Command>trCameraCut(%CameraInfo%);</Command>
+   </Effect>
+
+   <Effect name="conditional UNIT Created">
+      <Param name="PlayerID" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="ScenName" dispName="$$20509$$Name" varType="string">Default</Param>
+      <Param name="Location" dispName="" varType="area">0,0,0</Param>
+      <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+      <Command>trUnitCreate("%ProtoName%", "%ScenName%", %Location%, %Heading%, %PlayerID%);</Command>
+   </Effect>
+
+   <Effect name="conditional UNITS Created (Timer)">
+      <Param name="PlayerID" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="ScenName" dispName="$$20509$$Name" varType="string">Default</Param>
+      <Param name="Location" dispName="Gebiet" varType="area">0,0,0</Param>
+      <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+      <Param name="Param1" dispName="1x pro 4,5 sec" VarType="long">0</Param>
+      <Command>if((trTime()-cActivationTime) >= %Param1%){</Command>
+      <Command>trUnitCreate("%ProtoName%", "%ScenName%", %Location%, %Heading%, %PlayerID%);</Command>
+   </Effect>
+
+   <Effect name="conditional IS Dead By Name">
+      <Param name="SrcObject" dispName="$$20509$$Name" VarType="string">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitDead()==true){</Command>
+   </Effect>
+
+   <Effect name="conditional UNIT Selected By Name">
+      <Param name="SrcObject" dispName="$$20509$$Name" VarType="string">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitIsSelected()){</Command>
+   </Effect>
+
+   <Effect name="conditional UNITS Owned By Name">
+      <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="string">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitIsOwnedBy(%Player%)){</Command>
+   </Effect>
+
+   <Effect name="conditional UNITS in Area By Name">
+      <Param name="DstObject" dispName="$$22300$$Center Unit" VarType="string">default</Param>
+      <Param name="Player" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Count" dispName="$$22304$$Count" VarType="float">1</Param>
+      <Command>if(trCountUnitsInArea("%DstObject%",%Player%,"%ProtoName%",%Dist%) %Op% %Count%){</Command>
+   </Effect>
+
+   <Effect name="conditional UNIT In LOS By Name">
+         <Param name="SrcObject" dispName="$$20509$$Name" VarType="string">default</Param>
+      <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitHasLOS(%PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional UNITS in LOS (Timer)">
+         <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Param name="PlayerID" dispName="$$20319$$Gaia" VarType="player">0</Param>
+      <Param name="Param1" dispName="$$22291$$Seconds" VarType="long">1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitHasLOS(%PlayerID%)){</Command>
+      <Command>if((trTime()-cActivationTime) >= %Param1%){</Command>
+   </Effect>
+
+   <Effect name="conditional VISIBLE To Player By Name">
+         <Param name="SrcObject" dispName="$$20509$$Name" VarType="string">default</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitVisToPlayer()==true){</Command>
+   </Effect>
+
+    <Effect name="conditional PLAYER Civilisation">
+        <Param name="Player" dispName="$$22301$$Player" VarType="player">1</Param>
+        <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+        <Param name="MyString" dispName="Civilisation" VarType="string">Zeus</Param>
+        <Command>if(kbGetCivName(kbGetCivForPlayer(%Player%)) %Op% "%MyString%"){</Command>
+    </Effect>
+
+    <Effect name="conditional PLAYER Culture">
+        <Param name="Player" dispName="$$22301$$Player" VarType="player">1</Param>
+        <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+        <Param name="MyString" dispName="Culture" VarType="string">Greek</Param>
+        <Command>if(kbGetCultureName(kbGetCultureForPlayer(%Player%)) %Op% "%MyString%"){</Command>
+    </Effect>
+
+    <Effect name="conditional PLAYER Human">
+        <Param name="Player" dispName="$$22301$$Player" VarType="player">1</Param>
+        <Param name="MyBool" dispName="$$99420$$YesNo" VarType="bool">True</Param>
+        <Command>if(kbIsPlayerHuman(%Player%)==%MyBool%){</Command>
+    </Effect>
+
+    <Effect name="conditional PLAYER Exists In Game">
+        <Param name="Player" dispName="$$22301$$Player" VarType="player">1</Param>
+        <Param name="MyBool" dispName="$$99420$$YesNo" VarType="bool">True</Param>
+        <Command>if(kbIsPlayerValid(%Player%)==%MyBool%){</Command>
+    </Effect>
+
+    <Effect name="conditional PLAYER Team">
+        <Param name="Player" dispName="$$22301$$Player" VarType="player">1</Param>
+        <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+        <Param name="MyInt" dispName="$$99420$$Team" VarType="long">1</Param>
+        <Command>if(kbGetPlayerTeam(%Player%) %Op% %MyInt%){</Command>
+    </Effect>
+
+   <Effect name="conditional DISTANCE to Point By Name">
+         <Param name="SrcObject" dispName="$$20509$$Name" VarType="string">default</Param>
+      <Param name="DstPoint" dispName="" varType="area">0</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitDistanceToPoint(%DstPoint%) %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="conditional DISTANCE to Unit (Names)">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="string">default</Param>
+      <Param name="DstObject" dispName="$$22296$$Target Unit" VarType="string">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitDistanceToUnit("%DstObject%") %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="conditional PERCENT Complete By Name">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="string">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Percent" dispName="$$22315$$Percent" VarType="long">100</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitPercentComplete() %Op% %Percent%){</Command>
+   </Effect>
+
+   <Effect name="conditional PERCENT Damaged By Name">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="string">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Percent" dispName="$$22315$$Percent" VarType="long">100</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitPercentDamaged() %Op% %Percent%){</Command>
+   </Effect>
+
+   <Effect name="conditional ARMY Selected">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitIsSelected()){</Command>
+   </Effect>
+
+    <Effect name="conditional NOT Visible to Player">
+        <Param name="SrcObject" dispName="Source Units" VarType="unit">default</Param>
+        <Command>trUnitSelectClear();</Command>
+        <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+        <Command>if(trUnitVisToPlayer()==false){</Command>
+    </Effect>
+
+    <Effect name="conditional NOT Visible to Player By Name">
+        <Param name="SrcObject" dispName="Source Units" VarType="string">default</Param>
+        <Command>trUnitSelectClear();</Command>
+        <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+        <Command>if(trUnitVisToPlayer()==false){</Command>
+    </Effect>
+
+   <Effect name="conditional UNIT On Lush By Name">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="string">default</Param>
+       <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="Lush" dispName="$$23478$$Lush:" varType="bool">true</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitOnLush(%Lush%,%Player%)){</Command>
+   </Effect>
+
+   <Effect name="conditional UNIT Is Garrisoned In By Name">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="string">default</Param>
+       <Param name="UnitType" dispName="$$23937$$Container Type" varType="string">All</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitGetIsContained("%UnitType%")){</Command>
+   </Effect>
+
+   <Effect name="conditional UNIT Is Garrisoned In By Type">
+      <Param name="SrcObject" dispName="$$22314$$Source Unit" VarType="unit">default</Param>
+       <Param name="UnitType" dispName="$$23937$$Container Type" varType="protounit">Villager</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>if(trUnitGetIsContained("%UnitType%")){</Command>
+   </Effect>
+
+   <Effect name="conditional ARMY Is Garrisoned In">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+       <Param name="UnitType" dispName="$$23937$$Container Type" varType="string">All</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitGetIsContained("%UnitType%")){</Command>
+   </Effect>
+
+   <Effect name="conditional ARMY Is Garrisoned In By Type">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+       <Param name="UnitType" dispName="$$23937$$Container Type" varType="protounit">Villager</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitGetIsContained("%UnitType%")){</Command>
+   </Effect>
+
+   <Effect name="conditional ARMY On Lush">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+       <Param name="Player" dispName="$$22301$$Player" varType="player">0</Param>
+      <Param name="Lush" dispName="$$23478$$Lush:" varType="bool">true</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitOnLush(%Lush%,%Player%)){</Command>
+   </Effect>
+
+    <!-- XS und QV -->
+
+   <Effect name="conditional XS User Condition">
+      <Param name="MyString" dispName="Code" varType="string">true</Param>
+      <Command>if((%MyString%)){</Command> ;
+    </Effect>
+
+    <Effect name="conditional XS User Condition Units">
+        <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+        <Param name="MyString" dispName="Code" varType="string">default</Param>
+        <Command>trUnitSelectClear();</Command>
+        <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+        <Command>if((%MyString%)){</Command>
+    </Effect>
+
+    <Effect name="conditional XS User Condition Army">
+        <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+        <Param name="MyString" dispName="Code" varType="string">default</Param>
+        <Command>trArmySelect("%SrcArmy%");</Command>
+        <Command>if((%MyString%)){</Command>
+    </Effect>
+
+   <Effect name="conditional QV Stat Value">
+    <Param name="PlayerID" dispName="$$22534$$Fake Player" VarType="player">0</Param>
+     <Param name="StatID" dispName="$$23856$$Stat Type" VarType="kbstat">0</Param>
+    <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+    <Param name="QVName" dispName="QV PointZero" VarType="string">PointZero</Param>
+      <Param name="Value" dispName="$$23859$$Value" VarType="long">0</Param>
+      <Command>if(trGetStatValue(%PlayerID%, %StatID%) %Op% trQuestVarGet("%QVName%")+ %Value%){</Command>
+   </Effect>
+
+   <Effect name="conditional QV Count Resource">
+    <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+    <Param name="Resource" dispName="$$22324$$Resource" VarType="resource">food</Param>
+    <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+    <Param name="QVName" dispName="$$23952$$Var Name" VarType="string">QV1</Param>
+    <Command>if(trPlayerResourceCount(%PlayerID%, "%Resource%") %Op% trQuestVarGet("%QVName%")){</Command>
+   </Effect>
+
+   <Effect name="conditional QV Chat Contains">
+    <Param name="QVName" dispName="$$23952$$Var Name" VarType="string">QV1</Param>
+    <Param name="PlayerID" dispName="$$22444$$From Player" VarType="player">0</Param>
+    <Command>if(trChatHistoryContains(""+ trQuestVarGet("%QVName%")+ "", %PlayerID%)){</Command>
+   </Effect>
+
+   <Effect name="conditional QV Count Unit">
+    <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+    <Param name="ProtoUnit" dispName="$$19160$$Unit" VarType="protounit">default</Param>
+    <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+    <Param name="QVName" dispName="VarName" VarType="string">QV1</Param>
+      <Command>if(trPlayerUnitCountSpecific(%PlayerID%, "%ProtoUnit%") %Op% trQuestVarGet("%QVName%")){</Command>
+   </Effect>
+
+   <Effect name="conditional QV Timer">
+      <Param name="QVName" dispName="$$23952$$Var Name" VarType="string">QV1</Param>
+      <Command>if((trTime()-cActivationTime) >= trQuestVarGet("%QVName%")){</Command>
+   </Effect>
+
+   <Effect name="conditional QV Timer ms">
+      <Param name="QVName" dispName="$$23952$$Var Name" VarType="string">QV1</Param>
+      <Command>if((trTimeMS()-(cActivationTime*1000)) >= trQuestVarGet("%QVName%")){</Command>
+   </Effect>
+
+   <Effect name = "QV Difference">
+    <Param name = "QVName1" dispName = "$$23952$$Var Name" varType ="string">QV1</Param>
+    <Param name = "QVName2" dispName = "$$23952$$Var Name2" varType ="string">QV2</Param>
+    <Param name = "Op" dispName = "$$22297$$Operator" VarType ="operator">==</Param>
+    <Param name = "Diff" dispName = "Difference" varType = "float">1.0</Param>
+    <Command>if(((trQuestVarGet("%QVName1%") - trQuestVarGet("%QVName2%")) %Op% %Diff%)){</Command>
+   </Effect>
+
+	<Effect name="conditional kb Percent Complete">
+		<Param name="Player" dispName="Player" VarType="player">0</Param>
+		<Param name="Proto" dispName="Protounit Numeric ID" VarType="long">0</Param>
+		<Param name="Op" dispName="Operator" VarType="operator">==</Param>
+		<Param name="Percent" dispName="Compared to This Value" VarType="long">100</Param>
+		<Command>int lastpl = xsGetContextPlayer();</Command>
+		<Command>xsSetContextPlayer(%Player%);</Command>
+		<Command>int checkprogger=kbUnitQueryCreate("Check This Progress Thing");</Command>
+		<Command>kbUnitQuerySetPlayerID(checkprogger, %Player%);</Command>
+		<Command>kbUnitQuerySetUnitType(checkprogger, %Proto%);</Command>
+		<Command>kbUnitQueryResetResults(checkprogger);</Command>
+		<Command>int rewuqti=kbUnitQueryExecute(checkprogger);</Command>
+		<Command>int chekprogger=kbUnitQueryGetResult(checkprogger, 0);</Command>
+		<Command>xsSetContextPlayer(lastpl);</Command>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelectByID(chekprogger);</Command>
+		<Command>if(trUnitPercentComplete() %Op% %Percent%){</Command>
+	</Effect>
+
+<Effect name="conditional Easy shop condition">
+  <Param name="Param1" dispName="Timer - seconds" VarType="long">0</Param> 
+  <Param name="Player" dispName="$$22301$$Player" VarType="player">0</Param> 
+  <Param name="DstObject" dispName="shop area object" VarType="unit">default</Param> 
+  <Param name="Dist" dispName="Purchase radius" VarType="float">10</Param> 
+  <Param name="Resource" dispName="Resourse type needed" VarType="resource">food</Param> 
+  <Param name="Count" dispName="Amount" VarType="long">1</Param>  
+  <Command>if((trTime()-cActivationTime) >= %Param1% &amp; &amp; trCountUnitsInArea("%DstObject%",%Player%,"all",%Dist%) >= 1 &amp; &amp; trPlayerResourceCount(%Player%, "%Resource%") >= %Count%){</Command> 
+  </Effect>
+
+   <Effect name="conditional zEND">
+      <Command>}</Command>
+   </Effect>
+
+
+</Effects>
+</trigger>

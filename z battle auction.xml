@@ -1,0 +1,83 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+<!-- Z DUSK Triggers -->
+
+<Conditions>
+	<Condition name="$$22289$$Always">
+		<Expression>true</Expression>
+	</Condition>
+
+	
+
+</Conditions>
+
+<Effects>
+	<Effect name="$$22355$$SetIdleProcessing">
+    	<Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+    	<Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+	</Effect>
+
+
+    <Effect name="yCondition Units in Area Player Range">
+        <Param name="From" dispName="From Player" VarType="player">1</Param>
+        <Param name="To" dispName="To Player" VarType="player">4</Param>
+        <Param name="UnitType" dispName="Unit" VarType="string">Unit</Param>
+        <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+        <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+        <Param name="Count" dispName="$$22304$$Count" VarType="string">1</Param>
+        <Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+        <Command>for(zcount=0;>1) {}</Command>
+        <Command>for(zplayer=%To%; >= %From%) {</Command>
+            <Command>zcount = zcount + trCountUnitsInArea(""+1*trQuestVarGet("%qv%") ,zplayer,"%UnitType%",%Dist%);</Command>
+        <Command>}</Command>
+      <Command>if(zcount %Op% %Count%){</Command>
+  </Effect>
+      
+
+  <Effect name="Z Set Unit Stat">
+    <Param name="ProtoUnit" dispName="ProtoUnit" varType="protounit">default</Param>
+    <Param name="player" dispName="Player" varType="string"></Param>
+    <Param name="Field" dispName="Field" varType="pufield">0</Param>
+    <Param name="value" dispName="Value" varType="string"></Param>
+    <Command>for(zsps=0; >1){}</Command>
+    <Command>zsps = kbGetProtoUnitID("%ProtoUnit%");</Command>
+    <Command>trModifyProtounit("%ProtoUnit%", %player%, %Field%, %value% - trQuestVarGet("p"+%player%+"p"+zsps+"f%Field%f"));</Command>
+    <Command>trQuestVarSet("p"+%player%+"p"+zsps+"f%Field%f", %value%);</Command>
+  </Effect>
+
+	<Effect name="Z ProtoUnit Description Set">
+    <Param name="ProtoUnit" dispName="ProtoUnit" varType="protounit">default</Param>
+    <Param name="name" dispName="Name" varType="string"></Param>
+    <Param name="line1" dispName="Line 1" varType="string">_</Param>
+    <Param name="line2" dispName="Line 2" varType="string">_</Param>
+    <Param name="line3" dispName="Line 3" varType="string">_</Param>
+    <Param name="line3" dispName="Line 4" varType="string">_</Param>
+    <Command>for(zsps=0; >1){}</Command>
+    <Command>zsps = kbGetProtoUnitID("%ProtoUnit%");</Command>
+    <Command>trStringQuestVarSet(""+zsps+"name", "%name%");</Command>
+    <Command>trStringQuestVarSet(""+zsps+"line1", "%line1%");</Command>
+    <Command>trStringQuestVarSet(""+zsps+"line2", "%line2%");</Command>
+    <Command>trStringQuestVarSet(""+zsps+"line3", "%line3%");</Command>
+    <Command>trStringQuestVarSet(""+zsps+"line4", "%line4%");</Command>
+  </Effect>
+
+  <Effect name="Z ProtoUnit Description Print">
+    <Param name="ProtoUnit" dispName="ProtoUnit" varType="string"></Param>
+    <Param name="Type" dispName="Type" varType="string">0</Param>
+    <Command>for(zsps=0; >1){}</Command>
+    <Command>zsps = kbGetProtoUnitID("%ProtoUnit%");</Command>
+    <Command>if (zsps == -1) {</Command>
+      <Command>zsps = %Type%;</Command>
+    <Command>}</Command>
+    <Command><![CDATA[trChatSend(0, "<color=0.2,0.2,0.9><u>"+trStringQuestVarGet(""+zsps+"name")+"</u></color>");]]></Command>
+    <Command><![CDATA[for(l=1; <=4) {]]></Command>
+      <Command>if (trStringQuestVarGet(""+zsps+"line"+l) != "_") {</Command>
+        <Command><![CDATA[trChatSend(0, "<color=1,1,1>"+trStringQuestVarGet(""+zsps+"line"+l));]]></Command>
+      <Command>}</Command>
+    <Command>}</Command>
+  </Effect>
+
+</Effects>
+
+</trigger>

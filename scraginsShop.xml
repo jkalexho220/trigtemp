@@ -1,0 +1,179 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+  <!-- Scragins Shop Triggers -->
+
+<Conditions>
+
+   <Condition name="Timer scragins">
+      <Param name="seconds" dispName="$$22291$$Seconds" VarType="long">0</Param>
+      <Param name="minutes" dispName="Minutes" VarType="long">1</Param>
+      <Param name="hours" dispName="Hours" VarType="long">0</Param>
+      <Expression>(trTime()-cActivationTime) >= %seconds% + 60*%minutes% + 360*%hours%</Expression>
+   </Condition>
+
+</Conditions>
+
+<Effects>
+
+   <Effect name="scragins Shop1 Start">
+	  <Param name="NumProtos" dispName="Number of Protounits" VarType="long">1</Param>
+	<Command>trQuestVarSet("SCRtrigSSSI", 0);</Command>
+	<Command>trQuestVarSet("SCRtrigSSSII", 1);</Command>
+      <Command>while(%NumProtos% >=trQuestVarGet("SCRtrigSSSII")) {</Command>
+   </Effect>
+
+   <Effect name="scragins Shop2 Add Protounit">
+ 	   <Param name="ProtoUnit" dispName="$$22449$$ProtoUnit" varType="protounit">Villager</Param>
+	  <Param name="Index" dispName="Protounit Number" VarType="long">1</Param>
+	<Command>if(%Index% == trQuestVarGet("SCRtrigSSSII")) {</Command>
+	<Command>trQuestVarSet("SCRtrigSSSI", 1*kbGetProtoUnitID("%ProtoUnit%"));}</Command>
+   </Effect>
+
+   <Effect name="scragins Shop2 Add All Protounits">
+	  <Param name="Index" dispName="Set Number of Protounits to 800.               " VarType="long"></Param>
+	  <Param name="IndexI" dispName="Have no other scragins Shop 2... triggers." VarType="long"></Param>
+	<Command>trQuestVarSet("SCRtrigSSSI", 1*trQuestVarGet("SCRtrigSSSII"));</Command>
+   </Effect>
+
+   <Effect name="scragins Shop3 Run">
+      <Param name="DstObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+	  <Param name="Resource" dispName="$$22324$$Resource" VarType="resource">food</Param>
+	  <Param name="Count" dispName="Amount" VarType="long">100</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">2</Param>
+        <Param name="PMin" dispName="Lowest Player" varType="player">1</Param>
+        <Param name="PMax" dispName="Highest Player" varType="player">6</Param>
+        <Command><![CDATA[for(zzzz=%PMin%;<=%PMax%){]]></Command>
+	<Command>if(trCountUnitsInArea("%DstObject%", zzzz ,""+kbGetProtoUnitName(trQuestVarGet("SCRtrigSSSI")),%Dist%) == 1) {</Command>
+	<Command>if(trPlayerResourceCount( zzzz , "%Resource%") >= %Count%) {</Command>
+      <Command>trPlayerGrantResources( zzzz , "%Resource%", -1*%Count%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop5 End">
+	<Command>}}}</Command>
+	<Command>trQuestVarSet("SCRtrigSSSII", 1*(1*trQuestVarGet("SCRtrigSSSII")+1));}</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Modifiy Protounit">
+ 	   <Param name="ProtoUnit" dispName="$$22449$$ProtoUnit" varType="protounit">Villager</Param>
+        <Param name="Field" dispName="Field" varType="pufield">0</Param>
+        <Param name="Delta" dispName="Delta" varType="float">1.0</Param>
+	<Command>trModifyProtounit("%ProtoUnit%", zzzz, %Field%, %Delta%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Modifiy Purchasing Protounit">
+        <Param name="Field" dispName="Field" varType="pufield">0</Param>
+        <Param name="Delta" dispName="Delta" varType="float">1.0</Param>
+	<Command>trModifyProtounit(""+kbGetProtoUnitName(trQuestVarGet("SCRtrigSSSI")), zzzz, %Field%, %Delta%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Damage Units in Area">
+      <Param name="SrcObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="UnitType" dispName="$$22302$$Unit Type" VarType="string">Unit</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+	   <Param name="Damage" dispName="$$23762$$Damage" varType="float">50</Param>
+	   <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trDamageUnitsInArea(zzzz,"%UnitType%",%Dist%,%Damage%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Change Units in Area">
+      <Param name="SrcObject" dispName="$$22300$$Center Unit" varType="unit">default</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+	   <Param name="FromPlayerID" dispName="$$22453$$From Player" varType="player">1</Param>
+	   <Param name="ToPlayerID" dispName="$$22454$$To Player" varType="player">2</Param>
+	   <Param name="FromType" dispName="$$23771$$FromType" varType="string">Unit</Param>
+	   <Param name="ToProto" dispName="$$23772$$ToUnit" varType="protounit">Axeman</Param>
+	   <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trUnitChangeInArea(zzzz,zzzz,"%FromType%","%ToProto%",%Dist%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Change Protounits in Area">
+      <Param name="SrcObject" dispName="$$22300$$Center Unit" varType="unit">default</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+	   <Param name="FromPlayerID" dispName="$$22453$$From Player" varType="player">1</Param>
+	   <Param name="ToPlayerID" dispName="$$22454$$To Player" varType="player">2</Param>
+	   <Param name="FromType" dispName="$$23771$$FromType" varType="protounit">Axeman</Param>
+	   <Param name="ToProto" dispName="$$23772$$ToUnit" varType="protounit">Axeman</Param>
+	   <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trUnitChangeInArea(zzzz,zzzz,"%FromType%","%ToProto%",%Dist%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Damage Protounits in Area">
+      <Param name="SrcObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="UnitType" dispName="$$22302$$Unit Type" VarType="protounit">Axeman</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+	   <Param name="Damage" dispName="$$23762$$Damage" varType="float">50</Param>
+	   <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trDamageUnitsInArea(zzzz,"%UnitType%",%Dist%,%Damage%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Damage Purchasing Units in Area">
+      <Param name="SrcObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+	   <Param name="Damage" dispName="$$23762$$Damage" varType="float">50</Param>
+	   <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trDamageUnitsInArea(zzzz,""+kbGetProtoUnitName(trQuestVarGet("SCRtrigSSSI")),%Dist%,%Damage%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Army Deploy if Player">
+	  <Param name="PlayerID" dispName="If Player" varType="player">1</Param>
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+	  <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+	  <Param name="Location" dispName="" varType="area">0,0,0</Param>
+	  <Param name="Count"  dispName="$$22435$$Count" varType="long">0</Param>
+	  <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+	  <Param name="Clear" dispName="$$22464$$Clear Existing Units:" varType="bool">true</Param>
+	<Command>if(zzzz == %PlayerID%) {</Command>
+	  <Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, %Location%, %Heading%, %Clear%);}</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Grant Resources">
+      <Param name="ResName" dispName="$$22455$$Resource" varType="resource">food</Param>
+	  <Param name="Amount" dispName="$$22456$$Amount" varType="long">100</Param>
+      <Command>trPlayerGrantResources(zzzz, "%ResName%", %Amount%);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Send Chat">
+	   <Param name="Message" dispName="$$20056$$Message" VarType="stringid">default</Param>
+	   <Command>trChatSend(zzzz, "%Message%");</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Convert to Purchaser">
+      <Param name="SrcObject" dispName="$$22421$$Unit" varType="unit">default</Param>
+	  <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trUnitConvert(zzzz);</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Fire Event if Player">
+	  <Param name="PIDI" dispName="If Player" varType="player">1</Param>
+      <Param name="EventIDI" dispName="$$22362$$Trigger" varType="event">-1</Param>
+	  <Param name="PIDII" dispName="If Player" varType="player">2</Param>
+      <Param name="EventIDII" dispName="$$22362$$Trigger" varType="event">-1</Param>
+	  <Param name="PIDIII" dispName="If Player" varType="player">3</Param>
+      <Param name="EventIDIII" dispName="$$22362$$Trigger" varType="event">-1</Param>
+	<Command>if(zzzz == %PIDI%) {</Command>
+      <Command>trEventFire(%EventIDI%);}</Command>
+	<Command>if(zzzz == %PIDII%) {</Command>
+      <Command>trEventFire(%EventIDII%);}</Command>
+	<Command>if(zzzz == %PIDIII%) {</Command>
+      <Command>trEventFire(%EventIDIII%);}</Command>
+   </Effect>
+
+   <Effect name="scragins Shop4 Quest Var Modify">
+      <Param name="QVNameI" dispName="Var Name Before" VarType="string">QV1</Param>
+      <Param name="QVNameII" dispName="Var Name After" VarType="string">QV2</Param>
+      <Param name="Oper" dispName="$$23955$$Operator" VarType="string">+</Param>
+      <Param name="Value" dispName="$$23859$$Value" VarType="float">0</Param>
+      <Command>trQuestVarSet("%QVNameI%"+zzzz+"%QVNameII%", trQuestVarGet("%QVNameI%"+zzzz+"%QVNameII%") %Oper% %Value%);</Command>
+   </Effect>
+
+
+</Effects>
+
+</trigger>

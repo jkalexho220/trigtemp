@@ -1,0 +1,71 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+<Conditions>
+
+</Conditions>
+
+<Effects>
+
+   <Effect name="QV Counter: Add Timer (LB)">
+	  <Param name="Name" dispName="Name" varType="string">countdown</Param>
+	  <Param name="StartQV" dispName="Start QV" varType="stringid">QVStart</Param>
+	  <Param name="StopQV" dispName="Stop QV" varType="stringid">QVStop</Param>
+	  <Param name="Msg" dispName="Message" varType="stringid">Another event in</Param>
+	  <Param name="Event" dispName="Trigger" varType="event">0</Param>
+      <Command>trCounterAddTime("%Name%", trQuestVarGet("%StartQV%"), trQuestVarGet("%StopQV%"), "%Msg%", %Event%);</Command>
+   </Effect>
+
+   <Effect name="QV Percent Complete (LB)">
+	  <Param name="SrcObject" dispName="Source Unit" VarType="unit">default</Param>
+	  <Param name="QVName" dispName="QV Name" VarType="string">QV1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+	  <Command>trQuestVarSet("%QVName%", trUnitPercentComplete());</Command>
+   </Effect>
+
+   <Effect name="QV Percent Damaged (LB)">
+	  <Param name="SrcObject" dispName="Source Unit" VarType="unit">default</Param>
+	  <Param name="QVName" dispName="QV Name" VarType="string">QV1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+	  <Command>trQuestVarSet("%QVName%", trUnitPercentDamaged());</Command>
+   </Effect>
+
+   <Effect name="QV Set X,Y,Z (LB)">
+      <Param name="SrcObject" dispName="Unit" varType="unit">default</Param>
+      <Param name="QVx" dispName="QV X" VarType="string">X_pos</Param>
+      <Param name="QVy" dispName="QV Y" VarType="string">Y_pos</Param>
+      <Param name="QVz" dispName="QV Z" VarType="string">Z_pos</Param>
+	<Command>trUnitSelectClear();</Command>
+	<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+	<Command>trQuestVarSet("%QVx%", xsVectorGetX(kbGetBlockPosition("%SrcObject%")));</Command>
+	<Command>trQuestVarSet("%QVy%", xsVectorGetY(kbGetBlockPosition("%SrcObject%")));</Command>
+	<Command>trQuestVarSet("%QVz%", xsVectorGetZ(kbGetBlockPosition("%SrcObject%")));</Command>
+   </Effect>
+
+   <Effect name="QV Teleport Units to QV X,Y,Z (LB)">
+      <Param name="SrcObject" dispName="Source Units" varType="unit">default</Param>
+	  <Param name="QVx" dispName="QV X" VarType="string">X_pos</Param>
+	  <Param name="QVy" dispName="QV Y [height]" VarType="string">Y_pos</Param>
+	  <Param name="QVz" dispName="QV Z" VarType="string">Z_pos</Param>
+		<Command>trQuestVarSet("fhweaohpgpagowhwa", xsGetContextPlayer());</Command>
+		<Command>xsSetContextPlayer(0);</Command>
+		<Command>kbLookAtAllUnitsOnMap();</Command>
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+		<Command>trUnitTeleport(trQuestVarGet("%QVx%"), trQuestVarGet("%QVy%"), trQuestVarGet("%QVz%"));</Command>
+		<Command>xsSetContextPlayer(trQuestVarGet("fhweaohpgpagowhwa"));</Command>
+   </Effect>
+
+   <Effect name="QV Unit Heading (LB)">
+      <Param name="SrcObject" dispName="Source Units" varType="unit">default</Param>
+	  <Param name="Heading" dispName="QV Heading" varType="string">QV_heading</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+	  <Command>trUnitSetHeading(trQuestVarGet("%Heading%"));</Command>
+   </Effect>
+
+</Effects>
+
+</trigger>

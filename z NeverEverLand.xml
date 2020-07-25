@@ -1,0 +1,278 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+<!-- Z DUSK Triggers -->
+
+<Conditions>
+	<Condition name="$$22289$$Always">
+		<Expression>true</Expression>
+	</Condition>
+
+</Conditions>
+
+<Effects>
+	<Effect name="$$22355$$SetIdleProcessing">
+    	<Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+    	<Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+	</Effect>
+
+	<!-- Create Equipment -->
+	<Effect name="Z NEL Equipment Create 1">
+		<Param name="name" dispName="Name ID" varType="string"></Param>
+		<Param name="displayname" dispName="Display Name" varType="string"></Param>
+		<Param name="equipEvent" dispName="Equip Trigger" varType="event">-1</Param>
+		<Param name="unequipEvent" dispName="Unequip Trigger" varType="event">-1</Param>
+			<Command>trStringQuestVarSet("ZNELEquipmentCurrent", "%name%");</Command>
+			<Command>trQuestVarSet("%name%equip", %equipEvent%);</Command>
+			<Command>trQuestVarSet("%name%unequip", %unequipEvent%);</Command>
+			<Command>trStringQuestVarSet("%name%name", "%displayname%");</Command>
+	</Effect>
+
+	<Effect name="Z NEL Equipment Create 2">
+		<Param name="d1" dispName="Desc 1" varType="string">none</Param>
+		<Param name="d2" dispName="Desc 2" varType="string">none</Param>
+		<Param name="d3" dispName="Desc 3" varType="string">none</Param>
+		<Param name="d4" dispName="Desc 4" varType="string">none</Param>
+		<Param name="d5" dispName="Desc 5" varType="string">none</Param>
+		<Param name="d6" dispName="Desc 6" varType="string">none</Param>
+		<Command>trStringQuestVarSet(""+trStringQuestVarGet("ZNELEquipmentCurrent")+"d1", "%d1%");</Command>
+		<Command>trStringQuestVarSet(""+trStringQuestVarGet("ZNELEquipmentCurrent")+"d2", "%d2%");</Command>
+		<Command>trStringQuestVarSet(""+trStringQuestVarGet("ZNELEquipmentCurrent")+"d3", "%d3%");</Command>
+		<Command>trStringQuestVarSet(""+trStringQuestVarGet("ZNELEquipmentCurrent")+"d4", "%d4%");</Command>
+		<Command>trStringQuestVarSet(""+trStringQuestVarGet("ZNELEquipmentCurrent")+"d5", "%d5%");</Command>
+		<Command>trStringQuestVarSet(""+trStringQuestVarGet("ZNELEquipmentCurrent")+"d6", "%d6%");</Command>
+	</Effect>
+
+	<!-- Startup List -->
+	<Effect name="Z NEL List Startup">
+		<Param name="list" dispName="List Name" varType="string">zenoWeapons</Param>
+		<Command>trQuestVarSet("%list%windowSize", 0);</Command>
+		<Command>trQuestVarSet("%list%windowTop", 0);</Command>
+		<Command>trQuestVarSet("%list%windowBot", 0);</Command>
+		<Command>trQuestVarSet("%list%Size", 0);</Command>
+		<Command>trQuestVarSet("%list%ID", 0);</Command>
+		<Command>trQuestVarSet("%list%Selected", 0);</Command>
+		<Command>trQuestVarSet("%list%Latest", 0);</Command>
+		<Command>trQuestVarSet("%list%equipEvent", -1);</Command>
+		<Command>trQuestVarSet("%list%unequipEvent", -1);</Command>
+	</Effect>
+
+	<Effect name="Z NEL Armory Startup">
+		<Command>trQuestVarSet("zenoWeaponUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("zenoArmorUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("zenoAcc1UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("zenoAcc2UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("zenoAcc3UnequipEvent", -1);</Command>
+
+		<Command>trQuestVarSet("nickWeaponUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("nickArmorUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("nickAcc1UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("nickAcc2UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("nickAcc3UnequipEvent", -1);</Command>
+
+		<Command>trQuestVarSet("yeebWeaponUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("yeebArmorUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("yeebAcc1UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("yeebAcc2UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("yeebAcc3UnequipEvent", -1);</Command>
+
+		<Command>trQuestVarSet("thangbrandWeaponUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("thangbrandArmorUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("thangbrandAcc1UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("thangbrandAcc2UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("thangbrandAcc3UnequipEvent", -1);</Command>
+
+		<Command>trQuestVarSet("lewonasWeaponUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("lewonasArmorUnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("lewonasAcc1UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("lewonasAcc2UnequipEvent", -1);</Command>
+		<Command>trQuestVarSet("lewonasAcc3UnequipEvent", -1);</Command>
+	</Effect>
+
+	<!-- Add to List -->
+	<Effect name="Z NEL List Add">
+		<Param name="list" dispName="List Name" varType="string">accessories</Param>
+		<Param name="item" dispName="Item Name" varType="string"></Param>
+			<Command>trQuestVarSet("%list%Size", trQuestVarGet("%list%Size")+1);</Command>
+			<Command>trQuestVarSet("%list%ID", trQuestVarGet("%list%ID")+1);</Command>
+			<Command>for(z=0; >1){} for(before=0; >1){} for(after=0; >1){}</Command>
+			<Command>z = trQuestVarGet("%list%ID");</Command>
+			<!-- acquire linked list links -->
+			<Command>if (trQuestVarGet("%list%Size") > 1) {</Command>
+				<Command>before = trQuestVarGet("%list%Latest");</Command>
+				<Command>after = trQuestVarGet("%list%"+before+"next");</Command>
+			<Command>} else {</Command>
+				<Command>before = z;</Command>
+				<Command>after = z;</Command>
+				<Command>trQuestVarSet("%list%windowTop", z);</Command>
+				<Command>trQuestVarSet("%list%Selected", z);</Command>
+			<Command>}</Command>
+			<!-- Insert into linked list -->
+			<Command>trQuestVarSet("%list%"+z+"prev", before);</Command>
+			<Command>trQuestVarSet("%list%"+z+"next", after);</Command>
+			<Command>trQuestVarSet("%list%"+before+"next", z);</Command>
+			<Command>trQuestVarSet("%list%"+after+"prev", z);</Command>
+			<!-- Update Window -->
+			<Command>if (5 > trQuestVarGet("%list%windowSize")) {</Command>
+				<Command>trQuestVarSet("%list%WindowSize", trQuestVarGet("%list%windowSize") + 1);</Command>
+				<Command>trQuestVarSet("%list%WindowBot", z);</Command>
+			<Command>}</Command>
+			<!-- Insert Info -->
+			<Command>trStringQuestVarSet("%list%"+z+"name", trStringQuestVarGet("%item%name"));</Command>
+			<Command>trStringQuestVarSet("%list%"+z+"", "%item%");</Command>
+			<Command>trQuestVarSet("%list%"+z+"equip", trQuestVarGet("%item%equip"));</Command>
+			<Command>trQuestVarSet("%list%"+z+"unequip", trQuestVarGet("%item%unequip"));</Command>
+			<Command>for(i=6; >0) {</Command>
+				<Command>trStringQuestVarSet("%list%"+z+"d"+i+"", trStringQuestVarGet("%item%d"+i+""));</Command>
+			<Command>}</Command>
+			<!-- Update list latest -->
+			<Command>trQuestVarSet("%list%Latest", z);</Command>
+	</Effect>
+
+	<Effect name="Z NEL List Remove">
+		<Param name="list" dispName="List Name" varType="string">zenoWeapons</Param>
+		<Param name="item" dispName="Item Name" varType="string">Longsword</Param>
+			<Command>for(z=0; >1) {}</Command>
+			<Command>z = trQuestVarGet("%list%Latest");</Command>
+			<Command>for(i=trQuestVarGet("%list%Size"); >0) {</Command>
+				<Command>if (trStringQuestVarGet("%list%"+z+"") == "%item%") {</Command>
+					<Command>trQuestVarSet("%list%"+1*trQuestVarGet("%list%"+z+"prev")+"next", trQuestVarGet("%list%"+z+"next"));</Command>
+					<Command>trQuestVarSet("%list%"+1*trQuestVarGet("%list%"+z+"next")+"prev", trQuestVarGet("%list%"+z+"prev"));</Command>
+					<Command>break;</Command>
+				<Command>}</Command>
+				<Command>z = trQuestVarGet("%list%"+z+"next");</Command>
+			<Command>}</Command>
+			<!-- If item was removed -->
+			<Command>if (i > 0) {</Command>
+				<!-- Edge cases -->
+				<Command>if (trQuestVarGet("%list%Selected") == z) {</Command>
+					<Command>trQuestVarSet("%list%Selected", trQuestVarGet("%list%"+z+"prev"));</Command>
+				<Command>}</Command>
+				<Command>if (trQuestVarGet("%list%Latest") == z) {</Command>
+					<Command>trQuestVarSet("%list%Latest", trQuestVarGet("%list%"+z+"prev"));</Command>
+				<Command>}</Command>
+				<!-- Update window -->
+				<Command>if (trQuestVarGet("%list%WindowTop") == z) {</Command>
+					<Command>trQuestVarSet("%list%WindowTop", trQuestVarGet("%list%"+z+"next"));</Command>
+				<Command>}</Command>
+				<Command>trQuestVarSet("%list%Size", trQuestVarGet("%list%Size") - 1);</Command>
+				<Command>for (f=trQuestVarGet("%list%WindowSize"); >trQuestVarGet("%list%Size")) {} for(cur=0;>1){}</Command>
+				<Command>trQuestVarSet("%list%WindowSize", f);</Command>
+				<Command>cur = trQuestVarGet("%list%WindowTop");</Command>
+				<Command>for (k=f; >1) {</Command>
+					<Command>cur = trQuestVarGet("%list%"+cur+"next");</Command>
+				<Command>}</Command>
+				<Command>trQuestVarSet("%list%WindowBot", cur);</Command>
+			<Command>}</Command>
+	</Effect>
+
+	<!-- List Display -->
+	<Effect name="Z NEL List Display">
+		<Param name="list" dispName="List Name" varType="string">zenoWeapons</Param>
+		<Command>if (trQuestVarGet("%list%Size") == 0) {</Command>
+			<Command>trChatSend(0, "--");</Command>
+			<Command>for (x=4; >0) {</Command>
+				<Command>trChatSend(0, " ");</Command>
+			<Command>}</Command>
+		<Command>} else {</Command>
+			<Command>for (z=0;>1){} </Command>
+			<Command>z = trQuestVarGet("%list%windowTop");</Command>
+			<Command>for (x=trQuestVarGet("%list%windowSize"); >0){</Command>
+				<!-- if selected, highlight it -->
+				<Command>if (z == 1*trQuestVarGet("%list%Selected")) {</Command>
+					<Command><![CDATA[trChatSend(0, "<color=1,1,1>"+trStringQuestVarGet("%list%"+z+"name")+"</color>");]]></Command>
+				<!-- otherwise, it gets the normie color -->
+				<Command>} else {</Command>
+					<Command>trChatSend(0, ""+trStringQuestVarGet("%list%"+z+"name")+"");</Command>
+				<Command>}</Command>
+				<!-- Update z -->
+				<Command>z = trQuestVarGet("%list%"+z+"next");</Command>
+			<Command>}</Command>
+			<Command>for (x=5; >trQuestVarGet("%list%windowSize")) {</Command>
+				<Command>trChatSend(0, " ");</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+	</Effect>
+
+	<!-- Item Display -->
+	<Effect name="Z NEL List Item Display">
+		<Param name="list" dispName="List Name" varType="string">zenoWeapons</Param>
+		<Command>for(z=0;>1){}</Command>
+		<Command>z = trQuestVarGet("%list%Selected");</Command>
+		<Command>trStringQuestVarSet("tempEquipmentName", trStringQuestVarGet("%list%"+z+"name"));</Command>
+		<Command>trStringQuestVarSet("tempEquipment", trStringQuestVarGet("%list%"+z+""));</Command>
+		<Command>trQuestVarSet("tempEquipEvent", trQuestVarGet("%list%"+z+"equip"));</Command>
+		<Command>trQuestVarSet("tempUnequipEvent", trQuestVarGet("%list%"+z+"unequip"));</Command>
+		<Command><![CDATA[trChatSend(0, "<color=1,1,1><u>"+trStringQuestVarGet("%list%"+z+"name")+"</u></color>");]]></Command>
+		<Command>for(d=0;>1){}</Command>
+		<Command>for(i=6; >0) {</Command>
+			<Command>d = 7-i;</Command>
+			<Command>trStringQuestVarSet("tempEquipmentd"+d+"", trStringQuestVarGet("%list%"+z+"d"+d+""));</Command>
+			<Command>if ((trStringQuestVarGet("%list%"+z+"d"+d+"") == "none") == false) {</Command>
+				<Command>trChatSend(0, ""+trStringQuestVarGet("%list%"+z+"d"+d+"")+"");</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+	</Effect>
+
+	<!-- Item Equip -->
+	<Effect name="Z NEL List Item Equip">
+		<Param name="char" dispName="Character" varType="string">zeno</Param>
+		<Param name="slot" dispName="Slot" varType="string">weapon</Param>
+			<Command>trStringQuestVarSet("charCurrent", "%char%");</Command>
+			<Command>if (trQuestVarGet("%char%"+"%slot%UnequipEvent") >= 0) {</Command>
+				<Command>trEventFire(1*trQuestVarGet("%char%"+"%slot%UnequipEvent"));</Command>
+				<Command>trStringQuestVarSet("tempUnequip", trStringQuestVarGet("%char%"+"%slot%"));</Command>
+			<Command>} else {</Command>
+				<Command>trStringQuestVarSet("tempUnequip", "none");</Command>
+			<Command>}</Command>
+			<Command>trEventFire(1*trQuestVarGet("tempEquipEvent"));</Command>
+			<!-- Copy data -->
+			<Command>trStringQuestVarSet("%char%"+"%slot%", trStringQuestVarGet("tempEquipment"));</Command>
+			<Command>trStringQuestVarSet("%char%"+"%slot%Name", trStringQuestVarGet("tempEquipmentName"));</Command>
+			<Command>trQuestVarSet("%char%"+"%slot%UnequipEvent", trQuestVarGet("tempUnequipEvent"));</Command>
+			<Command>for(i=6; >0) {</Command>
+				<Command>trStringQuestVarSet("%char%"+"%slot%d"+i+"", trStringQuestVarGet("tempEquipmentd"+i+""));</Command>
+			<Command>}</Command>
+	</Effect>
+
+	<!-- display current item -->
+	<Effect name="Z NEL Display Current Equipment">
+		<Param name="char" dispName="Character" varType="string">zeno</Param>
+		<Param name="slot" dispName="Slot" varType="string">weapon</Param>
+			<Command><![CDATA[trChatSend(0, "<color=1,1,1><u>"+trStringQuestVarGet("%char%"+"%slot%name")+"</u></color>");]]></Command>
+			<Command>for(d=0;>1){}</Command>
+			<Command>for(i=6; >0) {</Command>
+				<Command>d = 7-i;</Command>
+				<Command>if ((trStringQuestVarGet("%char%"+"%slot%d"+d+"") == "none") == false) {</Command>
+					<Command>trChatSend(0, ""+trStringQuestVarGet("%char%"+"%slot%d"+d+""));</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+	</Effect>
+
+	<!-- Scroll up and down through list -->
+	<Effect name="Z NEL List Scroll">
+		<Param name="list" dispName="List Name" varType="string">zenoWeapons</Param>
+		<Param name="dir" dispName="Direction" varType="bool">true</Param>
+		<Param name="unused1" dispName="" varType="string">Up is true. Down is false.</Param>
+		<Command>for (z=0; >1){}</Command>
+		<Command>z = trQuestVarGet("%list%Selected");</Command>
+		<Command>if (%dir%) {</Command> <!-- Scroll up -->
+			<Command>trQuestVarSet("%list%Selected", trQuestVarGet("%list%"+z+"prev"));</Command>
+			<Command>z = trQuestVarGet("%list%Selected");</Command>
+			<Command>if (trQuestVarGet("%list%"+z+"next") == trQuestVarGet("%list%WindowTop")) {</Command>
+				<Command>trQuestVarSet("%list%WindowBot", trQuestVarGet("%list%"+1*trQuestVarGet("%list%WindowBot")+"prev"));</Command>
+				<Command>trQuestVarSet("%list%WindowTop", trQuestVarGet("%list%"+1*trQuestVarGet("%list%WindowTop")+"prev"));</Command>
+			<Command>}</Command>
+		<Command>} else {</Command> <!-- Scroll down -->
+			<Command>trQuestVarSet("%list%Selected", trQuestVarGet("%list%"+z+"next"));</Command>
+			<Command>z = trQuestVarGet("%list%Selected");</Command>
+			<Command>if (trQuestVarGet("%list%"+z+"prev") == trQuestVarGet("%list%WindowBot")) {</Command>
+				<Command>trQuestVarSet("%list%WindowBot", trQuestVarGet("%list%"+1*trQuestVarGet("%list%WindowBot")+"next"));</Command>
+				<Command>trQuestVarSet("%list%WindowTop", trQuestVarGet("%list%"+1*trQuestVarGet("%list%WindowTop")+"next"));</Command>
+			<Command>}</Command> 
+		<Command>}</Command>
+	</Effect>
+
+</Effects>
+
+</trigger>

@@ -1,0 +1,514 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+<Conditions>
+
+   <Condition name="$$22289$$Always">
+      <Expression>true</Expression>
+   </Condition>
+
+</Conditions>
+
+<Effects>
+
+   <Effect name="$$22355$$SetIdleProcessing">
+      <Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+      <Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+   </Effect>
+
+   <Effect name="Army Patrol Link 01-03">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="End" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 0) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 1);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 1) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 2);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 2) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 3);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 3) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>   
+   
+   <Effect name="Army Patrol Link 04-06">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="Return to start" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 3) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 4);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 4) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 5);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 5) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 6);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 6) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+      
+   <Effect name="Army Patrol Link 07-09">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="Return to start" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 6) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 7);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 7) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 8);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 8) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 9);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 9) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+   
+   <Effect name="Army Patrol Link 10-12">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="Return to start" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 9) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 10);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 10) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 11);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 11) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 12);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 12) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+    
+   <Effect name="Army Patrol Link 13-15">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="Return to start" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 12) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 13);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 13) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 14);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 14) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 15);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 15) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+   
+   <Effect name="Army Patrol Link 16-18">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="Return to start" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 15) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 16);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 16) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 17);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 17) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 18);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 18) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+
+   <Effect name="Army Patrol Link 19-21">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="IsEnd" dispName="Return to start" varType="bool">false</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 18) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 19);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 19) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 20);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 20) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 21);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 21) {</Command>
+      <Command>if (%IsEnd% == true) {</Command>
+      <Command>trQuestVarSet("ArmyPatrol%PatrolID%", 0);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+ 
+    <Effect name="Army Patrol Random 1-3">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="MaxPoints" dispName="Max Waypoints" varType="string">3</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 0) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 1) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 2) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 3) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+    
+    <Effect name="Army Patrol Random 1-3 Plus">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="MaxPoints" dispName="Max Waypoints" varType="string">3</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 0) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 1) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 2) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 3) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+
+    <Effect name="Army Patrol Random 4-7">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint4" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 4) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 5) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 6) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 7) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint4%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint4%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+  
+    <Effect name="Army Patrol Random 8-11">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint4" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 8) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 9) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 10) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 11) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint4%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint4%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+  
+    <Effect name="Army Patrol Random 12-15">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint4" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 12) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 13) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 14) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 15) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint4%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint4%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+  
+    <Effect name="Army Patrol Random 16-19">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint4" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 16) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 17) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 18) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 19) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint4%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint4%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+  
+    <Effect name="Army Patrol Random 20-23">
+      <Param name="PatrolID" dispName="Patrol ID" varType="string">P1</Param>
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="DstPoint1" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint2" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint3" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="DstPoint4" dispName="$$22410$$X" varType="area">0</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>	  
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 20) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint1%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint1%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 21) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint2%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint2%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 22) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint3%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint3%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+      <Command>if (trQuestVarGet("ArmyPatrol%PatrolID%") == 23) {</Command>
+      <Command>trUnitMoveToPoint(%DstPoint4%, -1, %AttackMove%);</Command>
+      <Command>if (1 > trUnitDistanceToPoint(%DstPoint4%)) {</Command>
+      <Command>trQuestVarSetFromRand("ArmyPatrol%PatrolID%", 0, %MaxPoints%-1, true);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+  
+
+</Effects>
+
+</trigger>

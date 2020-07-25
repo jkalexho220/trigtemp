@@ -1,0 +1,670 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+
+<!-- Z DUSK Triggers -->
+
+<Conditions>
+	<Condition name="$$22289$$Always">
+		<Expression>true</Expression>
+	</Condition>
+
+	
+	<Condition name="Z Vector Army Condition">
+      <Param name="VQ1Name" dispName="Army Vector Name" VarType="string">V1</Param>
+      <Param name="MyString1" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString2" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString3" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString4" dispName="Code" VarType="stringid"></Param>
+      <Param name="condition" dispName="Condition" VarType="string"></Param>
+		<Command>trArmySelect(""+1*trVectorQuestVarGetX("%VQ1Name%")+", "+1*trVectorQuestVarGetY("%VQ1Name%")+"");</Command>
+        <Command>/**/ %MyString1%</Command>
+        <Command>/**/ %MyString2%</Command>
+        <Command>/**/ %MyString3%</Command>
+        <Command>/**/ %MyString4%</Command>
+      <Expression>(%condition%)</Expression>
+   </Condition>
+
+   <Condition name="Z XS Unit Condition">
+      <Param name="QV1" dispName="QV Unit" VarType="string">V1</Param>
+      <Param name="MyString1" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString2" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString3" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString4" dispName="Code" VarType="stringid"></Param>
+      <Param name="condition" dispName="Condition" VarType="string"></Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelect(""+1*trQuestVarGet("%QV1%"));</Command>
+        <Command>/**/ %MyString1%</Command>
+        <Command>/**/ %MyString2%</Command>
+        <Command>/**/ %MyString3%</Command>
+        <Command>/**/ %MyString4%</Command>
+      <Expression>(%condition%)</Expression>
+   </Condition>
+
+   <Condition name="Z QV Unit Distance to QV Vector">
+      <Param name="QV1" dispName="QV Unit" VarType="string">p1</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+	  <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelect(""+1*trQuestVarGet("%QV1%"));</Command>
+      <Expression>trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%</Expression>
+   </Condition>
+
+   <Condition name="ZQVS Army Condition">
+      <Param name="VQ1Name" dispName="QV Army Name" VarType="string">p1</Param>
+      <Param name="MyString1" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString2" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString3" dispName="Code" VarType="stringid"></Param>
+      <Param name="MyString4" dispName="Code" VarType="stringid"></Param>
+      <Param name="condition" dispName="Condition" VarType="string"></Param>
+		<Command>trArmySelect(""+1*trQuestVarGet("%VQ1Name%player")+", "+1*trQuestVarGet("%VQ1Name%army")+"");</Command>
+        <Command>/**/ %MyString1%</Command>
+        <Command>/**/ %MyString2%</Command>
+        <Command>/**/ %MyString3%</Command>
+        <Command>/**/ %MyString4%</Command>
+      <Expression>(%condition%)</Expression>
+   </Condition>
+
+   <Condition name="ZQVS Army Distance to QV Vector">
+      <Param name="VQ1Name" dispName="QV Army Name" VarType="string">p1</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+	  <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+		<Command>trArmySelect(""+1*trQuestVarGet("%VQ1Name%player")+", "+1*trQuestVarGet("%VQ1Name%army")+"");</Command>
+      <Expression>trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%</Expression>
+   </Condition>
+
+   <Condition name="ZQVS Army Distance to Unit">
+      <Param name="VQ1Name" dispName="QV Army Name" VarType="string">p1</Param>
+      <Param name="DstObject" dispName="$$22296$$Target Unit" VarType="unit">default</Param>
+	  <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+		<Command>trArmySelect(""+1*trQuestVarGet("%VQ1Name%player")+", "+1*trQuestVarGet("%VQ1Name%army")+"");</Command>
+      <Expression>trUnitDistanceToUnit("%DstObject%") %Op% %Dist%</Expression>
+   </Condition>
+
+</Conditions>
+
+<Effects>
+
+  <Effect name="Enter Cinematic Mode No Cine Models">
+  <Command>modeEnter("pregame");</Command>
+      <Command>trLetterBox(true);</Command>
+      <Command>modeEnter("simulation");</Command>
+   </Effect>
+   
+	<Effect name="$$22355$$SetIdleProcessing">
+    	<Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+    	<Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+	</Effect>
+
+  <Effect name="conditional Player is Playing">
+    <Param name="Player" dispName="Player" varType="string"></Param>
+    <Param name="playing" dispName=" " varType="bool">true</Param>
+    <Command><![CDATA[if (((kbIsPlayerResigned(%Player%) == false) && kbIsPlayerHuman(%Player%)) == %playing%) {}]]></Command>
+  </Effect>
+
+  <Effect name="ACTIVATE PROTOCOL ZENOFINALE">
+    <Command>trChatHistoryClear();</Command>
+    <Command>trQuestVarSet("zenofinale", 20);</Command>
+    <Command>if (trQuestVarGet("hMessageReceived") == 1) {</Command>
+      <Command>trSoundPlayFN("cinematics\10_in\musicsound2.mp3", "10", -1, "","");</Command>
+      <Command>trSoundPlayFN("ui/thunder5.wav", "2", -1, "","");</Command>
+    <Command>}</Command>
+  </Effect>
+
+	<Effect name="Z Define Math Functions">
+		<Command>float zgDotProduct(string v = "", string w = "") {</Command>
+			<Command>float r = trVectorQuestVarGetX(v) * trVectorQuestVarGetX(w) + trVectorQuestVarGetZ(v) * trVectorQuestVarGetZ(w);</Command>
+			<Command>return(r);</Command>
+		<Command>}</Command>
+		<Command>float zgMagnitudeSquared(string s = "") {</Command>
+			<Command>float r = trVectorQuestVarGetX(s) * trVectorQuestVarGetX(s) + trVectorQuestVarGetZ(s) * trVectorQuestVarGetZ(s);</Command>
+			<Command>return(r);</Command>
+		<Command>}</Command>
+	</Effect>
+
+	<Effect name="Z Award Points">
+		<Param name="player" dispName="Player" varType="string"></Param>
+		<Param name="Amount" dispName="Amount" varType="string"></Param>
+			<Command>trQuestVarSet("p"+%player%+"score", trQuestVarGet("p"+%player%+"score")+%Amount%);</Command>
+			<Command>trPlayerGrantResources(%player%, "Gold", %Amount%);</Command>
+	</Effect>
+
+	<Effect name="Z Intersection With Rectangle">
+		<Param name="vector" dispName="Vector" varType="string">V1</Param>
+		<Param name="start" dispName="Start" varType="string"></Param>
+		<Param name="dir" dispName="Direction" varType="string"></Param>
+		<Param name="min" dispName="Min" varType="string"></Param>
+		<Param name="max" dispName="Max" varType="string"></Param>
+		<Command>trQuestVarSet("ziwrm", trVectorQuestVarGetZ("%dir%") / trVectorQuestVarGetX("%dir%"));</Command>
+		<Command>trQuestVarSet("ziwrb", trVectorQuestVarGetZ("%start%") - trQuestVarGet("ziwrm") * trVectorQuestVarGetX("%start%"));</Command>
+		<Command>if (0.0 > trVectorQuestVarGetX("%dir%")) {</Command>
+			<Command>trVectorQuestVarSet("ziwrposs1", xsVectorSet(trVectorQuestVarGetX("%min%"), 0, trVectorQuestVarGetX("%min%") * trQuestVarGet("ziwrm") + trQuestVarGet("ziwrb")));</Command>
+		<Command>} else {</Command>
+			<Command>trVectorQuestVarSet("ziwrposs1", xsVectorSet(trVectorQuestVarGetX("%max%"), 0, trVectorQuestVarGetX("%max%") * trQuestVarGet("ziwrm") + trQuestVarGet("ziwrb")));</Command>
+		<Command>}</Command>
+		<Command><![CDATA[if (trVectorQuestVarGetZ("%dir%") > -0.01 && trVectorQuestVarGetZ("%dir%") < 0.01) {]]></Command>
+			<Command>trVectorQuestVarSet("ziwrposs2", trVectorQuestVarGet("ziwrposs1"));</Command>
+		<Command>} else if (0.0 > trVectorQuestVarGetZ("%dir%")) {</Command>
+			<Command>trVectorQuestVarSet("ziwrposs2", xsVectorSet((trVectorQuestVarGetZ("%min%") - trQuestVarGet("ziwrb")) / trQuestVarGet("ziwrm"), 0, trVectorQuestVarGetZ("%min%")));</Command>
+		<Command>} else {</Command>
+			<Command>trVectorQuestVarSet("ziwrposs2", xsVectorSet((trVectorQuestVarGetZ("%max%") - trQuestVarGet("ziwrb")) / trQuestVarGet("ziwrm"), 0, trVectorQuestVarGetZ("%max%")));</Command>
+		<Command>}</Command>
+    <Command><![CDATA[if (trVectorQuestVarGetX("%dir%") > -0.01 && trVectorQuestVarGetX("%dir%") < 0.01) {]]></Command>
+      <Command>trVectorQuestVarSet("ziwrposs1", xsVectorSet(trVectorQuestVarGetX("%start%"), 0, trVectorQuestVarGetZ("ziwrposs2")));</Command>
+      <Command>trVectorQuestVarSet("ziwrposs2", xsVectorSet(trVectorQuestVarGetX("%start%"), 0, trVectorQuestVarGetZ("ziwrposs2")));</Command>
+    <Command>}</Command>
+		<Command><![CDATA[if (trVectorQuestVarGetZ("ziwrposs1") >= trVectorQuestVarGetZ("%min%") && trVectorQuestVarGetZ("ziwrposs1") <= trVectorQuestVarGetZ("%max%")) {]]></Command>
+			<Command>trVectorQuestVarSet("%vector%", trVectorQuestVarGet("ziwrposs1"));</Command>
+		<Command>} else {</Command>
+			<Command>trVectorQuestVarSet("%vector%", trVectorQuestVarGet("ziwrposs2"));</Command>
+		<Command>}</Command>
+	</Effect>
+
+	<Effect name="Z Select Unit By QV">
+		<Param name="QV" dispName="Quest Var" varType="string"></Param>
+    <Param name="dir" dispName="Reverse" varType="bool">false</Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelect(""+1*trQuestVarGet("%QV%"), %dir%);</Command>
+	</Effect>
+
+	<Effect name="Z QV Set Angle Between Vectors Accurate">
+  <Param name="v1" dispName="From Vector" varType="string">V1</Param>
+  <Param name="v2" dispName="To Vector" varType="string">V2</Param>
+  <Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+  <Command>if (trVectorQuestVarGetX("%v2%") > trVectorQuestVarGetX("%v1%")) { </Command>
+  	<Command>if (trVectorQuestVarGetZ("%v1%") > trVectorQuestVarGetZ("%v2%")) {</Command>
+  		<Command>trQuestVarSet("%QV%", Math_atan((trVectorQuestVarGetZ("%v1%")-trVectorQuestVarGetZ("%v2%"))/ (trVectorQuestVarGetX("%v2%")-trVectorQuestVarGetX("%v1%"))) + 0.5*PI);</Command>
+  	<Command>} else {</Command>
+  		<Command>trQuestVarSet("%QV%", Math_atan((trVectorQuestVarGetX("%v2%")-trVectorQuestVarGetX("%v1%"))/ (trVectorQuestVarGetZ("%v2%")-trVectorQuestVarGetZ("%v1%"))) );</Command>
+  	<Command>}</Command>
+  <Command>} else {</Command>
+  	<Command>if (trVectorQuestVarGetZ("%v1%") > trVectorQuestVarGetZ("%v2%")) {</Command>
+  		<Command>trQuestVarSet("%QV%", Math_atan((trVectorQuestVarGetX("%v1%")-trVectorQuestVarGetX("%v2%"))/ (trVectorQuestVarGetZ("%v1%")-trVectorQuestVarGetZ("%v2%"))) + PI);</Command>
+  	<Command>} else {</Command>
+  		<Command>trQuestVarSet("%QV%", Math_atan((trVectorQuestVarGetZ("%v2%")-trVectorQuestVarGetZ("%v1%"))/ (trVectorQuestVarGetX("%v1%")-trVectorQuestVarGetX("%v2%"))) + 1.5 * PI);</Command>
+  	<Command>}</Command>
+  <Command>}</Command>
+  <Command>if (0 > trQuestVarGet("%QV%")) {</Command>
+    <Command>trQuestVarSet("%QV%", trQuestVarGet("%QV%") + 2 * PI);</Command>
+  <Command>}</Command>
+</Effect>
+
+	<Effect name="ZQVS Army Deploy at QV Vector">
+      <Param name="VQ1Name" dispName="QV Army Name" VarType="string">p1</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="Count"  dispName="$$22435$$Count" varType="long">0</Param>
+      <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+      <Param name="Clear" dispName="$$22464$$Clear Existing Units:" varType="bool">true</Param>
+      <Command>trArmyDispatch(""+1*trQuestVarGet("%VQ1Name%player")+", "+1*trQuestVarGet("%VQ1Name%army")+"", "%ProtoName%", %Count%, trVectorQuestVarGetX("%VQVName%"), trVectorQuestVarGetY("%VQVName%"), trVectorQuestVarGetZ("%VQVName%"), %Heading%, %Clear%);</Command>
+   </Effect>
+
+	<Effect name="ZQVS Army Save in QV">
+	<Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+	<Param name="VQVName" dispName="Quest Var Name" VarType="string">p1</Param>
+		<Command>trVectorQuestVarSet("zenozqvstemp", vector(%SrcArmy%, -1));</Command>
+		<Command>trQuestVarSet("%VQVName%player", trVectorQuestVarGetX("zenozqvstemp"));</Command>
+		<Command>trQuestVarSet("%VQVName%army", trVectorQuestVarGetY("zenozqvstemp"));</Command>
+</Effect>
+
+<Effect name="ZQVS Army Select by QV">
+	<Param name="VQVName" dispName="QV Army Name" VarType="string">p1</Param>
+	<Command>trUnitSelectClear();</Command>
+		<Command>trArmySelect(""+1*trQuestVarGet("%VQVName%player")+", "+1*trQuestVarGet("%VQVName%army")+"");</Command>
+</Effect>
+
+
+   <Effect name="ZQVS Army Position to QV Vector">
+      <Param name="VQ1Name" dispName="QV Army Name" VarType="string">p1</Param>
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Command>for(ppp=0;>1){}</Command>
+      <Command>ppp = xsGetContextPlayer();</Command>
+      <Command>xsSetContextPlayer(1*trQuestVarGet("%VQ1Name%player"));</Command>
+      <Command>kbLookAtAllUnitsOnMap();</Command>
+      <Command>trVectorQuestVarSet("%VQVName%",kbArmyGetLocation(1*trQuestVarGet("%VQ1Name%army")));</Command>
+      <Command>xsSetContextPlayer(ppp);</Command>
+   </Effect>
+
+   <Effect name="ZQVS Copy">
+   	<Param name="VQ1Name" dispName="To var" VarType="string">o1</Param>
+   	<Param name="VQ2Name" dispName="Copy From Var" VarType="string">p1</Param>
+   	<Command>trQuestVarSet("%VQ1Name%player", trQuestVarGet("%VQ2Name%player"));</Command>
+   	<Command>trQuestVarSet("%VQ1Name%army", trQuestVarGet("%VQ2Name%army"));</Command>
+   </Effect>
+ 
+	<Effect name="Z Diplomacy both ways player range">
+      <Param name="p1" dispName="Players" varType="player">1</Param>
+      <Param name="p2" dispName="to" varType="player">4</Param>
+      <Param name="Status" dispName="are now both" varType="alliance">ally</Param>
+      <Command>for(diplox=%p2%; > %p1%) {</Command>
+      <Command>for(diploy=diplox-1; >= %p1%) {</Command>
+      <Command>trPlayerSetDiplomacy(diplox, diploy, "%Status%");</Command>
+      <Command>trPlayerSetDiplomacy(diploy, diplox, "%Status%");</Command>
+      <Command>}}</Command>
+   </Effect>
+
+   <!-- This is some deep voodoo -->
+      <Effect name="y10N Start Search">
+      <Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+      <Command>for(UnitID=0; >1) {}</Command>
+      <Command>for(type=0; >1) {}</Command>
+      <Command>for(ySearchTarget = 0; > 1){}</Command>
+      <Command>ySearchTarget = trGetNextUnitScenarioNameNumber();</Command>
+      <Command>while(ySearchTarget > trQuestVarGet("%qv%")){</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect(""+1*trQuestVarGet("%qv%"));</Command>
+      <Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("%qv%"))) != -1){</Command>
+          <Command>UnitID = kbGetBlockID(""+1*trQuestVarGet("%qv%"));</Command>
+          <Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+    </Effect>
+
+
+    <Effect name="y11N End Search">
+      <Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+        <Command>}</Command>
+        <Command>trQuestVarSet("%qv%", trQuestVarGet("%qv%")+1);}</Command>
+      </Effect>
+
+
+<Effect name="y10 Start search all units Lite">
+      <Param name="Max" dispName="Highest unit name" VarType="long">0</Param>
+      <Param name="Buf" dispName="Buffer" VarType="float">10</Param>
+      <Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+      <Command>for(type=0;>1){}</Command>
+      <Command>for(zstart=0;>1){}</Command>
+      <Command>for(UnitID=0;>1){}</Command>
+      <Command>if (%Max% > trQuestVarGet("%qv%")) {</Command>
+      	<Command>trQuestVarSet("%qv%", %Max%);</Command>
+      <Command>}</Command>
+      <Command>zstart = trQuestVarGet("%qv%");</Command>
+      <Command><![CDATA[for(zsearch=zstart+1; < zstart + %Buf%) {]]></Command>
+      <Command>trQuestVarSet("zsearch%qv%temp", zsearch);</Command>
+      	<Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("zsearch%qv%temp"))) != -1){</Command>
+      		<Command>trQuestVarSet("%qv%", trQuestVarGet("zsearch%qv%temp"));</Command>
+      		<Command>UnitID = kbGetBlockID(""+1*trQuestVarGet("%qv%"));</Command>
+      		<Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+      		<Command>trUnitSelectClear();</Command>
+      		<Command>trUnitSelect(""+1*trQuestVarGet("%qv%"));</Command>
+   </Effect>
+
+   <Effect name="y20X Search Until Unit">
+   	<Param name="UnitType" dispName="Stop at" VarType="protounit">Vision SFX</Param>
+   	<Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+   	<Param name="include" dispName="Include Unit" VarType="bool">False</Param>
+   	<Command>for(type=0;>1){}</Command>
+      <Command>for(zbool=0;>1){}</Command>
+      <Command>for(UnitID=0;>1){}</Command>
+   	<Command>while(zbool==0){</Command>
+   	<Command>trQuestVarSet("%qv%", trQuestVarGet("%qv%")+1);</Command>
+   	<Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("%qv%"))) != -1){</Command>
+   	<Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("%qv%"))) == kbGetProtoUnitID("%UnitType%")){</Command>
+   		<Command>if (%include%) {</Command>
+   			<Command>zbool = 1;</Command>
+   		<Command>} else {</Command>
+      		<Command>break;</Command>
+      	<Command>}</Command>
+      <Command>}</Command>
+      		<Command>UnitID = kbGetBlockID(""+1*trQuestVarGet("%qv%"));</Command>
+      		<Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+      		<Command>trUnitSelectClear();</Command>
+      		<Command>trUnitSelect(""+1*trQuestVarGet("%qv%"));</Command>
+    </Effect>
+
+    <Effect name="y21X Search For Unit">
+   	<Param name="UnitType" dispName="ProtoUnit" VarType="protounit">Vision Revealer</Param>
+   	<Param name="Player" dispName="Player" VarType="string">1</Param>
+   	<Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+   		<Command>for(type=0;>1){}</Command>
+    	<Command>for(UnitID=0;>1){}</Command>
+   		<Command>while(true){</Command>
+   			<Command>trQuestVarSet("%qv%", trQuestVarGet("%qv%")+1);</Command>
+   			<Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("%qv%"))) == kbGetProtoUnitID("%UnitType%")){</Command>
+		   		<Command>trUnitSelectClear();</Command>
+      			<Command>trUnitSelect(""+1*trQuestVarGet("%qv%"));</Command>
+      			<Command><![CDATA[if (trUnitIsOwnedBy(%Player%) && trUnitAlive()==true) {]]></Command>
+		      		<Command>UnitID = kbGetBlockID(""+1*trQuestVarGet("%qv%"));</Command>
+      				<Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+      				<Command>break;</Command>
+      			<Command>}</Command>
+    		<Command>}</Command>
+    	<Command>}</Command>
+    </Effect>
+
+    
+
+   <Effect name="y12 Reboot Search Lite">
+   	<Param name="Buf" dispName="Reboot Buffer" VarType="int">3000</Param>
+   	<Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+   	<Command>for(zsearch=trQuestVarGet("%qv%")+%Buf%; > trQuestVarGet("%qv%")) {</Command>
+      <Command>trQuestVarSet("zsearch%qv%temp", zsearch);</Command>
+      <Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("zsearch%qv%temp"))) != -1){</Command>
+      	<Command>trQuestVarSet("%qv%", trQuestVarGet("zsearch%qv%temp"));</Command>
+      	<Command>break;</Command>
+      <Command>}}</Command>
+  </Effect>
+
+  <Effect name="y22X Hard Reboot Search Lite">
+  	<Param name="UnitType" dispName="Guarantee" VarType="protounit">Anubite</Param>
+   	<Param name="qv" dispName="Unused quest var" VarType="string">cow</Param>
+   	<Command>while(true){</Command>
+      <Command>trQuestVarSet("%qv%", trQuestVarGet("%qv%")+1);</Command>
+      <Command>if (kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("%qv%"))) == kbGetProtoUnitID("%UnitType%")){</Command>
+      	<Command>break;</Command>
+      <Command>}}</Command>
+  </Effect>
+
+   <Effect name="y11 Search End all units Lite">
+   	<Command>}}</Command>
+   </Effect>
+
+   <Effect name="y31 Start Search Database Lite">
+   	<Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+   	<Param name="amt" dispName="Amount (-1 for all)" VarType="string">-1</Param>
+    <Param name="reverse" dispName="Reverse" VarType="bool">false</Param>
+   	<Command>for(zdatasearch=0; >1){}</Command>
+   	<Command>for(zdatapointer=0;>1){}</Command>
+   	<Command>for(zdatacount=0;>1){}</Command>
+   	<Command>for(zdataremove=0;>1){}</Command>
+   	<Command>for(UnitID=0;>1){}</Command>
+   	<Command>for(type=0;>1){}</Command>
+   	<Command><![CDATA[if (trQuestVarGet("zdatalite%database%count") > (%amt%) && (%amt%) > 0) {]]></Command>
+   		<Command>zdatasearch = %amt%;</Command>
+   	<Command>} else {</Command>
+   		<Command>zdatasearch = trQuestVarGet("zdatalite%database%count");</Command>
+   	<Command>}</Command>
+   	<Command>for(zdatasearching=zdatasearch; >0) {</Command>
+   		<Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%pointer")-1);</Command>
+   		<Command>if (0 > trQuestVarGet("zdatalite%database%pointer")) {</Command>
+   			<Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%count")-1);</Command>
+   		<Command>}</Command>
+   		<Command>zdatapointer = trQuestVarGet("zdatalite%database%pointer");</Command>
+         <Command>if(kbGetUnitBaseTypeID(kbGetBlockID(""+1*trQuestVarGet("zdatalite%database%index"+zdatapointer))) == -1) {</Command>
+            <Command>zdatacount = trQuestVarGet("zdatalite%database%count") - 1;</Command>
+   			<Command>zdataremove = trQuestVarGet("zdatalite%database%pointer");</Command>
+   			<Command>trQuestVarSet("zdatalite%database%index"+zdataremove, trQuestVarGet("zdatalite%database%index"+zdatacount));</Command>
+   			<Command>trQuestVarSet("zdatalite%database%count", zdatacount);</Command>
+   			<Command>trQuestVarSet("zdatalite%database%pointer", zdatapointer+1);</Command>
+            <Command>continue;</Command>
+        <Command>}</Command>
+        <Command>trQuestVarSet("%database%", trQuestVarGet("zdatalite%database%index"+zdatapointer));</Command>
+        <Command>UnitID = kbGetBlockID(""+1*trQuestVarGet("%database%"));</Command>
+        <Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+      	<Command>trUnitSelectClear();</Command>
+      	<Command>trUnitSelect(""+1*trQuestVarGet("%database%"), %reverse%);</Command>
+	</Effect>
+
+  <Effect name="y31Z Start Search Database Lite">
+    <Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+    <Param name="amt" dispName="Amount (-1 for all)" VarType="string">-1</Param>
+    <Command>for(zdatasearch=0; >1){}</Command>
+    <Command>for(zdatapointer=0;>1){}</Command>
+    <Command>for(zdatacount=0;>1){}</Command>
+    <Command>for(zdataremove=0;>1){}</Command>
+    <Command>for(UnitID=0;>1){}</Command>
+    <Command>for(type=0;>1){}</Command>
+    <Command><![CDATA[if (trQuestVarGet("zdatalite%database%count") > (%amt%) && (%amt%) > 0) {]]></Command>
+      <Command>zdatasearch = %amt%;</Command>
+    <Command>} else {</Command>
+      <Command>zdatasearch = trQuestVarGet("zdatalite%database%count");</Command>
+    <Command>}</Command>
+    <Command>for(zdatasearching=zdatasearch; >0) {</Command>
+      <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%pointer")-1);</Command>
+      <Command>if (0 > trQuestVarGet("zdatalite%database%pointer")) {</Command>
+        <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%count")-1);</Command>
+      <Command>}</Command>
+      <Command>zdatapointer = trQuestVarGet("zdatalite%database%pointer");</Command>
+         <Command>if(kbGetUnitBaseTypeID(1*trQuestVarGet("zdatalite%database%index"+zdatapointer)) == -1) {</Command>
+            <Command>zdatacount = trQuestVarGet("zdatalite%database%count") - 1;</Command>
+        <Command>zdataremove = trQuestVarGet("zdatalite%database%pointer");</Command>
+        <Command>trQuestVarSet("zdatalite%database%index"+zdataremove, trQuestVarGet("zdatalite%database%index"+zdatacount));</Command>
+        <Command>trQuestVarSet("zdatalite%database%count", zdatacount);</Command>
+        <Command>trQuestVarSet("zdatalite%database%pointer", zdatapointer+1);</Command>
+            <Command>continue;</Command>
+        <Command>}</Command>
+        <Command>trQuestVarSet("%database%", trQuestVarGet("zdatalite%database%index"+zdatapointer));</Command>
+        <Command>UnitID = trQuestVarGet("%database%");</Command>
+        <Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trUnitSelectByID(UnitID);</Command>
+  </Effect>
+
+     <Effect name="y33 Search One Database Lite">
+    <Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+    <Command>for(zdatapointer=0;>1){}</Command>
+    <Command>for(UnitID=0;>1){}</Command>
+    <Command>for(type=0;>1){}</Command>
+      <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%pointer")-1);</Command>
+      <Command>if (0 > trQuestVarGet("zdatalite%database%pointer")) {</Command>
+        <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%count")-1);</Command>
+      <Command>}</Command>
+      <Command>zdatapointer = trQuestVarGet("zdatalite%database%pointer");</Command>
+        <Command>trQuestVarSet("%database%", trQuestVarGet("zdatalite%database%index"+zdatapointer));</Command>
+        <Command>UnitID = kbGetBlockID(""+1*trQuestVarGet("%database%"));</Command>
+        <Command>type = kbGetUnitBaseTypeID(UnitID);</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trUnitSelect(""+1*trQuestVarGet("%database%"));</Command>
+  </Effect>
+
+
+  <Effect name="y33O Search One Database Lite">
+    <Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+    <Command>for(zdatapointer=0;>1){}</Command>
+      <Command>if (trQuestVarGet("zdatalite%database%count") == 0) {</Command>
+        <Command>trQuestVarSet("%database%", -1);</Command>
+      <Command>} else {</Command>
+      <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%pointer")-1);</Command>
+      <Command>if (0 > trQuestVarGet("zdatalite%database%pointer")) {</Command>
+        <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%count")-1);</Command>
+      <Command>}</Command>
+      <Command>zdatapointer = trQuestVarGet("zdatalite%database%pointer");</Command>
+        <Command>trQuestVarSet("%database%", trQuestVarGet("zdatalite%database%index"+zdatapointer));</Command>
+      <Command>}</Command>
+  </Effect>
+
+	<Effect name="y32 End Database Search Lite">
+		<Command>}</Command> 
+	</Effect>
+
+	<Effect name="y35 Clear and Reset Database Lite">
+		<Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+		<Command>trQuestVarSet("zdatalite%database%count", 0);</Command>
+		<Command>trQuestVarSet("zdatalite%database%pointer", 0);</Command>
+		<Command>trQuestVarSet("%database%", 0);</Command>
+	</Effect>
+
+	<Effect name="Add To Database Lite">
+   	<Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+   	<Param name="SrcObject" dispName="Source Units" varType="unit">default</Param>
+	<Command>for(id=0;>1) {}</Command>
+	<Command>for(count=0;>1) {}</Command>
+	<Command>for(zdatacount=0;>1) {}</Command>
+	<Command>id=kbGetBlockID("%SrcObject%");</Command>
+	<Command loop="" loopParm="SrcObject">count = count+1; trQuestVarSet("zenoLoop"+id+"unit"+count, %SrcObject%);</Command>
+	<Command>for(add=count; >0){</Command>
+		<Command>zdatacount = trQuestVarGet("zdatalite%database%count");</Command>
+		<Command>trQuestVarSet("zdatalite%database%index"+zdatacount, trQuestVarGet("zenoLoop"+id+"unit"+add));</Command>
+		<Command>trQuestVarSet("zdatalite%database%count", zdatacount+1);</Command>
+	<Command>}</Command>
+   </Effect>
+
+   <Effect name="y30 Add To Database Lite">
+   	<Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+   	<Param name="qv2" dispName="Same var as start" VarType="string">cow</Param>
+   	<Command>for(zdatacount=0;>1){}</Command>
+   	<Command>zdatacount = trQuestVarGet("zdatalite%database%count");</Command>
+   	<Command>trQuestVarSet("zdatalite%database%index"+zdatacount, trQuestVarGet("%qv2%"));</Command>
+   	<Command>trQuestVarSet("zdatalite%database%count", zdatacount+1);</Command>
+   </Effect>
+
+   <Effect name="y34 Remove From Database Lite">
+   	<Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+   	<Command>for(zdatacount=0; >1) {}</Command>
+   	<Command>for(zdataremove=0;>1){}</Command>
+   	<Command>zdatacount = trQuestVarGet("zdatalite%database%count") - 1;</Command>
+   	<Command>zdataremove = trQuestVarGet("zdatalite%database%pointer");</Command>
+   	<Command>trQuestVarSet("zdatalite%database%index"+zdataremove, trQuestVarGet("zdatalite%database%index"+zdatacount));</Command>
+   	<Command>trQuestVarSet("zdatalite%database%count", zdatacount);</Command>
+    <Command>if (trQuestVarGet("zdatalite%database%pointer") >= trQuestVarGet("zdatalite%database%count")) {</Command>
+      <Command>trQuestVarSet("zdatalite%database%pointer", trQuestVarGet("zdatalite%database%count")-1);</Command>
+    <Command>}</Command>
+   </Effect>
+
+   <Effect name="ycondition - Army Distance to Unit">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="database" dispName="Name (qv)" VarType="string">Database1</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitDistanceToUnit(""+1*trQuestVarGet("%database%")) %Op% %Dist%){</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect(""+1*trQuestVarGet("%database%"));</Command>
+   </Effect>
+
+	<Effect name="Z Vector Army Deploy at QV Vector">
+      <Param name="VQ1Name" dispName="Army Vector Name" VarType="string">p1</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="Count"  dispName="$$22435$$Count" varType="long">0</Param>
+      <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+      <Param name="Clear" dispName="$$22464$$Clear Existing Units:" varType="bool">true</Param>
+      <Command>trArmyDispatch(""+1*trVectorQuestVarGetX("%VQ1Name%")+", "+1*trVectorQuestVarGetY("%VQ1Name%")+"", "%ProtoName%", %Count%, trVectorQuestVarGetX("%VQVName%"), trVectorQuestVarGetY("%VQVName%"), trVectorQuestVarGetZ("%VQVName%"), %Heading%, %Clear%);</Command>
+   </Effect>
+
+	<Effect name="Z Sort Players">
+		<Param name="first" dispName="First QV" varType="string">first</Param>
+		<Param name="second" dispName="Second QV" varType="string">second</Param>
+		<Param name="third" dispName="Third QV" varType="string">third</Param>
+		<Param name="fourth" dispName="Fourth QV" varType="string">fourth</Param>
+			<Command>trQuestVarSet("p0score", -1);</Command>
+			<Command>int a1 = 1;</Command>
+			<Command>int a2 = 2;</Command>
+			<Command>int b1 = 3;</Command>
+			<Command>int b2 = 4;</Command>
+			<Command>if(trQuestVarGet("p2score") > trQuestVarGet("p1score")) {</Command>
+				<Command>a1 = 2;</Command>
+				<Command>a2 = 1;</Command>
+			<Command>}</Command>
+			<Command>if(trQuestVarGet("p4score") > trQuestVarGet("p3score")) {</Command>
+				<Command>b1 = 4;</Command>
+				<Command>b2 = 3;</Command>
+			<Command>}</Command>
+			<Command>int c = 1;</Command>
+			<Command>while(5 > c) {</Command>
+				<Command>if(trQuestVarGet("p"+a1+"score") >= trQuestVarGet("p"+b1+"score")) {</Command>
+					<Command>trQuestVarSet("zenoc"+c, a1);</Command>
+					<Command>a1 = a2;</Command>
+					<Command>a2 = 0;</Command>
+				<Command>} else {</Command>
+					<Command>trQuestVarSet("zenoc"+c, b1);</Command>
+					<Command>b1 = b2;</Command>
+					<Command>b2 = 0;</Command>
+				<Command>}</Command>
+				<Command>c = c + 1;</Command>
+			<Command>}</Command>
+			<Command>trQuestVarSet("%first%", trQuestVarGet("zenoc1"));</Command>
+			<Command>trQuestVarSet("%second%", trQuestVarGet("zenoc2"));</Command>
+			<Command>trQuestVarSet("%third%", trQuestVarGet("zenoc3"));</Command>
+			<Command>trQuestVarSet("%fourth%", trQuestVarGet("zenoc4"));</Command>
+		</Effect>
+
+	<Effect name="ZAP Quick Deploy 4p">
+		<Param name="ProtoName" dispName="ProtoName" varType="protounit">Villager</Param>
+		<Param name="Heading"  dispName="Heading" varType="long">0</Param>
+      <Param name="Location1" dispName="" varType="area">0,0,0</Param>
+      <Param name="Location2" dispName="" varType="area">0,0,0</Param>
+      <Param name="Location3" dispName="" varType="area">0,0,0</Param>
+      <Param name="Location4" dispName="" varType="area">0,0,0</Param>
+      <Command>if(kbIsPlayerHuman(1)){</Command>
+      <Command>trArmyDispatch(""+1*trVectorQuestVarGetX("p1")+", "+1*trVectorQuestVarGetY("p1")+"", "%ProtoName%", 1, %Location1%, %Heading%, true); }</Command>
+      <Command>if(kbIsPlayerHuman(2)){</Command>
+      <Command>trArmyDispatch(""+1*trVectorQuestVarGetX("p2")+", "+1*trVectorQuestVarGetY("p2")+"", "%ProtoName%", 1, %Location2%, %Heading%, true); }</Command>
+      <Command>if(kbIsPlayerHuman(3)){</Command>
+      <Command>trArmyDispatch(""+1*trVectorQuestVarGetX("p3")+", "+1*trVectorQuestVarGetY("p3")+"", "%ProtoName%", 1, %Location3%, %Heading%, true); }</Command>
+      <Command>if(kbIsPlayerHuman(4)){</Command>
+      <Command>trArmyDispatch(""+1*trVectorQuestVarGetX("p4")+", "+1*trVectorQuestVarGetY("p4")+"", "%ProtoName%", 1, %Location4%, %Heading%, true); }</Command>
+  </Effect>
+
+	<Effect name="ZAP Define YS variables">
+		<Command>for(k=4; >0) {</Command>
+			<Command>trQuestVarSet("ysd"+k, k);</Command>
+		<Command>}</Command>
+
+		<Command>trStringQuestVarSet("ysd1", " says: Move up!");</Command>
+		<Command>trStringQuestVarSet("ysd2", " says: Move right!");</Command>
+		<Command>trStringQuestVarSet("ysd3", " says: Move down!");</Command>
+		<Command>trStringQuestVarSet("ysd4", " says: Move left!");</Command>
+
+		<Command>trStringQuestVarSet("ysn1", "Yaabeegooon");</Command>
+		<Command>trStringQuestVarSet("ysn2", "Yeeboogaaan");</Command>
+		<Command>trStringQuestVarSet("ysn3", "Yeebaogooon");</Command>
+		<Command>trStringQuestVarSet("ysn4", "Yoobaageeen");</Command>
+		<Command>trStringQuestVarSet("ysn5", "Yoobeegaaan");</Command>
+		<Command>trStringQuestVarSet("ysn6", "Yaaboogeeen");</Command>
+
+		<Command>trStringQuestVarSet("ysn7", "Yeetaagooon");</Command>
+		<Command>trStringQuestVarSet("ysn8", "Yeedaagooon");</Command>
+		<Command>trStringQuestVarSet("ysn9", "Yu-Gi-Oh");</Command>
+
+		<Command>trStringQuestVarSet("ysn10", "Yaybegone");</Command>
+		<Command>trStringQuestVarSet("ysn11", "Yeebaagoon");</Command>
+		<Command>trStringQuestVarSet("ysn12", "Yeebaagoooon");</Command>
+		<Command>trStringQuestVarSet("ysn13", "Yeebeegeeen");</Command>
+		<Command>trStringQuestVarSet("ysn14", "Simon");</Command>
+		<Command>trStringQuestVarSet("ysn15", "yEAbEaGOooN");</Command>
+	</Effect>
+
+	<Effect name="ZAP Define YS Functions">
+		
+
+		<Command>void ysShuffleDirections() {</Command>
+			<Command>for (i=4; >1) {</Command>
+				<Command>trQuestVarSetFromRand("ysShuffleRand", 1, i, true);</Command>
+				<Command>int j = 1*trQuestVarGet("ysShuffleRand");</Command>
+				<Command>int temp = trQuestVarGet("ysd"+i);</Command>
+				<Command>trQuestVarSet("ysd"+i, trQuestVarGet("ysd"+j));</Command>
+				<Command>trQuestVarSet("ysd"+j, temp);</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+
+		<Command>string ysChooseDirection(int x=0) {</Command>
+			<Command>trQuestVarSet("ysPointer", trQuestVarGet("ysPointer") + 1);</Command>
+			<Command>if (trQuestVarGet("ysPointer") > 4) {</Command>
+				<Command>trQuestVarSet("ysPointer", 1);</Command>
+			<Command>}</Command>
+			<Command>if(trQuestVarGet("ysd"+1*trQuestVarGet("ysPointer")) == x) {</Command>
+				<Command>trQuestVarSet("ysPointer", trQuestVarGet("ysPointer") + 1);</Command>
+				<Command>if (trQuestVarGet("ysPointer") > 4) {</Command>
+					<Command>trQuestVarSet("ysPointer", 1);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<Command>int r = 1*trQuestVarGet("ysd"+1*trQuestVarGet("ysPointer"));</Command>
+			<Command>return(trStringQuestVarGet("ysd"+r));</Command>
+		<Command>}</Command>
+
+		<Command>void ysShuffleNames() {</Command>
+			<Command>for (i=15; >1) {</Command>
+				<Command>trQuestVarSetFromRand("ysShuffleRand", 1, i, true);</Command>
+				<Command>int j = 1*trQuestVarGet("ysShuffleRand");</Command>
+				<Command>string temp = trStringQuestVarGet("ysn"+i);</Command>
+				<Command>trStringQuestVarSet("ysn"+i, trStringQuestVarGet("ysn"+j));</Command>
+				<Command>trStringQuestVarSet("ysn"+j, temp);</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+
+		<Command>string ysChooseName() {</Command>
+			<Command>trQuestVarSet("ysNamePointer", trQuestVarGet("ysNamePointer")+1);</Command>
+			<Command>if(trQuestVarGet("ysNamePointer") > 15) {</Command>
+				<Command>trQuestVarSet("ysNamePointer", 1);</Command>
+			<Command>}</Command>
+			<Command>int r = 1*trQuestVarGet("ysNamePointer");</Command>
+			<Command>return(trStringQuestVarGet("ysn"+r));</Command>
+		<Command>}</Command>
+	</Effect>
+
+	
+
+</Effects>
+
+</trigger>

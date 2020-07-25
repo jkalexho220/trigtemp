@@ -1,0 +1,3158 @@
+<?xml version = "1.0"?>
+<trigger version="2">
+<Conditions>
+   <Condition name="$$22289$$Always">
+       <Expression>true</Expression>
+   </Condition>
+
+ <Condition name="Player Current">
+  <Param name="info" dispName="Info" VarType="string">Use to apply effects only to a particular player in multiplayer</Param>
+  <Param name="Param1" dispName="Player" VarType="player">1</Param>
+      <Expression>trCurrentPlayer() == %Param1%</Expression>
+   </Condition>
+
+   <Condition name="Z Vector Army Distance to QV Vector">
+      <Param name="VQ1Name" dispName="Army Vector Name" VarType="string">V1</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+	  <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+		<Command>trArmySelect(""+1*trVectorQuestVarGetX("%VQ1Name%")+", "+1*trVectorQuestVarGetY("%VQ1Name%")+"");</Command>
+      <Expression>trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%</Expression>
+   </Condition>
+
+   <Condition name="Z Vector Army Distance to Unit">
+      <Param name="VQ1Name" dispName="Army Vector Name" VarType="string">V1</Param>
+      <Param name="DstObject" dispName="$$22296$$Target Unit" VarType="unit">default</Param>
+	  <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+		<Command>trArmySelect(""+1*trVectorQuestVarGetX("%VQ1Name%")+", "+1*trVectorQuestVarGetY("%VQ1Name%")+"");</Command>
+      <Expression>trUnitDistanceToUnit("%DstObject%") %Op% %Dist%</Expression>
+   </Condition>
+
+   <Condition name="Z Distance to Unit 3 OR">
+      <Param name="SrcObject" dispName="Source Units" VarType="unit">default</Param>
+      <Param name="unit1" dispName="Unit 1" VarType="unit">default</Param>
+      <Param name="unit2" dispName="Unit 2" VarType="unit">default</Param>
+      <Param name="unit3" dispName="Unit 3" VarType="unit">default</Param>
+      <Param name="Op" dispName="Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="Distance" VarType="float">0</Param>
+	<Command>trQuestVarSet("ZDTU3", 0);</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if (trUnitDistanceToUnit("%unit1%") %Op% %Dist%){</Command>
+	<Command>trQuestVarSet("ZDTU3", 1);}</Command>
+      <Command>if (trUnitDistanceToUnit("%unit2%") %Op% %Dist%){</Command>
+	<Command>trQuestVarSet("ZDTU3", 1);}</Command>
+      <Command>if (trUnitDistanceToUnit("%unit3%") %Op% %Dist%){</Command>
+	<Command>trQuestVarSet("ZDTU3", 1);}</Command>
+	<Expression>trQuestVarGet("ZDTU3") == 1</Expression>
+   </Condition>
+
+   <Condition name="Z Seekers Distance to Unit 3 OR">
+      <Param name="SrcObject" dispName="Source Units" VarType="unit">default</Param>
+      <Param name="unit1" dispName="Unit 1" VarType="unit">default</Param>
+      <Param name="unit2" dispName="Unit 2" VarType="unit">default</Param>
+      <Param name="unit3" dispName="Unit 3" VarType="unit">default</Param>
+      <Param name="Op" dispName="Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="Distance" VarType="float">0</Param>
+	<Command>trQuestVarSet("ZDTU3", 0);</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="unit1">trUnitSelect("%unit1%");</Command>
+      <Command>if (trUnitDistanceToUnit("%SrcObject%") %Op% %Dist%){</Command>
+	<Command>if (trUnitAlive() == true) {</Command>
+	<Command>trQuestVarSet("ZDTU3", 1);}}</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="unit2">trUnitSelect("%unit2%");</Command>
+      <Command>if (trUnitDistanceToUnit("%SrcObject%") %Op% %Dist%){</Command>
+	<Command>if (trUnitAlive() == true) {</Command>
+	<Command>trQuestVarSet("ZDTU3", 1);}}</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="unit3">trUnitSelect("%unit3%");</Command>
+      <Command>if (trUnitDistanceToUnit("%SrcObject%") %Op% %Dist%){</Command>
+	<Command>if (trUnitAlive() == true) {</Command>
+	<Command>trQuestVarSet("ZDTU3", 1);}}</Command>
+	<Expression>trQuestVarGet("ZDTU3") == 1</Expression>
+   </Condition>
+
+   <Condition name = "Quest Var Difference">
+    <Param name = "QVName1" dispName = "$$23952$$Var Name" varType ="string">QV1</Param>
+    <Param name = "QVName2" dispName = "$$23952$$Var Name2" varType ="string">QV2</Param>
+    <Param name = "Op" dispName = "$$22297$$Operator" VarType ="operator">==</Param>
+    <Param name = "Diff" dispName = "Difference" varType = "float">1.0</Param>
+	<Command>trQuestVarSet("zsecretqvdifference", trQuestVarGet("%QVName1%") - trQuestVarGet("%QVName2%"));</Command>
+	<Command>trQuestVarSet("zsecretqvdifference2", trQuestVarGet("zsecretqvdifference") * trQuestVarGet("zsecretqvdifference"));</Command>
+    <Expression>(trQuestVarGet("zsecretqvdifference2") %Op% (%Diff% * %Diff%))</Expression>
+   </Condition>
+
+</Conditions>
+<Effects>
+
+
+
+
+
+   <Effect name="$$22355$$SetIdleProcessing">
+      <Param name="IdleProc" dispName="$$22356$$Process Idle:" varType="bool">true</Param>
+       <Command>trSetUnitIdleProcessing(%IdleProc%);</Command>
+   </Effect>
+
+   <Effect name="Z Trigger Select Unit Without Clear">
+      <Param name="SrcObject" dispName="Source Units" varType="unit">default</Param>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+    </Effect>
+
+    <Effect name="conditional QV Vector Within Bounds">
+      <Param name="vector" dispName="QV Vector" varType="string">V1</Param>
+      <Param name="upper" dispName="Upper Vector" varType="string"></Param>
+      <Param name="lower" dispName="Lower Vector" varType="string"></Param>
+      <Param name="within" dispName="Inside" varType="bool">true</Param>
+        <Command><![CDATA[if ((trVectorQuestVarGetX("%upper%") > trVectorQuestVarGetX("%vector%") &&]]></Command>
+        <Command><![CDATA[trVectorQuestVarGetZ("%upper%") > trVectorQuestVarGetZ("%vector%") &&]]></Command>
+        <Command><![CDATA[trVectorQuestVarGetX("%vector%") > trVectorQuestVarGetX("%lower%") &&]]></Command>
+        <Command>trVectorQuestVarGetZ("%vector%") > trVectorQuestVarGetZ("%lower%")) == %within%) {</Command>
+    </Effect>
+
+   <Effect name = "conditional Quest Var Difference">
+    <Param name = "QVName1" dispName = "$$23952$$Var Name" varType ="string">QV1</Param>
+    <Param name = "QVName2" dispName = "$$23952$$Var Name2" varType ="string">QV2</Param>
+    <Param name = "Op" dispName = "$$22297$$Operator" VarType ="operator">==</Param>
+    <Param name = "Diff" dispName = "Difference" varType = "float">1.0</Param>
+	<Command>trQuestVarSet("zsecretqvdifference", trQuestVarGet("%QVName1%") - trQuestVarGet("%QVName2%"));</Command>
+	<Command>trQuestVarSet("zsecretqvdifference2", trQuestVarGet("zsecretqvdifference") * trQuestVarGet("zsecretqvdifference"));</Command>
+    <Command>if(trQuestVarGet("zsecretqvdifference2") %Op% (%Diff% * %Diff%)) {</Command>
+   </Effect>
+
+   <Effect name="Z Quest Var Vector Set Y">
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="Y" dispName="Vector Y" VarType="float">0</Param>
+      <Command>trVectorQuestVarSet("%VQVName%", xsVectorSet(trVectorQuestVarGetX("%VQVName%"), %Y%,trVectorQuestVarGetZ("%VQVName%")));</Command>
+   </Effect>
+
+   <Effect name="Transport Units in Circle Heading TL SP">
+  <Param name="SrcObject" dispName="Source Units" varType="unit">default</Param> 
+  <Param name="DstObject" dispName="Centre Object" varType="unit">default</Param> 
+  <Param name="Heading" dispName="Heading" varType="string">0</Param> 
+  <Param name="Radius" dispName="Radius" varType="float">10</Param> 
+  <Param name="Phase" dispName="Phase Angle" varType="float">0</Param> 
+  <Param name="Step" dispName="Step Size (degrees)" varType="string">5</Param> 
+  <Command>for(id=0;>1) {} for(theta=0;>1) {}</Command>
+  <Command>for(count=0;>1) {}</Command>
+  <Command>id=kbGetBlockID("%SrcObject%")+kbGetBlockID("%DstObject%");</Command> 
+  <Command>theta=trQuestVarGet("transportcircle"+id);</Command> 
+  <Command>if(trQuestVarGet("circlecount"+id)==0){</Command>
+<Command loop="" loopParm="SrcObject">count = count+1; trQuestVarSet("circle"+id+"unit"+count,kbGetBlockID("%SrcObject%"));</Command>
+<Command>trQuestVarSet("circlecount"+id,count);</Command>
+  <Command>}</Command>
+  <Command>for(i=trQuestVarGet("circlecount"+id);>0) {</Command>
+  <Command>trUnitSelectClear();</Command>
+  <Command>trUnitSelectByID(trQuestVarGet("circle"+id+"unit"+i));</Command>
+  <Command>trVectorQuestVarSet("DstObjPos", kbGetBlockPosition("%DstObject%"));</Command> 
+  <Command>trQuestVarSet("stepx",trVectorQuestVarGetX("DstObjPos")+1.0*%Radius%*Math_sin(1.0*(1.0*theta+360.0*(1.0*i-1.0)/trQuestVarGet("circlecount"+id)+1.0*%Phase%)*PI/180.0));</Command> 
+  <Command>trQuestVarSet("stepy",trVectorQuestVarGetY("DstObjPos"));</Command> 
+  <Command>trQuestVarSet("stepz",trVectorQuestVarGetZ("DstObjPos")+1.0*%Radius%*Math_cos(1.0*(1.0*theta+360.0*(1.0*i-1.0)/trQuestVarGet("circlecount"+id)+1.0*%Phase%)*PI/180.0));</Command> 
+  <Command>trUnitTeleport(trQuestVarGet("stepx"),trQuestVarGet("stepy"),trQuestVarGet("stepz"));</Command> 
+  <Command>trUnitSetHeading(theta+%Phase%+360.0*(i-1.0)/trQuestVarGet("circlecount"+id)+180.0+%Heading%);</Command> 
+  <Command>}</Command>
+  <Command>trQuestVarSet("transportcircle"+id,trQuestVarGet("transportcircle"+id)+1.0*%Step%);</Command> 
+  <Command>if(-1.0>=trQuestVarGet("transportcircle"+id)) trQuestVarSet("transportcircle"+id,trQuestVarGet("transportcircle"+id)+360.0);</Command> 
+  <Command>if(trQuestVarGet("transportcircle"+id)>=361.0) trQuestVarSet("transportcircle"+id,trQuestVarGet("transportcircle"+id)-360.0);</Command> 
+</Effect>
+
+
+<Effect name="Z Set QV Vector as Unit Vector in Direction">
+  <Param name="SrcObject" dispName="Source Object" varType="unit">default</Param>
+  <Param name="VQV" dispName="Vector" varType="string">V1</Param>
+  <Param name="from" dispName="From" varType="string">start</Param>
+  <Param name="to" dispName="to" varType="string">target</Param>
+  <Command>trVectorQuestVarSet("%from%", kbGetBlockPosition("%SrcObject%"));</Command>
+  <Command>trUnitSelectClear();</Command>
+  <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+  <Command>trQuestVarSet("zdd", trUnitDistanceToPoint(trVectorQuestVarGetX("%to%"),trVectorQuestVarGetY("%to%"),trVectorQuestVarGetZ("%to%")));</Command>
+  <Command>trVectorQuestVarSet("%VQV%", trVectorQuestVarGet("%to%") - trVectorQuestVarGet("%from%"));</Command>
+  <Command>trVectorQuestVarSet("%VQV%", xsVectorSet(trVectorQuestVarGetX("%VQV%") / trQuestVarGet("zdd"),trVectorQuestVarGetY("%VQV%"),trVectorQuestVarGetZ("%VQV%") / trQuestVarGet("zdd")));</Command>
+</Effect>
+
+<Effect name="v NEL Set QV Vector as Unit Vector in Direction">
+  <Param name="VQV" dispName="Vector" varType="string">V1</Param>
+  <Param name="from" dispName="From" varType="string">start</Param>
+  <Param name="to" dispName="to" varType="string">target</Param>
+  <Command>trQuestVarSet("zddfff", trUnitDistanceToPoint(trVectorQuestVarGetX("%to%"),trVectorQuestVarGetY("%to%"),trVectorQuestVarGetZ("%to%")));</Command>
+  <Command>trVectorQuestVarSet("%VQV%", trVectorQuestVarGet("%to%") - trVectorQuestVarGet("%from%"));</Command>
+  <Command>trVectorQuestVarSet("%VQV%", xsVectorSet(trVectorQuestVarGetX("%VQV%") / trQuestVarGet("zddfff"),trVectorQuestVarGetY("%VQV%"),trVectorQuestVarGetZ("%VQV%") / trQuestVarGet("zddfff")));</Command>
+</Effect>
+
+<Effect name="v Condition NEL not player">
+	<Command>if ((UnitID == kbGetBlockID("541")) ||</Command>
+	<Command>(UnitID == kbGetBlockID("542")) ||</Command>
+	<Command>(UnitID == kbGetBlockID("543")) ||</Command>
+	<Command>(UnitID == kbGetBlockID("544")) ||</Command>
+  <Command>(kbGetUnitBaseTypeID(UnitID) == kbGetProtoUnitID("Victory Marker")) ||</Command>
+	<Command>(UnitID == kbGetBlockID("533"))) {} else {</Command>
+</Effect>
+
+<Effect name="Z NEL loop through characters">
+	<Param name="desc" dispName=" " varType="string">charUnitID=unit select ID. charID=1-5</Param>
+	<Command>for(charUnitID=0; >1){}</Command>
+	<Command>for(charID=1*trQuestVarGet("partySize"); >0) {</Command>
+
+		<Command>if (charID == 1) {</Command>
+			<Command>charUnitID = 533;</Command>
+		<Command>} else if (charID == 2) {</Command>
+			<Command>charUnitID = 541;</Command>
+		<Command>} else {</Command>
+			<Command>charUnitID = 547 - charID;</Command>
+		<Command>}</Command>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelect(""+charUnitID+"");</Command>
+
+
+</Effect>
+
+<Effect name="Z Calculate Armor">
+    <Param name="Armor" dispName="Armor QV" varType="string">QV1</Param>
+    <Param name="Percent" dispName="Percent QV" VarType="string">QV2</Param>
+      <Command>if (trQuestVarGet("%Armor%") > 0) {</Command>
+        <Command>trQuestVarSet("%Percent%", 100.0 + trQuestVarGet("%Armor%"));</Command>
+        <Command>trQuestVarSet("%Percent%", 100.0 / trQuestVarGet("%Percent%"));</Command>
+        <Command>trQuestVarSet("%Percent%", 1.0 - trQuestVarGet("%Percent%"));</Command>
+      <Command>} else {</Command>
+        <Command>trQuestVarSet("%Percent%", 100.0 - trQuestVarGet("%Armor%"));</Command>
+        <Command>trQuestVarSet("%Percent%", 100.0 / trQuestVarGet("%Percent%"));</Command>
+        <Command>trQuestVarSet("%Percent%", trQuestVarGet("%Percent%") - 1.0);</Command>
+      <Command>}</Command>
+</Effect>
+
+<Effect name="Z Set Gaia Revealer to Player LOS">
+	<Param name="los" dispName="LOS" VarType="float">0</Param>
+	<Command>for(i=0; >1) {}</Command>
+	<Command>i = %los% - trQuestVarGet("gaiaRevealer");</Command>
+	<Command>trModifyProtounit("Revealer to Player", 0, 2, i);</Command>
+	<Command>trQuestVarSet("gaiaRevealer", %los%);</Command>
+</Effect>
+
+
+<Effect name="Z Initialize ProtoUnit Stat 0">
+        <Param name="ProtoUnit" dispName="$$22449$$ProtoUnit" varType="protounit">Villager</Param>
+       <Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="Field" dispName="$$23943$$Field" varType="pufield">0</Param>
+	<Command>trQuestVarSet("%PlayerID%"+"%ProtoUnit%"+"%Field%", 0);</Command>
+</Effect>
+
+   <Effect name="Z QV Set Fire Event">
+	<Param name="QV" dispName="QV" varType="string">QV1</Param>
+      <Param name="EventID" dispName="$$22362$$Trigger" varType="event">-1</Param>
+      <Command>trQuestVarSet("%QV%", %EventID%);</Command>
+   </Effect>
+
+   <Effect name="Z Fire Event QV">
+	<Param name="QV" dispName="QV" varType="string">QV1</Param>
+      <Command>trEventFire(1*trQuestVarGet("%QV%"));</Command>
+   </Effect>
+
+<Effect name="v NEL Analyze">
+    <Param name="QV" dispName="String" varType="string">S1</Param>
+    <Command>for(i=1*trQuestVarGet("ZNELmonsters"); >0) {</Command>
+       <Command>if(kbGetUnitBaseTypeID(UnitID) == kbGetProtoUnitID(""+trStringQuestVarGet("ZNELmonster"+i+"")+"")){</Command>
+            <Command>trStringQuestVarSet("%QV%", trStringQuestVarGet("ZNELmonster"+i+""));</Command>
+            <Command>if (trQuestVarGet("ZNELmonster"+i+"analysesRequired") > trQuestVarGet("ZNELmonster"+i+"analyses")) {</Command>
+                <Command>trQuestVarSet("ZNELmonster"+i+"analyses", trQuestVarGet("ZNELmonster"+i+"analyses") + 1);</Command>
+                <Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+i+"")+"analyses", trQuestVarGet("monster"+trStringQuestVarGet("ZNELmonster"+i+"")+"analyses") + 1);</Command>
+            <Command>}</Command>
+            <Command>break;</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Grant EXP">
+    <Param name="char" dispName="Character" varType="string">zeno</Param>
+    <Command>trQuestVarSet("%char%EXPEarned", 0);</Command>
+    <Command>trQuestVarSet("%char%FireEXPEarned", trQuestVarGet("battleFireEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%WaterEXPEarned", trQuestVarGet("battleWaterEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%WindEXPEarned", trQuestVarGet("battleWindEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EarthEXPEarned", trQuestVarGet("battleEarthEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%FireEXPEarned", 0.025 * trQuestVarGet("%char%FireEXPEarned") * trQuestVarGet("%char%Fire"));</Command>
+    <Command>trQuestVarSet("%char%WaterEXPEarned", 0.025 * trQuestVarGet("%char%WaterEXPEarned") * trQuestVarGet("%char%Water"));</Command>
+    <Command>trQuestVarSet("%char%WindEXPEarned", 0.025 * trQuestVarGet("%char%WindEXPEarned") * trQuestVarGet("%char%Wind"));</Command>
+    <Command>trQuestVarSet("%char%EarthEXPEarned", 0.025 * trQuestVarGet("%char%EarthEXPEarned") * trQuestVarGet("%char%Earth"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("battleFireEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("battleWaterEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("battleWindEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("battleEarthEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("%char%FireEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("%char%WaterEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("%char%WindEXPEarned"));</Command>
+    <Command>trQuestVarSet("%char%EXPEarned", trQuestVarGet("%char%EXPEarned") + trQuestVarGet("%char%EarthEXPEarned"));</Command>
+</Effect>
+
+<Effect name="Z NEL Cleanse Character">
+    <Param name="character" dispName="Character" VarType="string">zeno</Param>
+    <Command>trQuestVarSet("%character%ignite", 0);</Command>
+    <Command>trQuestVarSet("%character%soak", 0);</Command>
+    <Command>trQuestVarSet("%character%stun", 0);</Command>
+    <Command>trQuestVarSet("%character%fatigue", 0);</Command>
+    <Command>trQuestVarSet("%character%poison", 0);</Command>
+    <Command>trQuestVarSet("%character%silence", 0);</Command>
+</Effect>
+
+<Effect name="Z NEL Battle End Cleanse">
+    <Command>trQuestVarSet("zenoignite", 0);</Command>
+    <Command>trQuestVarSet("zenosoak", 0);</Command>
+    <Command>trQuestVarSet("zenostun", 0);</Command>
+    <Command>trQuestVarSet("zenofatigue", 0);</Command>
+    <Command>trQuestVarSet("zenosilence", 0);</Command>
+
+    <Command>trQuestVarSet("nickignite", 0);</Command>
+    <Command>trQuestVarSet("nicksoak", 0);</Command>
+    <Command>trQuestVarSet("nickstun", 0);</Command>
+    <Command>trQuestVarSet("nickfatigue", 0);</Command>
+    <Command>trQuestVarSet("nicksilence", 0);</Command>
+
+    <Command>trQuestVarSet("yeebignite", 0);</Command>
+    <Command>trQuestVarSet("yeebsoak", 0);</Command>
+    <Command>trQuestVarSet("yeebstun", 0);</Command>
+    <Command>trQuestVarSet("yeebfatigue", 0);</Command>
+    <Command>trQuestVarSet("yeebsilence", 0);</Command>
+
+    <Command>trQuestVarSet("thangbrandignite", 0);</Command>
+    <Command>trQuestVarSet("thangbrandsoak", 0);</Command>
+    <Command>trQuestVarSet("thangbrandstun", 0);</Command>
+    <Command>trQuestVarSet("thangbrandfatigue", 0);</Command>
+    <Command>trQuestVarSet("thangbrandsilence", 0);</Command>
+
+    <Command>trQuestVarSet("lewonasignite", 0);</Command>
+    <Command>trQuestVarSet("lewonassoak", 0);</Command>
+    <Command>trQuestVarSet("lewonasstun", 0);</Command>
+    <Command>trQuestVarSet("lewonasfatigue", 0);</Command>
+    <Command>trQuestVarSet("lewonassilence", 0);</Command>
+</Effect>
+
+<Effect name="Z NEL Status Update Character">
+    <Param name="character" dispName="Character" VarType="string">zeno</Param>
+    <Command>if (trQuestVarGet("%character%ignite") > 0) {</Command>
+        <Command>trQuestVarSet("%character%ignite", trQuestVarGet("%character%ignite") - 1);</Command>
+    <Command>}</Command>
+    <Command>if (trQuestVarGet("%character%soak") > 0) {</Command>
+        <Command>trQuestVarSet("%character%soak", trQuestVarGet("%character%soak") - 1);</Command>
+    <Command>}</Command>
+    <Command>if (trQuestVarGet("%character%stun") > 0) {</Command>
+        <Command>trQuestVarSet("%character%stun", trQuestVarGet("%character%stun") - 1);</Command>
+    <Command>}</Command>
+    <Command>if (trQuestVarGet("%character%fatigue") > 0) {</Command>
+        <Command>trQuestVarSet("%character%fatigue", trQuestVarGet("%character%fatigue") - 1);</Command>
+    <Command>}</Command>
+    <Command>if (trQuestVarGet("%character%poison") > 0) {</Command>
+        <Command>trQuestVarSet("%character%poison", trQuestVarGet("%character%poison") - 1);</Command>
+    <Command>}</Command>
+	<Command>if (trQuestVarGet("%character%silence") > 0) {</Command>
+        <Command>trQuestVarSet("%character%silence", trQuestVarGet("%character%silence") - 1);</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Status Update Enemies">
+    <Command>for (i=9; >0) {</Command>
+        <Command>if (trQuestVarGet("ZNELenemy"+i+"ignite") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"ignite", trQuestVarGet("ZNELenemy"+i+"ignite") - 1);</Command>
+        <Command>}</Command>
+        <Command>if (trQuestVarGet("ZNELenemy"+i+"soak") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"soak", trQuestVarGet("ZNELenemy"+i+"soak") - 1);</Command>
+        <Command>}</Command>
+        <Command>if (trQuestVarGet("ZNELenemy"+i+"stun") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"stun", trQuestVarGet("ZNELenemy"+i+"stun") - 1);</Command>
+        <Command>}</Command>
+        <Command>if (trQuestVarGet("ZNELenemy"+i+"fatigue") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"fatigue", trQuestVarGet("ZNELenemy"+i+"fatigue") - 1);</Command>
+        <Command>}</Command>
+        <Command>if (trQuestVarGet("ZNELenemy"+i+"poison") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"poison", trQuestVarGet("ZNELenemy"+i+"poison") - 1);</Command>
+        <Command>}</Command>
+	<Command>if (trQuestVarGet("ZNELenemy"+i+"silence") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"silence", trQuestVarGet("ZNELenemy"+i+"silence") - 1);</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="conditional NEL Any Enemy Percent Damaged">
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Percent Dmg" dispName="$$22315$$Percent" VarType="long">100</Param>
+    <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+	<Command>for (zcheck=0; >1) {}</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+	<Command>if (trUnitDead() == false) {</Command>
+        	<Command>if (trUnitPercentDamaged() %Op% %Percent Dmg%) {</Command>
+            		<Command>zcheck = 1;</Command>
+			<Command>break;</Command>
+        	<Command>}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+	<Command>if (zcheck == 1) {</Command>
+</Effect>
+
+<Effect name="Z NEL Choose Lowest Health Enemy">
+	    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+	<Param name="VQVName" dispName="Vector" VarType="string">V1</Param>
+    <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+	<Command>for (zcheck=0; >1) {}</Command>
+	<Command>for (zchoose=0; >1) {}</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+	<Command>if (trUnitDead() == false) {</Command>
+        	<Command>if (trUnitPercentDamaged() > zcheck) {</Command>
+            		<Command>zcheck = trUnitPercentDamaged();</Command>
+            		<Command>zchoose = i;</Command>
+        	<Command>}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+        <Command>b = a + zchoose - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+      <Command>kbLookAtAllUnitsOnMap();</Command>
+      <Command>trVectorQuestVarSet("%VQVName%",kbArmyGetLocation(b));</Command>
+</Effect>
+
+<Effect name="Z NEL Apply Status Effect">
+    <Param name="SrcObject" dispName="Target" VarType="unit">default</Param>
+    <Param name="duration" dispName="Duration" VarType="float">3</Param>
+    <Param name="limit" dispName="Limit" VarType="float">3</Param>
+    <Param name="radius" dispName="Radius" VarType="float">0.5</Param>
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+    <Param name="status" dispName="Status Effect" VarType="string">ignite</Param>
+    <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (%radius% >= trUnitDistanceToUnit("%SrcObject%")) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"%status%", trQuestVarGet("ZNELenemy"+i+"%status%") + %duration%);</Command>
+            <Command>if (trQuestVarGet("ZNELenemy"+i+"%status%") > %limit%) {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%status%", %limit%);</Command>
+            <Command>}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Apply Status Effect Vector">
+    <Param name="VQV" dispName="Vector" VarType="string">V1</Param>
+    <Param name="duration" dispName="Duration" VarType="float">3</Param>
+    <Param name="limit" dispName="Limit" VarType="float">3</Param>
+    <Param name="radius" dispName="Radius" VarType="float">0.5</Param>
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+    <Param name="status" dispName="Status Effect" VarType="string">ignite</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (%radius% >= trUnitDistanceToPoint(trVectorQuestVarGetX("%VQV%"),trVectorQuestVarGetY("%VQV%"),trVectorQuestVarGetZ("%VQV%"))) {</Command>
+            <Command>trQuestVarSet("ZNELenemy"+i+"%status%", trQuestVarGet("ZNELenemy"+i+"%status%") + %duration%);</Command>
+            <Command>if (trQuestVarGet("ZNELenemy"+i+"%status%") > %limit%) {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%status%", %limit%);</Command>
+            <Command>}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Deploy to all enemies">
+  <Param name="Army" dispName="First Army" VarType="group">default</Param>
+  <Param name="ArmyD" dispName="Army to Deploy" VarType="group">default</Param>
+  <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+  <Param name="Count"  dispName="$$22435$$Count" varType="long">1</Param>
+  <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+  <Param name="Clear" dispName="$$22464$$Clear Existing Units:" varType="bool">true</Param>
+    <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>kbLookAtAllUnitsOnMap();</Command>
+    <Command>for(i=1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+      <Command>b = a + i - 1;</Command>
+      <Command>trArmySelect(""+p+", "+b+"");</Command>
+      <Command>if (trUnitDead() == false) {</Command>
+        <Command>trVectorQuestVarSet("ZNELSecretDeploy2", kbArmyGetLocation(b));</Command>
+        <Command>trArmyDispatch("%ArmyD%", "%ProtoName%", %Count%, trVectorQuestVarGetX("ZNELSecretDeploy2"), </Command>
+          <Command>trVectorQuestVarGetY("ZNELSecretDeploy2"), </Command>
+          <Command>trVectorQuestVarGetZ("ZNELSecretDeploy2"), %Heading%, %Clear%);</Command>
+      <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Choose Character Random">
+    <Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+    <Param name="Party" dispName="Party QV" varType="string">PartySize</Param>
+        <Command>trQuestVarSet("%QV%", 0);</Command>
+        <Command>trQuestVarSet("ZNELCCRandom", 0);</Command>
+        <Command>while (trQuestVarGet("%QV%") == 0){</Command>
+            <Command>trQuestVarSetFromRand("ZNELCCRandom", 1, 1*trQuestVarGet("%Party%"), true);</Command>
+            <!-- Unit 1 -->
+            <Command>if (trQuestVarGet("ZNELCCRandom") == 1){</Command>
+                <Command>if(trQuestVarGet("zenoAlive") == 1){</Command>
+                    <Command>trQuestVarSet("%QV%", 1);</Command>
+                <Command>}</Command>
+            <Command>}</Command>
+            <!-- Unit 2 -->
+            <Command>if (trQuestVarGet("ZNELCCRandom") == 2){</Command>
+                <Command>if(trQuestVarGet("nickAlive") == 1){</Command>
+                    <Command>trQuestVarSet("%QV%", 2);</Command>
+                <Command>}</Command>
+            <Command>}</Command>
+            <!-- Unit 3 -->
+            <Command>if (trQuestVarGet("ZNELCCRandom") == 3){</Command>
+                <Command>if(trQuestVarGet("yeebAlive") == 1){</Command>
+                    <Command>trQuestVarSet("%QV%", 3);</Command>
+                <Command>}</Command>
+            <Command>}</Command>
+            <!-- Unit 4 -->
+            <Command>if (trQuestVarGet("ZNELCCRandom") == 4){</Command>
+                <Command>if(trQuestVarGet("thangbrandAlive") == 1){</Command>
+                    <Command>trQuestVarSet("%QV%", 4);</Command>
+                <Command>}</Command>
+            <Command>}</Command>
+            <!-- Unit 5 -->
+            <Command>if (trQuestVarGet("ZNELCCRandom") == 5){</Command>
+                <Command>if(trQuestVarGet("lewonasAlive") == 1){</Command>
+                    <Command>trQuestVarSet("%QV%", 5);</Command>
+                <Command>}</Command>
+            <Command>}</Command>
+        <Command>}</Command>
+</Effect>
+
+<Effect name="Z Fire Event store in QV">
+  <Param name="EventID" dispName="$$22362$$Trigger" varType="event">-1</Param>
+  <Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+  <Command>trQuestVarSet("%QV%", %EventID%);</Command>
+</Effect>
+
+   <Effect name="Z NEL Create Enemy 1">
+        <Param name="ProtoUnit" dispName="$$22449$$ProtoUnit" varType="protounit">Villager</Param>
+	<Param name="PlayerID" dispName="Player" varType="player">0</Param>
+	<Param name="name" dispName="Name" varType="string"></Param>
+	<Param name="speed" dispName="Speed" varType="float">0</Param>
+      <Param name="EventID" dispName="$$22362$$Behavior Trigger" varType="event">-1</Param>
+	<Param name="desc1" dispName="Description 1" varType="string">none</Param>
+	<Param name="desc2" dispName="Description 2" varType="string">none</Param>
+      <Command>trQuestVarSet("ZNELmonsters", trQuestVarGet("ZNELmonsters") + 1);</Command>
+	<Command>for(id=0; >1) {}</Command>
+	<Command>id = 1*trQuestVarGet("ZNELmonsters");</Command>
+	<Command>trStringQuestVarSet("ZNELmonster"+id+"", "%ProtoUnit%");</Command>
+	<Command>trStringQuestVarSet("ZNELmonster"+id+"name", "%name%");</Command>
+	<Command>trStringQuestVarSet("monster%ProtoUnit%name", "%name%");</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"speed", %speed%);</Command>
+	<Command>trQuestVarSet("monster%ProtoUnit%speed", %speed%);</Command>
+	<Command>trQuestVarSet("monster%ProtoUnit%ID", trQuestVarGet("ZNELmonsters"));</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"behavior", %EventID%);</Command>
+	<Command>trQuestVarSet("monster%ProtoUnit%behavior", %EventID%);</Command>
+	<Command>trStringQuestVarSet("ZNELmonster"+id+"d1", "%desc1%");</Command>
+	<Command>trStringQuestVarSet("monster%ProtoUnit%d1", "%desc1%");</Command>
+	<Command>trStringQuestVarSet("ZNELmonster"+id+"d2", "%desc2%");</Command>
+	<Command>trStringQuestVarSet("monster%ProtoUnit%d2", "%desc2%");</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"player", %PlayerID%);</Command>
+	<Command>trQuestVarSet("monster%ProtoUnit%player", %PlayerID%);</Command>
+   </Effect>
+
+<Effect name="Z NEL Create Enemy 2">
+	<Param name="fireResist" dispName="Fire Resist" varType="float">0.0</Param>
+	<Param name="waterResist" dispName="Water Resist" varType="float">0.0</Param>
+	<Param name="windResist" dispName="Wind Resist" varType="float">0.0</Param>
+	<Param name="earthResist" dispName="Earth Resist" varType="float">0.0</Param>
+	<Param name="armorHack" dispName="Armor Hack" varType="float">0.0</Param>
+	<Param name="armorPierce" dispName="Armor Pierce" varType="float">0.0</Param>
+	<Param name="armorCrush" dispName="Armor Crush" varType="float">0.0</Param>
+	<Command>for(id=0; >1) {}</Command>
+	<Command>id = 1*trQuestVarGet("ZNELmonsters");</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"fireResist", %fireResist%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"waterResist", %waterResist%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"windResist", %windResist%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"earthResist", %earthResist%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"fireResist", %fireResist%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"waterResist", %waterResist%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"windResist", %windResist%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"earthResist", %earthResist%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"hackResist", %armorHack%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"pierceResist", %armorPierce%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"crushResist", %armorCrush%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"hackResist", %armorHack%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"pierceResist", %armorPierce%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"crushResist", %armorCrush%);</Command>
+</Effect>
+
+<Effect name="Z NEL Create Enemy 3">
+	<Param name="EXP" dispName="Experience Reward" varType="float">0</Param>
+	<Param name="gold" dispName="Gold Reward" varType="float">0</Param>
+    <Param name="level" dispName="Level" varType="float">1</Param>
+    <Param name="element" dispName="Element" varType="string">fire</Param>
+    <Param name="analysis" dispName="Analyses Req" varType="float">1</Param>
+    <Param name="damage" dispName="Damage desc" varType="string">it deals damage</Param>
+	<Command>for(id=0; >1) {}</Command>
+	<Command>id = 1*trQuestVarGet("ZNELmonsters");</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"EXP", %EXP%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"gold", %gold%);</Command>
+    <Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"analysesRequired", %analysis%);</Command>
+    <Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"analyses", 0);</Command>
+    <Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"level", %level%);</Command>
+    <Command>trStringQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"element", "%element%");</Command>
+    <Command>trStringQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"damage", "%damage%");</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"EXP", %EXP%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"gold", %gold%);</Command>
+    <Command>trQuestVarSet("ZNELmonster"+id+"analysesRequired", %analysis%);</Command>
+    <Command>trQuestVarSet("ZNELmonster"+id+"analyses", 0);</Command>
+    <Command>trQuestVarSet("ZNELmonster"+id+"level", %level%);</Command>
+    <Command>trStringQuestVarSet("ZNELmonster"+id+"element", "%element%");</Command>
+    <Command>trStringQuestVarSet("ZNELmonster"+id+"damage", "%damage%");</Command>
+</Effect>
+
+   <Effect name="Z NEL Create Enemy 4">
+      <Param name="EventID" dispName="$$22362$$Death Trigger" varType="event">-1</Param>
+	<Command>for(id=0; >1) {}</Command>
+	<Command>id = 1*trQuestVarGet("ZNELmonsters");</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"deathrattleEvent", %EventID%);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"deathrattleEvent", %EventID%);</Command>
+	<Command>trQuestVarSet("ZNELmonster"+id+"deathrattle", 1);</Command>
+	<Command>trQuestVarSet("monster"+trStringQuestVarGet("ZNELmonster"+id+"")+"deathrattle", 1);</Command>
+   </Effect>
+
+<Effect name="v NEL Elemental Damage Enemies">
+	<Param name="damage" dispName="Damage" varType="float">0</Param>
+	<Param name="element" dispName="Element" varType="string">fire</Param>
+		<Command>for(i=1*trQuestVarGet("ZNELmonsters"); >0) {</Command>
+			<Command>if(kbGetUnitBaseTypeID(UnitID) == kbGetProtoUnitID(""+trStringQuestVarGet("ZNELmonster"+i+"")+"")){</Command>
+				<Command>trDamageUnit(%damage% - %damage% * trQuestVarGet("ZNELmonster"+i+"%element%Resist"));</Command>
+				<Command>break;</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Poison Damage Character">
+	<Param name="character" dispName="Character" varType="string">Zeno</Param>
+	<Param name="SrcObject" dispName="Source Object" varType="unit">default</Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+		<Command>if (trQuestVarGet("%character%poison") > 0) {</Command>
+			<Command>trQuestVarSet("ZNELpoisonDamage123", 10.0 - 10.0*trQuestVarGet("%character%CrushResist"));</Command>
+			<Command>trDamageUnitPercent(trQuestVarGet("ZNELpoisonDamage123"));</Command>
+		<Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Poison Damage Enemies">
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (trQuestVarGet("ZNELenemy"+i+"poison") > 0) {</Command>
+            <Command>trQuestVarSet("ZNELpoisonDamage123", 10.0 - 10.0*trQuestVarGet("ZNELenemy"+i+"CrushResist"));</Command>
+		<Command>trDamageUnitPercent(trQuestVarGet("ZNELpoisonDamage123"));</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Elemental Damage Character">
+	<Param name="character" dispName="Character" varType="string">Zeno</Param>
+	<Param name="SrcObject" dispName="Source Object" varType="unit">default</Param>
+	<Param name="damage" dispName="Damage" varType="float">0</Param>
+	<Param name="element" dispName="Element" varType="string">fire</Param>
+        <Command>if (trQuestVarGet("%character%Evade") == 0) {</Command>
+		<Command>for (dmg=0; >1) {}</Command>
+		<Command>dmg = %damage%;</Command>
+		<Command>if (trQuestVarGet("%character%ignited") >= 1) {</Command>
+			<Command>if ("%element%" == "fire") {</Command>
+				<Command>dmg = dmg * 1.5;</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+            <Command>trUnitSelectClear();</Command>
+            <Command>trUnitSelect("%SrcObject%");</Command>
+            <Command>if (trQuestVarGet("%character%Defend") == 0) {</Command>
+                <Command>trDamageUnit(dmg - dmg * trQuestVarGet("%character%"+"%element%Resist"));</Command>
+            <Command>} else {</Command>
+                <Command>trDamageUnit(0.5 * dmg - 0.5 * dmg * trQuestVarGet("%character%"+"%element%Resist"));</Command>
+            <Command>}</Command>
+        <Command>} else {</Command>
+            <Command>trQuestVarSet("%character%Evade", trQuestVarGet("%character%Evade") + 1);</Command>
+        <Command>}</Command>
+</Effect>
+
+<Effect name="v NEL Elemental Damage Character">
+	<Param name="character" dispName="Character" varType="string">Zeno</Param>
+	<Param name="damage" dispName="Damage" varType="float">0</Param>
+	<Param name="element" dispName="Element" varType="string">fire</Param>
+        <Command>if (trQuestVarGet("%character%Evade") == 0) {</Command>
+		<Command>for (dmg=0; >1) {}</Command>
+		<Command>dmg = %damage%;</Command>
+		<Command>if (trQuestVarGet("%character%ignited") >= 1) {</Command>
+			<Command>if ("%element%" == "fire") {</Command>
+				<Command>dmg = dmg * 1.5;</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+            <Command>if (trQuestVarGet("%character%Defend") == 0) {</Command>
+                <Command>trDamageUnit(dmg - dmg * trQuestVarGet("%character%"+"%element%Resist"));</Command>
+            <Command>} else {</Command>
+                <Command>trDamageUnit(0.5 * dmg - 0.5 * dmg * trQuestVarGet("%character%"+"%element%Resist"));</Command>
+            <Command>}</Command>
+        <Command>} else {</Command>
+            <Command>trQuestVarSet("%character%Evade", trQuestVarGet("%character%Evade") + 1);</Command>
+        <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Elemental Damage Enemies">
+    <Param name="SrcObject" dispName="Target" VarType="unit">default</Param>
+    <Param name="radius" dispName="Radius" VarType="float">0.5</Param>
+    <Param name="damage" dispName="Damage" VarType="float">0</Param>
+    <Param name="element" dispName="Element" VarType="string">fire</Param>
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (%radius% >= trUnitDistanceToUnit("%SrcObject%")) {</Command>
+            <Command>trDamageUnit(%damage% - %damage% * trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+		<Command>if ("%element%" == "fire") {</Command>
+		<Command>if (trQuestVarGet("ZNELenemy"+i+"ignite") > 0) {</Command>
+	            <Command>trDamageUnit((%damage% - %damage% * trQuestVarGet("ZNELenemy"+i+"%element%Resist")) / 2);</Command>
+	    <Command>}}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Elemental Damage Enemies Vector">
+    <Param name="VQV" dispName="Vector" VarType="string">V1</Param>
+    <Param name="radius" dispName="Radius" VarType="float">0.5</Param>
+    <Param name="damage" dispName="Damage" VarType="float">0</Param>
+    <Param name="element" dispName="Element" VarType="string">fire</Param>
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (%radius% >= trUnitDistanceToPoint(trVectorQuestVarGetX("%VQV%"),trVectorQuestVarGetY("%VQV%"),trVectorQuestVarGetZ("%VQV%"))) {</Command>
+            <Command>trDamageUnit(%damage% - %damage% * trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+	    	<Command>if ("%element%" == "fire") {</Command>
+		<Command>if (trQuestVarGet("ZNELenemy"+i+"ignite") > 0) {</Command>
+	            <Command>trDamageUnit((%damage% - %damage% * trQuestVarGet("ZNELenemy"+i+"%element%Resist")) / 2);</Command>
+	    <Command>}}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Loop through enemies">
+	<Param name="Army" dispName="First Army" VarType="group">default</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+</Effect>
+
+<Effect name="Z NEL Armor Shred Enemies Vector">
+    <Param name="VQV" dispName="Vector" VarType="string">V1</Param>
+    <Param name="radius" dispName="Radius" VarType="float">0.5</Param>
+    <Param name="shred" dispName="Shred" VarType="float">0</Param>
+    <Param name="element" dispName="Element" VarType="string">fire</Param>
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (%radius% >= trUnitDistanceToPoint(trVectorQuestVarGetX("%VQV%"),trVectorQuestVarGetY("%VQV%"),trVectorQuestVarGetZ("%VQV%"))) {</Command>
+            <Command>if (trQuestVarGet("ZNELenemy"+i+"%element%Resist") > 0) {</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 100.0);</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - %shred%);</Command>
+              <Command>if (trQuestVarGet("ZNELenemy"+i+"%element%Resist") > 0) {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") + 100.0);</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>} else {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 1.0);</Command>
+	      <Command>}</Command>
+            <Command>} else {</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 + trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 100.0);</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") + %shred%);</Command>
+              <Command>if (trQuestVarGet("ZNELenemy"+i+"%element%Resist") > 0) {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 1.0);</Command>
+              <Command>} else {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") + 100.0);</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>}</Command>
+  	<Command>}</Command>
+    <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+<Effect name="Z NEL Armor Shred Enemies">
+    <Param name="SrcObject" dispName="Target" VarType="unit">default</Param>
+    <Param name="radius" dispName="Radius" VarType="float">0.5</Param>
+    <Param name="shred" dispName="Shred" VarType="float">0</Param>
+    <Param name="element" dispName="Element" VarType="string">fire</Param>
+    <Param name="Army" dispName="First Army" VarType="group">default</Param>
+        <Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+    <Command>for(p=0; >1) {}</Command>
+    <Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+    <Command>for(a=0; >1) {}</Command>
+    <Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+    <Command>for(b=0; >1) {}</Command>
+    <Command>xsSetContextPlayer(p);</Command>
+    <Command>for(i = 1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+        <Command>b = a + i - 1;</Command>
+        <Command>trUnitSelectClear();</Command>
+        <Command>trArmySelect(""+p+", "+b+"");</Command>
+        <Command>if (%radius% >= trUnitDistanceToUnit("%SrcObject%")) {</Command>
+            <Command>if (trQuestVarGet("ZNELenemy"+i+"%element%Resist") > 0) {</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 100.0);</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - %shred%));</Command>
+              <Command>if (trQuestVarGet("ZNELenemy"+i+"%element%Resist") > 0) {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") + 100.0);</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>} else {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 1.0);</Command>
+            <Command>} else {</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 + trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 100.0);</Command>
+              <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") + %shred%));</Command>
+              <Command>if (trQuestVarGet("ZNELenemy"+i+"%element%Resist") > 0) {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") - 1.0);</Command>
+              <Command>} else {</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", trQuestVarGet("ZNELenemy"+i+"%element%Resist") + 100.0);</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 100.0 / trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+                <Command>trQuestVarSet("ZNELenemy"+i+"%element%Resist", 1.0 - trQuestVarGet("ZNELenemy"+i+"%element%Resist"));</Command>
+              <Command>}</Command>
+        <Command>}</Command>
+    <Command>}</Command>
+</Effect>
+
+   <Effect name="Z NEL Battle Setup">
+      <Command>trQuestVarSet("ZNELenemies", 0);</Command>
+	<Command>for (i=9; >0) {</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"alive", 0);</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"stun", 0);</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"ignite", 0);</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"soak", 0);</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"fatigue", 0);</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"poison", 0);</Command>
+		<Command>trQuestVarSet("ZNELenemy"+i+"silence", 0);</Command>
+    <Command>trQuestVarSet("ZNELenemy"+i+"ability1", 0);</Command>
+    <Command>trQuestVarSet("ZNELenemy"+i+"ability2", 0);</Command>
+    <Command>trQuestVarSet("ZNELenemy"+i+"ability3", 0);</Command>
+    <Command>trQuestVarSet("ZNELenemy"+i+"ATKScale", 1);</Command>
+        <Command>trQuestVarSet("ZNELenemy"+i+"EXP", 0);</Command>
+        <Command>trQuestVarSet("ZNELenemy"+i+"gold", 0);</Command>
+        <Command>trQuestVarSet("ZNELenemy"+i+"level", 0);</Command>
+	<Command>}</Command>
+    <Command>trQuestVarSet("battleGoldEarned", 0);</Command>
+    <Command>trQuestVarSet("battleFireEXPEarned", 0);</Command>
+    <Command>trQuestVarSet("battleWaterEXPEarned", 0);</Command>
+    <Command>trQuestVarSet("battleWindEXPEarned", 0);</Command>
+    <Command>trQuestVarSet("battleEarthEXPEarned", 0);</Command>
+    <Command>trQuestVarSet("ZNELenemyAVGLevel", 0);</Command>
+   </Effect>
+
+<Effect name="Z NEL Battle Add Enemy">
+        <Param name="ProtoUnit" dispName="$$22449$$ProtoUnit" varType="protounit">Villager</Param>
+	<Command>for(id=0; >1) {}</Command>
+	<Command>trQuestVarSet("ZNELenemies", trQuestVarGet("ZNELenemies") + 1);</Command>
+	<Command>id = 1*trQuestVarGet("ZNELenemies");</Command>
+	<Command>trQuestVarSet("ZNELenemy"+id+"alive", 1);</Command>
+	<Command>trStringQuestVarSet("ZNELenemy"+id+"", "%ProtoUnit%");</Command>
+	<Command>trQuestVarSet("ZNELenemy"+id+"ID", trQuestVarGet("monster%ProtoUnit%ID"));</Command>
+	<Command>trQuestVarSet("ZNELenemy"+id+"behavior", trQuestVarGet("monster%ProtoUnit%behavior"));</Command>
+	<Command>trQuestVarSet("ZNELenemy"+id+"speed", trQuestVarGet("monster%ProtoUnit%speed"));</Command>
+	<Command>trStringQuestVarSet("ZNELenemy"+id+"name", trStringQuestVarGet("monster%ProtoUnit%name"));</Command>
+	<Command>trQuestVarSet("ZNELenemy"+id+"player", trQuestVarGet("monster%ProtoUnit%player"));</Command>
+    <Command>trQuestVarSet("ZNELenemy"+id+"EXP", trQuestVarGet("monster%ProtoUnit%EXP"));</Command>
+    <Command>trQuestVarSet("ZNELenemy"+id+"gold", trQuestVarGet("monster%ProtoUnit%gold"));</Command>
+    <Command>trQuestVarSet("ZNELenemy"+id+"level", trQuestVarGet("monster%ProtoUnit%level"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"hackResist", trQuestVarGet("monster%ProtoUnit%hackResist"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"pierceResist", trQuestVarGet("monster%ProtoUnit%pierceResist"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"crushResist", trQuestVarGet("monster%ProtoUnit%crushResist"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"fireResist", trQuestVarGet("monster%ProtoUnit%fireResist"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"waterResist", trQuestVarGet("monster%ProtoUnit%waterResist"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"windResist", trQuestVarGet("monster%ProtoUnit%windResist"));</Command>
+  <Command>trQuestVarSet("ZNELenemy"+id+"earthResist", trQuestVarGet("monster%ProtoUnit%earthResist"));</Command>
+    <Command>trStringQuestVarSet("ZNELenemy"+id+"element", trStringQuestVarGet("monster%ProtoUnit%element"));</Command>
+    <Command>trQuestVarSet("battleGoldEarned", trQuestVarGet("battleGoldEarned") + trQuestVarGet("monster%ProtoUnit%gold"));</Command>
+    <Command>trQuestVarSet("battle"+trStringQuestVarGet("monster%ProtoUnit%element")+"EXPEarned", </Command>
+        <Command>trQuestVarGet("battle"+trStringQuestVarGet("monster%ProtoUnit%element")+"EXPEarned")+trQuestVarGet("monster%ProtoUnit%EXP"));</Command>
+    <Command>trQuestVarSet("ZNELenemyAVGLevel", trQuestVarGet("ZNELenemyAVGLevel") + trQuestVarGet("monster%ProtoUnit%level"));</Command>
+</Effect>
+
+<Effect name="Z NEL Battle Deploy">
+	<Param name="Army" dispName="First Army" VarType="group">default</Param>
+	<Param name="prefix" dispName="Vector Prefix" VarType="string">enemyDeploy</Param>
+	  <Param name="Heading"  dispName="$$22432$$Heading" varType="long">0</Param>
+      <Command>trQuestVarSet("ZNELenemyAVGLevel", trQuestVarGet("ZNELenemyAVGLevel") / trQuestVarGet("ZNELenemies"));</Command>
+	<Command>trVectorQuestVarSet("ZNELsecretDeploy", vector(%Army%, -1));</Command>
+	<Command>for(p=0; >1) {}</Command>
+	<Command>p = 1*trVectorQuestVarGetX("ZNELsecretDeploy");</Command>
+	<Command>for(a=0; >1) {}</Command>
+	<Command>a = 1*trVectorQuestVarGetY("ZNELsecretDeploy");</Command>
+	<Command>for(b=0; >1) {}</Command>
+	<Command>for(i=1*trQuestVarGet("ZNELenemies"); >0) {</Command>
+		<Command>b = a + i - 1;</Command>
+		<Command>trArmyDispatch(""+p+", "+b+"", ""+trStringQuestVarGet("ZNELenemy"+i+"")+"", 1,</Command>
+		<Command>trVectorQuestVarGetX("%prefix%"+i+""), </Command>
+		<Command>trVectorQuestVarGetY("%prefix%"+i+""), </Command>
+		<Command>trVectorQuestVarGetZ("%prefix%"+i+""), %Heading%, true);</Command>
+		<Command>trArmySelect(""+p+", "+b+"");</Command>
+            <Command>trUnitConvert(1*trQuestVarGet("ZNELenemy"+i+"player"));</Command>
+		<Command>trUnitChangeName(""+trStringQuestVarGet("ZNELenemy"+i+"name")+"");</Command>
+	<Command>}</Command>
+</Effect>
+
+<Effect name="Z Army Save in QV Vector">
+	<Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+	<Param name="VQVName" dispName="Vector Name" VarType="string">enemyCurrent</Param>
+		<Command>trVectorQuestVarSet("%VQVName%", vector(%SrcArmy%, -1));</Command>
+</Effect>
+
+<Effect name="Z Army Select by QV Vector">
+	<Param name="VQVName" dispName="Vector Name" VarType="string">enemyCurrent</Param>
+	<Command>trUnitSelectClear();</Command>
+		<Command>trArmySelect(""+1*trVectorQuestVarGetX("%VQVName%")+", "+1*trVectorQuestVarGetY("%VQVName%")+"");</Command>
+</Effect>
+
+<Effect name="Z Army Stop">
+	<Param name="VQVName" dispName="Vector Name" VarType="string">enemyCurrent</Param>
+	<Command>trUnitSelectClear();</Command>
+		<Command>trArmySelect(""+1*trVectorQuestVarGetX("%VQVName%")+", "+1*trVectorQuestVarGetY("%VQVName%")+"");</Command>
+	<Command>trUnitConvert(0);</Command>
+	<Command>trUnitConvert(1*trVectorQuestVarGetX("%VQVName%"));</Command>
+</Effect>
+
+   <Effect name="Z Army Position to QV Vector">
+      <Param name="VQ1Name" dispName="Army Vector Name" VarType="string">enemyCurrent</Param>
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V2</Param>
+      <Command>xsSetContextPlayer(1*trVectorQuestVarGetX("%VQ1Name%"));</Command>
+      <Command>kbLookAtAllUnitsOnMap();</Command>
+      <Command>trVectorQuestVarSet("%VQVName%",kbArmyGetLocation(1*trVectorQuestVarGetY("%VQ1Name%")));</Command>
+   </Effect>
+
+<Effect name="Z Seekers Undo Polymorph">
+	<Param name="SrcObject" dispName="$$19160$$Unit" varType="unit">default</Param>
+	<Param name="QV" dispName="Character Var" varType="float">p1Character</Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+		<Command>if (trQuestVarGet("%QV%") == 1) {</Command>
+			<Command>trUnitChangeProtoUnit("Myrmidon");}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 2) {</Command>
+			<Command>trUnitChangeProtoUnit("Royal Guard");}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 3) {</Command>
+			<Command>trUnitChangeProtoUnit("Lancer");}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 4) {</Command>
+			<Command>trUnitChangeProtoUnit("Valkyrie");}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 5) {</Command>
+			<Command>trUnitChangeProtoUnit("Toxotes");}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 6) {</Command>
+			<Command>trUnitChangeProtoUnit("Lampades");}</Command>
+</Effect>
+
+   <Effect name="Z Accessory Pick Up 3">
+	   <Param name="PlayerID" dispName="Player" varType="long">1</Param>
+	   <Param name="itemName" dispName="Item Name" VarType="stringid">default</Param>
+	   <Param name="itemNumber" dispName="Item Number" VarType="float">1</Param>
+	   <Param name="displayName" dispName="Display Name" VarType="stringid">default</Param>
+	   <Param name="message1" dispName="Message 1" VarType="stringid">none</Param>
+	   <Param name="message2" dispName="Message 2" VarType="stringid">none</Param>
+	   <Param name="message3" dispName="Message 3" VarType="stringid">none</Param>
+		<Command><![CDATA[trStringQuestVarSet("ZAp1Color", "<color={Playercolor(1)}>{Playername(1)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp2Color", "<color={Playercolor(2)}>{Playername(2)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp3Color", "<color={Playercolor(3)}>{Playername(3)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp4Color", "<color={Playercolor(4)}>{Playername(4)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAWhite", "<color=1,1,1><u>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAWhiteEnd", "</u></color>");]]></Command>
+		<Command>trQuestVarSet("playerCurrent", %PlayerID%);</Command>
+		<Command>if(trQuestVarGet("p"+%PlayerID%+"%itemName%Eligible") == 0){</Command>
+			<Command>if (trCurrentPlayer() == %PlayerID%) {</Command>
+				<Command>trSoundPlayFN("cantdothat.wav", "1", -1, "","");</Command>
+				<Command>if(trQuestVarGet("p%PlayerID%character") == trQuestVarGet("%itemName%character")){</Command>
+					<Command>trChatSend(0, "You already have this item!");</Command>
+				<Command>} else {</Command>
+					<Command>trChatSend(0, "You can't pick up this item! It belongs to a different class!");</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>} else {</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("ZAp"+%PlayerID%+"Color")+" has found %displayName%!");</Command>
+			<Command>trSoundPlayFN("relicselect.wav", "1", -1, "","");</Command>
+			<Command>if (trCurrentPlayer() == %PlayerID%) {</Command>
+				<Command>trSoundPlayFN("researchcomplete.wav", "1", -1, "","");</Command>
+				<Command>trChatSend(0, ""+trStringQuestVarGet("ZAWhite")+"%displayName%"+trStringQuestVarGet("ZAWhiteEnd")+"");</Command>
+				<!-- First -->
+				<Command>if ("%message1%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message1%");}</Command>
+				<!-- Second -->
+				<Command>if ("%message2%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message2%");}</Command>
+				<!-- Third -->
+				<Command>if ("%message3%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message3%");}</Command>
+			<Command>}</Command>
+			<Command>trQuestVarSet("p"+%PlayerID%+"item%itemNumber%", 1);</Command>
+			<Command>trQuestVarSet("%itemName%", trQuestVarGet("%itemName%") - 1);</Command>
+
+   </Effect>
+
+
+
+<Effect name="Z ERD Startup"> 
+	<Param name="name" dispName="Unique Name" VarType="string">enemiesRandomDeploy</Param>
+      	<Param name="maxLocation" dispName="" varType="area">-1, -1, -1</Param>
+      	<Param name="minLocation" dispName="" varType="area">-1, -1, -1</Param>
+	<Command>trQuestVarSet("%name%nodes", 0);</Command>
+	<Command>trVectorQuestVarSet("%name%Maxvector", xsVectorSet(%maxLocation%));</Command>
+	<Command>trVectorQuestVarSet("%name%Minvector", xsVectorSet(%minLocation%));</Command>
+	<Command>trQuestVarSet("%name%MaxX", trVectorQuestVarGetX("%name%Maxvector"));</Command>
+	<Command>trQuestVarSet("%name%MaxZ", trVectorQuestVarGetZ("%name%Maxvector"));</Command>
+	<Command>trQuestVarSet("%name%MinX", trVectorQuestVarGetX("%name%Minvector"));</Command>
+	<Command>trQuestVarSet("%name%MinZ", trVectorQuestVarGetZ("%name%Minvector"));</Command>
+</Effect>
+
+<Effect name="Z ERD Add Safe Zone">
+	<Param name="name" dispName="Unique Name" VarType="string">enemiesRandomDeploy</Param>
+      <Param name="LocationLocationLocation" dispName="" varType="area">-1, -1, -1</Param>
+	<Param name="radius" dispName="Radius" varType="float">10</Param>
+	<Command>trQuestVarSet("%name%nodes", trQuestVarGet("%name%nodes") + 1);</Command>
+	<Command>trVectorQuestVarSet("%name%"+1*trQuestVarGet("%name%nodes")+"vector", xsVectorSet(%LocationLocationLocation%));</Command>
+	<Command>trQuestVarSet("%name%"+1*trQuestVarGet("%name%nodes")+"radius", %radius%);</Command>
+</Effect>
+
+<Effect name="Z ERD Army Deploy">
+	<Param name="name" dispName="Unique Name" VarType="string">enemiesRandomDeploy</Param>
+	<Param name="SrcUnits" dispName="Player Unit" VarType="unit">default</Param>
+	<Param name="radius" dispName="Safe Radius" VarType="float">10</Param>
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="Count"  dispName="$$22435$$Count" varType="long">1</Param>
+	<Command>for(done=0; >1) {}</Command>
+	<Command>for(nodeX=0; >1) {}</Command>
+	<Command>for(nodeZ=0; >1) {}</Command>
+	<Command>for(distance=0; >1) {}</Command>
+	<Command>for(distanceX=0; >1) {}</Command>
+	<Command>for(distanceZ=0; >1) {}</Command>
+	<Command>trUnitSelectClear();</Command>
+	<Command>trUnitSelect("%SrcUnits%");</Command>
+	<Command>while(1 > done) {</Command>
+		<Command>trQuestVarSetFromRand("%name%X", trQuestVarGet("%name%MinX"), trQuestVarGet("%name%MaxX"), false);</Command>
+		<Command>trQuestVarSetFromRand("%name%Z", trQuestVarGet("%name%MinZ"), trQuestVarGet("%name%MaxZ"), false);</Command>
+		<Command>if (%radius% > trUnitDistanceToPoint(trQuestVarGet("%name%X"), 0, trQuestVarGet("%name%Z"))) {</Command>
+			<Command>continue;}</Command>
+		<Command>for (i=trQuestVarGet("%name%nodes"); >0) {</Command>
+			<Command>nodeX = trVectorQuestVarGetX("%name%"+i+"vector");</Command>
+			<Command>nodeZ = trVectorQuestVarGetZ("%name%"+i+"vector");</Command>
+			<Command>distanceX = trQuestVarGet("%name%X") - nodeX;</Command>
+			<Command>distanceZ = trQuestVarGet("%name%Z") - nodeZ;</Command>
+			<Command>distance = distanceX * distanceX + distanceZ * distanceZ;</Command>
+			<Command>if (trQuestVarGet("%name%"+i+"radius") * trQuestVarGet("%name%"+i+"radius") > distance) {</Command>
+				<Command>break;}</Command>
+		<Command>}</Command>
+		<Command>if(i == 0) {</Command>
+			<Command>trQuestVarSetFromRand("%name%heading", 0, 360, true);</Command>
+			<Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, trQuestVarGet("%name%X"),0,trQuestVarGet("%name%Z"), trQuestVarGet("%name%heading"), true);</Command>
+			<Command>done = 1;}</Command>
+	<Command>}</Command>
+</Effect>
+
+<Effect name="v ERD Move">
+	<Param name="name" dispName="Unique Name" varType="string">enemiesRandomDeploy</Param>
+	<Command>for(done=0; >1) {}</Command>
+	<Command>for(nodeX=0; >1) {}</Command>
+	<Command>for(nodeZ=0; >1) {}</Command>
+	<Command>for(distance=0; >1) {}</Command>
+	<Command>for(distanceX=0; >1) {}</Command>
+	<Command>for(distanceZ=0; >1) {}</Command>
+	<Command>while(1 > done) {</Command>
+		<Command>trQuestVarSetFromRand("%name%X", trQuestVarGet("%name%MinX"), trQuestVarGet("%name%MaxX"), false);</Command>
+		<Command>trQuestVarSetFromRand("%name%Z", trQuestVarGet("%name%MinZ"), trQuestVarGet("%name%MaxZ"), false);</Command>
+		<Command>for (i=trQuestVarGet("%name%nodes"); >0) {</Command>
+			<Command>nodeX = trVectorQuestVarGetX("%name%"+i+"vector");</Command>
+			<Command>nodeZ = trVectorQuestVarGetZ("%name%"+i+"vector");</Command>
+			<Command>distanceX = trQuestVarGet("%name%X") - nodeX;</Command>
+			<Command>distanceZ = trQuestVarGet("%name%Z") - nodeZ;</Command>
+			<Command>distance = distanceX * distanceX + distanceZ * distanceZ;</Command>
+			<Command>if (trQuestVarGet("%name%"+i+"radius") * trQuestVarGet("%name%"+i+"radius") > distance) {</Command>
+				<Command>break;}</Command>
+		<Command>}</Command>
+		<Command>if(i == 0) {</Command>
+			<Command>trUnitMoveToPoint(trQuestVarGet("%name%X"), 5, trQuestVarGet("%name%Z"));</Command>
+			<Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, trQuestVarGet("%name%X"),0,trQuestVarGet("%name%Z"), trQuestVarGet("%name%heading"), true);</Command>
+			<Command>done = 1;}</Command>
+	<Command>}</Command>
+</Effect>
+
+<Effect name="Z Damage Unit Percent of Current Health">
+	<Param name="SrcObject" dispName="Unit" VarType="unit">default</Param>
+	<Param name="percent" dispName="Percent" VarType="long">100</Param>
+		<Command>for(percentHealth=0;>1) {}</Command>
+		<Command>trUnitSelectClear();</Command>
+      		<Command>trUnitSelect("%SrcObject%");</Command>
+      		<Command>percentHealth = 100 - trUnitPercentDamaged();</Command>
+		<Command>percentHealth = percentHealth * %percent% / 100;</Command>
+	<Command>trDamageUnitPercent(percentHealth);</Command>
+</Effect>
+
+
+
+
+<Effect name="Z Army QV Set As Current HP">
+	<Param name="VQ1Name" dispName="Army Vector" VarType="string">enemyCurrent</Param>
+	<Param name="QV" dispName="Quest Var" VarType="stringid">QV1</Param>
+		<Command>for(id=0;>1){}</Command>
+		<Command>xsSetContextPlayer(1*trVectorQuestVarGetX("%VQ1Name%"));</Command>
+      		<Command>kbLookAtAllUnitsOnMap();</Command>
+		<Command>for(armyID=0; >1){}</Command>
+		<Command>armyID = 1*trVectorQuestVarGetY("%VQ1Name%");</Command>
+		<Command>id = kbArmyGetUnitID(armyID, 0);</Command>
+		<Command>trQuestVarSet("%QV%", kbUnitGetCurrentHitpoints(id));</Command>
+</Effect>
+
+<Effect name="Z Army QV Set Current HP">
+	<Param name="VQ1Name" dispName="Army Vector" VarType="string">enemyCurrent</Param>
+	<Param name="QV" dispName="Quest Var" VarType="stringid">QV1</Param>
+		<Command>for(id=0;>1){}</Command>
+		<Command>xsSetContextPlayer(1*trVectorQuestVarGetX("%VQ1Name%"));</Command>
+      		<Command>kbLookAtAllUnitsOnMap();</Command>
+		<Command>for(armyID=0; >1){}</Command>
+		<Command>armyID = 1*trVectorQuestVarGetY("%VQ1Name%");</Command>
+		<Command>for(b=0;>1){}</Command>
+		<Command>id = kbGetBlockID("%SrcObject%");</Command>
+		<Command>id = kbArmyGetUnitID(armyID, 0);</Command>
+		<Command>trDamageUnit(b - trQuestVarGet("%QV%"));</Command>
+</Effect>
+
+<Effect name="Z QV Set As Unit Current HP">
+	<Param name="SrcObject" dispName="Unit" VarType="unit">default</Param>
+	<Param name="QV" dispName="Quest Var" VarType="stringid">QV1</Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelect("%SrcObject%");</Command>
+		<Command>for(oldPlayer=xsGetContextPlayer();>99){}</Command>
+		<Command>for(id=0;>1){}</Command>
+		<Command>for(playerID=12;>0) {</Command>
+			<Command>if (trUnitIsOwnedBy(playerID)) {</Command>
+				<Command>xsSetContextPlayer(playerID);</Command>
+				<Command>break;</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<Command>id = kbGetBlockID("%SrcObject%");</Command>
+		<Command>trQuestVarSet("%QV%", kbUnitGetCurrentHitpoints(id));</Command>
+		<Command>xsSetContextPlayer(oldPlayer);</Command>
+</Effect>
+
+<Effect name="Z QV Set Unit Current HP">
+	<Param name="SrcObject" dispName="Unit" VarType="unit">default</Param>
+	<Param name="QV" dispName="Quest Var" VarType="stringid">QV1</Param>
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+		<Command>for(oldPlayer=xsGetContextPlayer();>99){}</Command>
+		<Command>for(id=0;>1){}</Command>
+		<Command>for(playerID=12;>0) {</Command>
+			<Command>if (trUnitIsOwnedBy(playerID)) {</Command>
+				<Command>xsSetContextPlayer(playerID);</Command>
+				<Command>break;</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<Command>for(b=0;>1){}</Command>
+		<Command>id = kbGetBlockID("%SrcObject%");</Command>
+		<Command>b = kbUnitGetCurrentHitpoints(id);</Command>
+		<Command>trDamageUnit(b - trQuestVarGet("%QV%"));</Command>
+		<Command>xsSetContextPlayer(oldPlayer);</Command>
+</Effect>
+
+	<Effect name="Z Seekers Modify Protounit All">
+	  <Param name="PlayerID" dispName="Player" VarType="player">0</Param>
+      <Param name="Field" dispName="Field" varType="pufield">0</Param>
+      <Param name="Delta" dispName="Delta" varType="float">1.0</Param>
+		<Command>trModifyProtounit("Myrmidon", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Royal Guard", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Lancer", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Valkyrie", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Lampades", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Toxotes", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Royal Guard Hero", %PlayerID%, %Field%, %Delta%);</Command>
+		<Command>trModifyProtounit("Invisible Target", %PlayerID%, %Field%, %Delta%);</Command>
+   </Effect>
+
+<Effect name="Z QV Set Angle Between Vectors">
+	<Param name="v1" dispName="Vector 1" varType="string">V1</Param>
+	<Param name="v2" dispName="Vector 2" varType="string">V2</Param>
+	<Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+	<Command>trQuestVarSet("%QV%", Math_atan2(trVectorQuestVarGetX("%v2%")-trVectorQuestVarGetX("%v1%"), trVectorQuestVarGetZ("%v2%")-trVectorQuestVarGetZ("%v1%"))*180.0/PI);</Command>
+</Effect>
+
+<Effect name="Z QV Set Angle Between Vectors Radians">
+  <Param name="v1" dispName="From Vector" varType="string">V1</Param>
+  <Param name="v2" dispName="To Vector" varType="string">V2</Param>
+  <Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+  <Command>trQuestVarSet("%QV%", Math_atan( (trVectorQuestVarGetX("%v2%")-trVectorQuestVarGetX("%v1%")) / (trVectorQuestVarGetZ("%v2%")-trVectorQuestVarGetZ("%v1%")) ));</Command>
+  <Command>if (trVectorQuestVarGetZ("%v1%") > trVectorQuestVarGetZ("%v2%")) {</Command>
+    <Command>if (trVectorQuestVarGetX("%v1%") > trVectorQuestVarGetX("%v2%")) {</Command>
+      <Command>trQuestVarSet("%QV%", trQuestVarGet("%QV%") - PI);</Command>
+    <Command>} else {</Command>
+      <Command>trQuestVarSet("%QV%", trQuestVarGet("%QV%") + PI);</Command>
+    <Command>}</Command>
+  <Command>}</Command>
+</Effect>
+
+<Effect name="Hotkey Event (mode)">
+      <Param name="Hotkey" dispName="Hotkey" varType="string">arrowleft</Param>
+	  <Param name="EventID" dispName="Trigger" varType="event">-1</Param> 
+	  <Param name="Mode" dispName="Game Mode" varType="string">game</Param>
+      <Command>map("%Hotkey%","%Mode%","trackInsert(); trackAddWaypoint();trackPlay(-1,%EventID%);");</Command>   
+</Effect>
+
+<Effect name="editMode Earthquake">
+		<Param name="on" dispName="On or Off" varType="bool">true</Param>
+		<Command>if(%on%) {editMode("earthquake");</Command>
+		<Command>map("mouse1down", "earthquake", "uiSelectionButtonDown");</Command>
+		<Command>map("mouse1up", "earthquake", "uiSelectionButtonUp");</Command>
+		<Command>} else {editMode("none");}</Command>
+</Effect>
+
+<Effect name="Z NPC Talk" >
+	<Param name="SrcObject" dispName="NPC Units" varType="unit">default</Param>
+	<Param name="radius" dispName="Talk Radius" varType="float">5</Param>
+	<Param name="EventID" dispName="Trigger" varType="event">-1</Param>
+	<Param name="player1" dispName="Player 1" varType="unit">default</Param>
+	<Param name="player2" dispName="Player 2" varType="unit">default</Param>
+	<Param name="player3" dispName="Player 3" varType="unit">default</Param>
+	<Param name="player4" dispName="Player 4" varType="unit">default</Param>
+	<Command>for(id=0;>1) {}</Command>
+	<Command>for(count=0;>1) {}</Command>
+	<Command>for(UnitID=0;>1) {}</Command>
+	<Command>id=kbGetBlockID("%SrcObject%");</Command>
+	<Command loop="" loopParm="SrcObject">count = count+1; trQuestVarSet("zenoLoopNPC"+id+"unit"+count, kbGetBlockID("%SrcObject%"));</Command>
+	<Command>trQuestVarSet("zenoLoopNPC"+id+"size", count);</Command>
+	<Command>for(i=trQuestVarGet("zenoLoopNPC"+id+"size"); >0) {</Command>
+		<Command>trUnitSelectClear();</Command>
+		<Command>trUnitSelectByID(trQuestVarGet("zenoLoopNPC"+id+"unit"+i));</Command>
+		<Command>UnitID = trQuestVarGet("zenoLoopNPC"+id+"unit"+i);</Command>
+		<Command>if (trUnitIsSelected()) {</Command>
+			<Command>if (trQuestVarGet("NPC"+UnitID+"selected") == 0) {</Command>
+				<Command>if (trCurrentPlayer() == 1) {</Command>
+					<Command>if (%radius% > trUnitDistanceToUnit("%player1%")) {</Command>
+						<Command>trUnitHighlight(3, true);</Command>
+						<Command>trEventFire(%EventID%);</Command>
+						<Command>trQuestVarSet("NPC"+UnitID+"selected", 1);</Command>
+					<Command>}</Command>
+				<Command>} else</Command>
+				<Command>if (trCurrentPlayer() == 2) {</Command>
+					<Command>if (%radius% > trUnitDistanceToUnit("%player2%")) {</Command>
+						<Command>trUnitHighlight(3, true);</Command>
+						<Command>trEventFire(%EventID%);</Command>
+						<Command>trQuestVarSet("NPC"+UnitID+"selected", 1);</Command>
+					<Command>}</Command>
+				<Command>} else</Command>
+				<Command>if (trCurrentPlayer() == 3) {</Command>
+					<Command>if (%radius% > trUnitDistanceToUnit("%player3%")) {</Command>
+						<Command>trUnitHighlight(3, true);</Command>
+						<Command>trEventFire(%EventID%);</Command>
+						<Command>trQuestVarSet("NPC"+UnitID+"selected", 1);</Command>
+					<Command>}</Command>
+				<Command>} else</Command>
+				<Command>if (trCurrentPlayer() == 4) {</Command>
+					<Command>if (%radius% > trUnitDistanceToUnit("%player4%")) {</Command>
+						<Command>trUnitHighlight(3, true);</Command>
+						<Command>trEventFire(%EventID%);</Command>
+						<Command>trQuestVarSet("NPC"+UnitID+"selected", 1);</Command>
+					<Command>}</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>} else {</Command>
+			<Command>trQuestVarSet("NPC"+UnitID+"selected", 0);</Command>
+		<Command>}</Command>
+	<Command>}</Command>
+</Effect>
+
+<Effect name="Z Loop Through Units" >
+	<Param name="SrcObject" dispName="Source Units" varType="unit">default</Param>
+	<Command>for(id=0;>1) {}</Command>
+	<Command>for(count=0;>1) {}</Command>
+	<Command>for(UnitID=0;>1) {}</Command>
+	<Command>id=kbGetBlockID("%SrcObject%");</Command>
+	<Command loop="" loopParm="SrcObject">count = count+1; trQuestVarSet("zenoLoop"+id+"unit"+count, kbGetBlockID("%SrcObject%"));</Command>
+	<Command>trQuestVarSet("zenoLoop"+id+"size", count);</Command>
+	<Command>for(i=trQuestVarGet("zenoLoop"+id+"size"); >0) {</Command>
+	<Command>UnitID = trQuestVarGet("zenoLoop"+id+"unit"+i);</Command>
+	<Command>trUnitSelectClear();</Command>
+	<Command>trUnitSelectByID(trQuestVarGet("zenoLoop"+id+"unit"+i));</Command>
+</Effect>
+
+<Effect name="Z 1 Target Protounit Query Start Fast">
+		<Param name="DstObject" dispName="Center Unit" VarType="unit">default</Param>
+		<Param name="Dst" dispName="Radius (-1 for entire map)" VarType="float">10</Param>
+        <Param name="PlayerID" dispName="Player" VarType="string">1</Param>
+	<Param name="name" dispName="Name" VarType="string">Query1</Param>
+		<Command>for(Qid=0;>1) {}</Command> //creating variables
+		<Command>for(UnitID=0;>1) {}</Command>
+		<Command>for(TempORVar=0;>1) {}</Command>
+		<Command>for(finalORResult=0;>1) {}</Command>
+		<Command>for(pid=0;>1) {}</Command>
+		<Command>for(oldPlayer=xsGetContextPlayer();>99) {}</Command> //saving original player context
+			<Command>pid=%PlayerID%;</Command>
+			<Command>xsSetContextPlayer(pid);</Command>
+			<Command>Qid = kbUnitQueryCreate("z_query%name%"+pid);</Command>
+			<Command>kbUnitQuerySetPlayerID(Qid, pid);</Command>
+			<Command>if(%Dst% >= 0) {</Command> //define location only if radius is positive
+				<Command>trUnitSelectClear();</Command>
+				<Command>trUnitSelect("%DstObject%");</Command>
+				<Command>kbUnitQuerySetPosition(Qid, kbGetBlockPosition("%DstObject%"));</Command>
+				<Command>kbUnitQuerySetMaximumDistance(Qid, %Dst%);</Command>
+			<Command>}</Command>
+			<Command>kbUnitQuerySetAscendingSort(Qid, true);</Command>
+			<Command>for(j=kbUnitQueryExecute(Qid)-1;>-1){ </Command> //loop from number of units found by query down to zero
+				<Command>trUnitSelectClear();</Command>
+				<Command>UnitID = kbUnitQueryGetResult(Qid,j);</Command> //Saves the id of current unit in UnitID variable, which can be used in other effects in the same trigger.
+				<Command>trUnitSelectByID(UnitID);</Command> //Selects the unit.
+				<Command>if(UnitID==kbGetBlockID("%DstObject%")) {</Command> //If the unit is the same as the centre unit, skip back to the top of the loop and go to next unit.
+					<Command>continue;</Command>
+				<Command>}</Command>
+	</Effect>
+
+<Effect name="Z 1 Target Protounit Query Start Fast Vector">
+		<Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+		<Param name="Dst" dispName="Radius (-1 for entire map)" VarType="float">10</Param>
+        <Param name="PlayerID" dispName="Player" VarType="string">1</Param>
+		<Command>for(Qid=0;>1) {}</Command> //creating variables
+		<Command>for(UnitID=0;>1) {}</Command>
+		<Command>for(TempORVar=0;>1) {}</Command>
+		<Command>for(finalORResult=0;>1) {}</Command>
+		<Command>for(pid=0;>1) {}</Command>
+		<Command>for(oldPlayer=xsGetContextPlayer();>99) {}</Command> //saving original player context
+			<Command>pid=%PlayerID%;</Command>
+			<Command>xsSetContextPlayer(pid);</Command>
+			<Command>Qid = kbUnitQueryCreate("z_query_convarea_1"+pid);</Command>
+			<Command>kbUnitQuerySetPlayerID(Qid, pid);</Command>
+			<Command>if(%Dst% >= 0) {</Command> //define location only if radius is positive
+				<Command>kbUnitQuerySetPosition(Qid, trVectorQuestVarGet("%V%"));</Command>
+				<Command>kbUnitQuerySetMaximumDistance(Qid, %Dst%);</Command>
+			<Command>}</Command>
+			<Command>for(j=kbUnitQueryExecute(Qid)-1;>-1){ </Command> //loop from number of units found by query down to zero
+				<Command>trUnitSelectClear();</Command>
+				<Command>UnitID = kbUnitQueryGetResult(Qid,j);</Command> //Saves the id of current unit in UnitID variable, which can be used in other effects in the same trigger.
+				<Command>trUnitSelectByID(UnitID);</Command> //Selects the unit.
+	</Effect>
+
+	<Effect name="Z 2 Target Protounit Query End Fast">
+		<Command>}</Command>
+		<Command>xsSetContextPlayer(oldPlayer);</Command>
+	</Effect>
+
+<Effect name="Z CONTINUE">
+	<Command>continue;}</Command>
+</Effect>
+
+<Effect name="Z BREAK">
+	<Command>break;}</Command>
+</Effect>
+
+<Effect name="Z Quest Log Show">
+	<Command><![CDATA[trStringQuestVarSet("ZQLSGray", "<color=0.5,0.5,0.5>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSTitle", "<color=0.2,0.2,1><u>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSreward", "<color=0.5,0.5,0.5>Reward:</color> ");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLScomplete", "<color=0.5,0.5,0.5>Status:</color> <color=0,0.7,0>COMPLETE</color>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSincomplete", "<color=0.5,0.5,0.5>Status:</color> <color=0.7,0,0>INCOMPLETE</color>");]]></Command>
+	<Command>for(a=1*trQuestVarGet("zQuestLogSize"); >0){</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSTitle")+trStringQuestVarGet("zquest"+a+"title")+"");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSreward")+trStringQuestVarGet("zquest"+a+"reward")+"");</Command>
+		<Command>if (trQuestVarGet("zquest"+a+"status") == 1) {</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSincomplete")+"");</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("zquest"+a+"message1")+"");</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("zquest"+a+"message2")+"");</Command>
+		<Command>}</Command>
+		<Command>if (trQuestVarGet("zquest"+a+"status") == 2) {</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLScomplete")+"");</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("zquest"+a+"completemessage")+"");</Command>
+		<Command>}</Command>
+	<Command>}</Command>
+</Effect>
+
+
+<Effect name="Z Quest Log Add Quest">
+	<Param name="title" dispName="Title" VarType="string"></Param>
+	<Param name="reward" dispName="Reward" VarType="string"></Param>
+	<Param name="message1" dispName="Message 1" VarType="string"></Param>
+	<Param name="message2" dispName="Message 2" VarType="string"></Param>
+	<Param name="completemessage" dispName="Complete Message" VarType="string"></Param>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSGray", "<color=0.5,0.5,0.5>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSTitle", "<color=0.2,0.2,1><u>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSreward", "<color=0.5,0.5,0.5>Reward:</color> ");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSincomplete", "<color=0.5,0.5,0.5>Status:</color> <color=0.7,0,0>INCOMPLETE</color>");]]></Command>
+		<Command>trQuestVarSet("zQuestLogSize", trQuestVarGet("zQuestLogSize")+1);</Command>
+		<Command>trStringQuestVarSet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"title", "%title%");</Command>
+		<Command>trStringQuestVarSet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"completemessage", "%completemessage%");</Command>
+		<Command>trStringQuestVarSet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"reward", "%reward%");</Command>
+		<Command>trStringQuestVarSet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"message1", "%message1%");</Command>
+		<Command>trStringQuestVarSet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"message2", "%message2%");</Command>
+		<Command>trQuestVarSet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"status", 1);</Command>
+		<!-- Other -->
+		<Command>trQuestVarSet("zSecretID%title%", trQuestVarGet("zQuestLogSize"));</Command>
+		<Command>trSoundPlayFN("fanfare.wav", "1", -1, "","");</Command>
+		<Command>trChatSend(0, "Quest Log updated!");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSTitle")+"%title%");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSreward")+"%reward%");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSincomplete")+"");</Command>
+		<Command>trChatSend(0, "%message1%");</Command>
+		<Command>trChatSend(0, "%message2%");</Command>
+</Effect>
+
+<Effect name="Z Quest Log Remove Quest">
+	<Param name="title" dispName="Title" VarType="string"></Param>
+		<Command>for(x=0;>1){}</Command>
+		<Command>x = 1*trQuestVarGet("zSecretID%title%");</Command>
+		<Command>trStringQuestVarSet("zQuest"+x+"title", trStringQuestVarGet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"title"));</Command>
+		<Command>trStringQuestVarSet("zQuest"+x+"reward", trStringQuestVarGet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"reward"));</Command>
+		<Command>trStringQuestVarSet("zQuest"+x+"message1", trStringQuestVarGet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"message1"));</Command>
+		<Command>trStringQuestVarSet("zQuest"+x+"message2", trStringQuestVarGet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"message2"));</Command>
+		<Command>trStringQuestVarSet("zQuest"+x+"completemessage", trStringQuestVarGet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"completemessage"));</Command>
+		<Command>trQuestVarSet("zQuest"+x+"status", trQuestVarGet("zQuest"+1*trQuestVarGet("zQuestLogSize")+"status"));</Command>
+		<Command>trQuestVarSet("zSecretID"+trStringQuestVarGet("zQuest"+x+"title")+"", x);</Command>
+		<Command>trQuestVarSet("zQuestLogSize", trQuestVarGet("zQuestLogSize") - 1);</Command>
+</Effect>
+
+<Effect name="Z Quest Log Complete Quest">
+	<Param name="title" dispName="Title" VarType="string"></Param>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSGray", "<color=0.5,0.5,0.5>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSTitle", "<color=0.2,0.2,1><u>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLSreward", "<color=0.5,0.5,0.5>Reward:</color> ");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZQLScomplete", "<color=0.5,0.5,0.5>Status:</color> <color=0,0.7,0>COMPLETE</color>");]]></Command>
+		<Command>for(x=0;>1){}</Command>
+		<Command>x = 1*trQuestVarGet("zSecretID%title%");</Command>
+		<Command>trQuestVarSet("zQuest"+x+"status", 2);</Command>
+		<Command>trSoundPlayFN("fanfare.wav", "1", -1, "","");</Command>
+		<!-- send chat -->
+		<Command>trChatSend(0, "Quest completed!");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSTitle")+trStringQuestVarGet("zquest"+x+"title")+"");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLSreward")+trStringQuestVarGet("zquest"+x+"reward")+"");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("ZQLScomplete")+"");</Command>
+		<Command>trChatSend(0, ""+trStringQuestVarGet("zquest"+x+"completemessage")+"");</Command>
+</Effect>
+
+   <Effect name="Z QV Set Distance to QV Vector by Name">
+      <Param name="SrcObject" dispName="Source Units" VarType="string">0</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="QV" dispName="Quest Var" VarType="string">QV1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%SrcObject%");</Command>
+      <Command>trQuestVarSet("%QV%", trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")));</Command>
+   </Effect>
+
+	<Effect name="v Teleport to QV Vector">
+	<Param name="V" dispName="Vector" VarType="string">V1</Param>
+		  <Command>trUnitTeleport(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%"));</Command>
+	</Effect>
+
+	<Effect name="v NEL QV Set Distance to QV Vector">
+	<Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="QV" dispName="Quest Var" VarType="string">QV1</Param>
+      <Command>trQuestVarSet("%QV%", trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")));</Command>
+	</Effect>
+
+    <Effect name="XS User Code Multi">
+        <Param name="MyString1" dispName="Code" VarType="stringid"></Param>
+        <Param name="MyString2" dispName="Code" VarType="stringid"></Param>
+        <Param name="MyString3" dispName="Code" VarType="stringid"></Param>
+        <Param name="MyString4" dispName="Code" VarType="stringid"></Param>
+        <Param name="MyString5" dispName="Code" VarType="stringid"></Param>
+        <Param name="MyString6" dispName="Code" VarType="stringid"></Param>
+        <Command>/**/ %MyString1%</Command>
+        <Command>/**/ %MyString2%</Command>
+        <Command>/**/ %MyString3%</Command>
+        <Command>/**/ %MyString4%</Command>
+        <Command>/**/ %MyString5%</Command>
+        <Command>/**/ %MyString6%</Command>
+    </Effect>
+
+    <Effect name="Z Coding Zone Start">
+      <Param name="id" dispName="Unique ID" VarType="string">zenowashere</Param>
+      <Command>xsEnableRule("%id%");</Command>
+      <Command>xsDisableSelf();}}</Command>
+    </Effect>
+
+    <Effect name="Z Coding Zone End">
+      <Param name="id" dispName="Unique ID" VarType="string">zenowashere</Param>
+      <Command>rule %id%</Command>
+      <Command>inactive</Command>
+      <Command>highFrequency</Command>
+      <Command>{</Command>
+      <Command>if(true) {</Command>
+      <Command>xsDisableSelf();</Command>
+    </Effect>
+
+   <Effect name="Z Accessory Pick Up 2">
+	   <Param name="PlayerID" dispName="Player" varType="player">1</Param>
+	   <Param name="itemName" dispName="Item Name" VarType="stringid">default</Param>
+	   <Param name="itemNumber" dispName="Item Number" VarType="float">1</Param>
+	   <Param name="displayName" dispName="Display Name" VarType="stringid">default</Param>
+	   <Param name="message1" dispName="Message 1" VarType="stringid">none</Param>
+	   <Param name="message2" dispName="Message 2" VarType="stringid">none</Param>
+	   <Param name="message3" dispName="Message 3" VarType="stringid">none</Param>
+		<Command><![CDATA[trStringQuestVarSet("ZAp1Color", "<color={Playercolor(1)}>{Playername(1)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp2Color", "<color={Playercolor(2)}>{Playername(2)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp3Color", "<color={Playercolor(3)}>{Playername(3)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp4Color", "<color={Playercolor(4)}>{Playername(4)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAWhite", "<color=1,1,1><u>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAWhiteEnd", "</u></color>");]]></Command>
+		<Command>trQuestVarSet("playerCurrent", %PlayerID%);</Command>
+		<Command>if(trQuestVarGet("p%PlayerID%"+"%itemName%Eligible") == 0){</Command>
+			<Command>if (trCurrentPlayer() == %PlayerID%) {</Command>
+				<Command>trSoundPlayFN("cantdothat.wav", "1", -1, "","");</Command>
+				<Command>if(trQuestVarGet("p%PlayerID%character") == trQuestVarGet("%itemName%character")){</Command>
+					<Command>trChatSend(0, "You already have this item!");</Command>
+				<Command>} else {</Command>
+					<Command>trChatSend(0, "You can't pick up this item! It belongs to a different class!");</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>} else {</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("ZAp%PlayerID%Color")+" has found %displayName%!");</Command>
+			<Command>trSoundPlayFN("relicselect.wav", "1", -1, "","");</Command>
+			<Command>if (trCurrentPlayer() == %PlayerID%) {</Command>
+				<Command>trSoundPlayFN("researchcomplete.wav", "1", -1, "","");</Command>
+				<Command>trChatSend(0, ""+trStringQuestVarGet("ZAWhite")+"%displayName%"+trStringQuestVarGet("ZAWhiteEnd")+"");</Command>
+				<!-- First -->
+				<Command>if ("%message1%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message1%");}</Command>
+				<!-- Second -->
+				<Command>if ("%message2%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message2%");}</Command>
+				<!-- Third -->
+				<Command>if ("%message3%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message3%");}</Command>
+			<Command>}</Command>
+			<Command>trQuestVarSet("p%PlayerID%item%itemNumber%", 1);</Command>
+			<Command>trQuestVarSet("%itemName%", trQuestVarGet("%itemName%") - 1);</Command>
+   </Effect>
+
+
+
+
+
+   <Effect name="Z Accessory Pick Up">
+	   <Param name="PlayerID" dispName="Player" varType="player">1</Param>
+	   <Param name="itemName" dispName="Item Name" VarType="stringid">default</Param>
+	   <Param name="itemNumber" dispName="Item Number" VarType="float">1</Param>
+	   <Param name="displayName" dispName="Display Name" VarType="stringid">default</Param>
+	   <Param name="message1" dispName="Message 1" VarType="stringid">none</Param>
+	   <Param name="message2" dispName="Message 2" VarType="stringid">none</Param>
+	   <Param name="message3" dispName="Message 3" VarType="stringid">none</Param>
+		<Command><![CDATA[trStringQuestVarSet("ZAp1Color", "<color={Playercolor(1)}>{Playername(1)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp2Color", "<color={Playercolor(2)}>{Playername(2)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp3Color", "<color={Playercolor(3)}>{Playername(3)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAp4Color", "<color={Playercolor(4)}>{Playername(4)}</color>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAWhite", "<color=1,1,1><u>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZAWhiteEnd", "</u></color>");]]></Command>
+		<Command>if(trQuestVarGet("p%PlayerID%"+"%itemName%Eligible") == 1){</Command>
+			<Command>trChatSend(0, ""+trStringQuestVarGet("ZAp%PlayerID%Color")+" has found %displayName%!");</Command>
+			<Command>trSoundPlayFN("relicselect.wav", "1", -1, "","");</Command>
+			<Command>if (trCurrentPlayer() == %PlayerID%) {</Command>
+				<Command>trSoundPlayFN("researchcomplete.wav", "1", -1, "","");</Command>
+				<Command>trChatSend(0, ""+trStringQuestVarGet("ZAWhite")+"%displayName%"+trStringQuestVarGet("ZAWhiteEnd")+"");</Command>
+				<!-- First -->
+				<Command>if ("%message1%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message1%");}</Command>
+				<!-- Second -->
+				<Command>if ("%message2%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message2%");}</Command>
+				<!-- Third -->
+				<Command>if ("%message3%" == "none"){</Command>
+				<Command>} else {</Command>
+				<Command>trChatSend(0, "%message3%");}</Command>
+			<Command>}</Command>
+			<Command>trQuestVarSet("p%PlayerID%item%itemNumber%", 1);</Command>
+			<Command>trQuestVarSet("%itemName%", trQuestVarGet("%itemName%") - 1);</Command>
+		<Command>} else {</Command>
+			<Command>if (trCurrentPlayer() == %PlayerID%) {</Command>
+				<Command>trSoundPlayFN("cantdothat.wav", "1", -1, "","");</Command>
+				<Command>if(trQuestVarGet("p%PlayerID%item%itemNumber%") == 1){</Command>
+					<Command>trChatSend(0, "You already have this item!");</Command>
+				<Command>} else {</Command>
+					<Command>trChatSend(0, "You can't pick up this item! It belongs to a different class!");</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+   </Effect>
+
+
+
+
+
+
+
+   <Effect name="Z Accessory Startup">
+	   <Param name="itemName" dispName="Item Name" VarType="stringid">default</Param>
+	   <Param name="character" dispName="Character" VarType="float">1</Param>
+	   <Param name="itemNumber" dispName="Item Number" VarType="float">1</Param>
+	   <Param name="EventID" dispName="$$22362$$Trigger" varType="event">-1</Param>      
+		<Command>trQuestVarSet("ZACplayerCurrent", 1);</Command>
+		<Command>trQuestVarSet("%itemName%character", %character%);</Command>
+		<Command>while(4 >= trQuestVarGet("ZACplayerCurrent")) {</Command>
+			<Command>if(trQuestVarGet("p"+1*trQuestVarGet("ZACplayerCurrent")+"character") == %character%) {</Command>
+			<Command>if(trQuestVarGet("p"+1*trQuestVarGet("ZACplayerCurrent")+"item%itemNumber%") == 0) {</Command>
+				<Command>trQuestVarSet("p"+1*trQuestVarGet("ZACplayerCurrent")+"%itemName%Eligible", 1);</Command>
+				<Command>trQuestVarSet("%itemName%", trQuestVarGet("%itemName%") + 1);</Command>
+			<Command>}</Command>
+			<Command>}</Command>
+		<Command>trQuestVarSet("ZACplayerCurrent", trQuestVarGet("ZACplayerCurrent") + 1);</Command>
+		<Command>}</Command>
+		<Command>trEventFire(%EventID%);</Command>
+   </Effect>
+
+   <Effect name="Z Send Chat Multi">
+	   <Param name="PlayerID" dispName="$$22444$$From Player" VarType="player">0</Param>
+	   <Param name="Message1" dispName="Message 1" VarType="stringid">none</Param>
+	   <Param name="Message2" dispName="Message 2" VarType="stringid">none</Param>
+	   <Param name="Message3" dispName="Message 3" VarType="stringid">none</Param>
+	   <Param name="Message4" dispName="Message 4" VarType="stringid">none</Param>
+	   <Param name="Message5" dispName="Message 5" VarType="stringid">none</Param>
+		<!-- First -->
+		<Command>if ("%Message1%" == "none"){</Command>
+		<Command>} else {</Command>
+		<Command>trChatSend(%PlayerID%, "%Message1%");}</Command>
+		<!-- Second -->
+		<Command>if ("%Message2%" == "none"){</Command>
+		<Command>} else {</Command>
+		<Command>trChatSend(%PlayerID%, "%Message2%");}</Command>
+		<!-- Third -->
+		<Command>if ("%Message3%" == "none"){</Command>
+		<Command>} else {</Command>
+		<Command>trChatSend(%PlayerID%, "%Message3%");}</Command>
+		<!-- Fourth -->
+		<Command>if ("%Message4%" == "none"){</Command>
+		<Command>} else {</Command>
+		<Command>trChatSend(%PlayerID%, "%Message4%");}</Command>
+		<!-- Fifth -->
+		<Command>if ("%Message5%" == "none"){</Command>
+		<Command>} else {</Command>
+		<Command>trChatSend(%PlayerID%, "%Message5%");}</Command>
+   </Effect>
+
+<Effect name="yImmediate Garrison Inverted">
+      <Param name="DstObject" dispName="Source Unit" varType="unit">default</Param>
+      <Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect("%DstObject%");</Command>
+      <Command>trImmediateUnitGarrison(""+1*trQuestVarGet("%qv%"));</Command>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trUnitSelect(""+1*trQuestVarGet("%qv%"));</Command>
+   </Effect>
+
+   <Effect name="Camera Pan to Unit">
+      <Param name="ScenName" dispName="Source Unit" VarType="unit">default</Param>
+      <Param name="Duration" dispName="Duration (ms)" VarType="string">1000</Param>
+      <Param name="EventID" dispName="Trigger" VarType="event">-1</Param>
+       <Command>trackInsert();</Command>
+       <Command>trackAddWaypoint();</Command>
+       <Command>uiLookAtUnitByName("%ScenName%");</Command>
+       <Command>trackAddWaypoint();</Command>
+       <Command>trackPlay(%Duration%,%EventID%);</Command>
+   </Effect>
+
+
+   <Effect name="Camera Pan to Point">
+      <Param name="Cam1" dispName="Camera" VarType="camerainfo">vector(-1,-1,-1), vector(-1,-1,-1), vector(-1,-1,-1), vector(-1,-1,-1)</Param>
+      <Param name="Duration" dispName="Duration (ms)" VarType="string">1000</Param>
+      <Param name="EventID" dispName="Trigger" VarType="event">-1</Param>
+       <Command>trackInsert();</Command>
+       <Command>trackAddWaypoint();</Command>
+       <Command>trCameraCut(%Cam1%);</Command>
+       <Command>trackAddWaypoint();</Command>
+       <Command>trackPlay(%Duration%,%EventID%);</Command>
+   </Effect>
+
+<Effect name="Transport Units in Circle TL SP">
+  <Param name="SrcObject" dispName="Source Units" varType="unit">default</Param> 
+  <Param name="DstObject" dispName="Centre Object" varType="unit">default</Param> 
+  <Param name="Height" dispName="Height" varType="string">0</Param> 
+  <Param name="Radius" dispName="Radius" varType="float">10</Param> 
+  <Param name="Phase" dispName="Phase Angle" varType="float">0</Param> 
+  <Param name="Step" dispName="Step Size (degrees)" varType="string">5</Param> 
+  <Command>for(id=0;>1) {} for(theta=0;>1) {}</Command>
+  <Command>for(count=0;>1) {}</Command>
+  <Command>id=kbGetBlockID("%SrcObject%")+kbGetBlockID("%DstObject%");</Command> 
+  <Command>theta=trQuestVarGet("transportcircle"+id);</Command> 
+  <Command>if(trQuestVarGet("circlecount"+id)==0){</Command>
+<Command loop="" loopParm="SrcObject">count = count+1; trQuestVarSet("circle"+id+"unit"+count,kbGetBlockID("%SrcObject%"));</Command>
+<Command>trQuestVarSet("circlecount"+id,count);</Command>
+  <Command>}</Command>
+  <Command>for(i=trQuestVarGet("circlecount"+id);>0) {</Command>
+  <Command>trUnitSelectClear();</Command>
+  <Command>trUnitSelectByID(trQuestVarGet("circle"+id+"unit"+i));</Command>
+  <Command>trVectorQuestVarSet("DstObjPos", kbGetBlockPosition("%DstObject%"));</Command> 
+  <Command>trQuestVarSet("stepx",trVectorQuestVarGetX("DstObjPos")+1.0*%Radius%*Math_sin(1.0*(1.0*theta+360.0*(1.0*i-1.0)/trQuestVarGet("circlecount"+id)+1.0*%Phase%)*PI/180.0));</Command> 
+  <Command>trQuestVarSet("stepy",trVectorQuestVarGetY("DstObjPos")+1.0*%Height%);</Command> 
+  <Command>trQuestVarSet("stepz",trVectorQuestVarGetZ("DstObjPos")+1.0*%Radius%*Math_cos(1.0*(1.0*theta+360.0*(1.0*i-1.0)/trQuestVarGet("circlecount"+id)+1.0*%Phase%)*PI/180.0));</Command> 
+  <Command>trUnitTeleport(trQuestVarGet("stepx"),trQuestVarGet("stepy"),trQuestVarGet("stepz"));</Command> 
+  <Command>}</Command>
+  <Command>trQuestVarSet("transportcircle"+id,trQuestVarGet("transportcircle"+id)+1.0*%Step%);</Command> 
+  <Command>if(-1.0>=trQuestVarGet("transportcircle"+id)) trQuestVarSet("transportcircle"+id,trQuestVarGet("transportcircle"+id)+360.0);</Command> 
+  <Command>if(trQuestVarGet("transportcircle"+id)>=361.0) trQuestVarSet("transportcircle"+id,trQuestVarGet("transportcircle"+id)-360.0);</Command> 
+</Effect>
+
+
+<Effect name="yQV Set Overlapping Unit ID">
+<Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+<Param name="qvname" dispName="QV name" varType="string">QV1</Param>
+<Param name="warning" dispName="Show warning" varType="bool">true</Param>
+<Command>for(Qid=0;>1){}</Command>
+<Command>for(results=0;>1){}</Command>
+<Command>kbLookAtAllUnitsOnMap();</Command>
+<Command><![CDATA[for(p=1;<=12) {]]></Command>
+<Command>xsSetContextPlayer(p);</Command>
+<Command>Qid = kbUnitQueryCreate("tp_query_ysoui_1");</Command>
+<Command>kbUnitQuerySetPlayerID(Qid,p);</Command>
+<Command>kbUnitQuerySetPosition(Qid,kbGetBlockPosition(""+1*trQuestVarGet("%qv%")));</Command>
+<Command>kbUnitQuerySetMaximumDistance(Qid,0.1);</Command>
+<Command>results = kbUnitQueryExecute(Qid);</Command>
+<Command>if(results > 0) {</Command> //should only return 1 value
+<Command>trQuestVarSet("%qvname%",kbUnitQueryGetResult(Qid,0));</Command>
+<Command>if(%warning%) {</Command>
+<Command>if(results > 1) {</Command>
+<Command>trChatSend(0,"WARNING: yQV Set Overlapping Unit ID detected more than 1 unit!");</Command>
+<Command>}</Command>
+<Command>}</Command>
+<Command>break;</Command>
+<Command>}</Command>
+<Command>}</Command>
+</Effect>
+
+   <Effect name="Conditional Army Distance to QV Vector">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+	  <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if (trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%) {</Command>
+   </Effect>
+
+   <Effect name="yMove To QV Vector">
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+	  <Param name="EventID" dispName="$$22362$$Trigger" varType="event">-1</Param>
+      <Param name="AttackMove" dispName="$$18986$$Attack Move" varType="bool">false</Param>
+      <Command>trUnitMoveToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%"), %EventID%, %AttackMove%);</Command>
+   </Effect>
+
+   <Effect name="Conditional Quest Array Value Compare">
+		<Param name="Array" dispName="Array Name" VarType="string">Array 1</Param>
+		<Param name="X" dispName="Pos X" varType="long">1</Param>
+	  	<Param name="Y" dispName="Pos Y" varType="long">1</Param>
+		<Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+		<Param name="Value" dispName="$$23859$$Value" VarType="float">1.0</Param>
+		<Command>if (xsArrayGetByName("%Array%", %X%, %Y%) %Op% %Value%) {</Command>
+	</Effect>
+
+   <Effect name="yDamage Units in Area2">
+      <Param name="Player" dispName="$$22301$$Player" VarType="string">0</Param>
+      <Param name="UnitType" dispName="$$22302$$Unit Type" VarType="string">Unit</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+       <Param name="Damage" dispName="$$23762$$Damage" varType="float">50</Param>
+      <Command>trDamageUnitsInArea(%Player%,"%UnitType%",%Dist%,%Damage%);</Command>
+   </Effect>
+
+   <Effect name="conditional Army Distance to Army">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="SrcArmy2" dispName="from" VarType="group">default</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="$$22298$$Distance" VarType="float">0</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+      <Command>xsSetContextPlayer(xsVectorGetX(vector(%SrcArmy2%,-1)));</Command>
+      <Command>kbLookAtAllUnitsOnMap();</Command>
+      <Command>trVectorQuestVarSet("%V%",kbArmyGetLocation(xsVectorGetY(vector(%SrcArmy2%,-1))));</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>if(trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="yCondition - is distance to qv vector">
+      <Param name="Dist" dispName="Distance" varType="float">10.0</Param>
+      <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+      <Command>if (trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%){</Command>
+   </Effect>
+
+   <Effect name="Z ARMY QV Set Distance to QV Vector">
+      <Param name="SrcArmy" dispName="Army" VarType="group">default</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="QV" dispName="Quest Var" VarType="string">QV1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>trQuestVarSet("%QV%", trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")));</Command>
+   </Effect>
+
+   <Effect name="yUnit Position To QV Vector">
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+	<Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+  <Param name="reverse" dispName="Reverse" VarType="bool">false</Param>
+      <Command>trVectorQuestVarSet("%VQVName%", kbGetBlockPosition(""+1*trQuestVarGet("%qv%"), %reverse%));</Command>
+   </Effect>
+
+<Effect name="Z Seekers Project Account Create">
+	<Param name="player" dispName="Player" varType="string">1</Param>
+		<Command>trQuestVarSet("p%player%number", 0);</Command>
+		<Command>if (trQuestVarGet("p%player%item4") == 1) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") + 37016);}</Command>
+		<Command>if (trQuestVarGet("p%player%item3") == 1) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") + 18508);}</Command>
+		<Command>if (trQuestVarGet("p%player%item2") == 1) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") + 9254);}</Command>
+		<Command>if (trQuestVarGet("p%player%item1") == 1) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") + 4627);}</Command>
+		<Command>while (trQuestVarGet("p%player%character") >= 1) {</Command>
+			<Command>trQuestVarSet("p%player%character", trQuestVarGet("p%player%character") - 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") + 661);}</Command>
+		<Command>while (trQuestVarGet("p%player%level") >= 1) {</Command>
+			<Command>trQuestVarSet("p%player%level", trQuestVarGet("p%player%level") - 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") + 11);}</Command>
+		<!-- Animals -->
+		<Command>while (trQuestVarGet("p%player%number") >= 9001) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 9001);</Command>
+			<Command>trQuestVarSet("p%player%crocodile", trQuestVarGet("p%player%crocodile") + 1);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 999) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 999);</Command>
+			<Command>trQuestVarSet("p%player%hippo", trQuestVarGet("p%player%hippo") + 1);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 100) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 100);</Command>
+			<Command>trQuestVarSet("p%player%gazelle", trQuestVarGet("p%player%gazelle") + 1);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 10) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 10);</Command>
+			<Command>trQuestVarSet("p%player%ape", trQuestVarGet("p%player%ape") + 1);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 1) {</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 1);</Command>
+			<Command>trQuestVarSet("p%player%giraffe", trQuestVarGet("p%player%giraffe") + 1);}</Command>
+
+		<Command>while (trQuestVarGet("p%player%percent") >= 10) {</Command>
+			<Command>trQuestVarSet("p%player%percent", trQuestVarGet("p%player%percent") - 10);</Command>
+			<Command>trQuestVarSet("p%player%rhino", trQuestVarGet("p%player%rhino") + 1);}</Command>
+		<Command>while (trQuestVarGet("p%player%percent") >= 1) {</Command>
+			<Command>trQuestVarSet("p%player%percent", trQuestVarGet("p%player%percent") - 1);</Command>
+			<Command>trQuestVarSet("p%player%hyena", trQuestVarGet("p%player%hyena") + 1);}</Command>
+</Effect>
+
+<Effect name="Z Fire Event by QV">
+	<Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+	<Param name="Event1" dispName="Trigger 1" varType="event">-1</Param>
+	<Param name="Event2" dispName="Trigger 2" varType="event">-1</Param>
+	<Param name="Event3" dispName="Trigger 3" varType="event">-1</Param>
+	<Param name="Event4" dispName="Trigger 4" varType="event">-1</Param>
+		<Command>if (trQuestVarGet("%QV%") == 1){</Command>
+			<Command>trEventFire(%Event1%);}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 2){</Command>
+			<Command>trEventFire(%Event2%);}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 3){</Command>
+			<Command>trEventFire(%Event3%);}</Command>
+		<Command>if (trQuestVarGet("%QV%") == 4){</Command>
+			<Command>trEventFire(%Event4%);}</Command>
+</Effect>
+
+   <Effect name="Z Modify Protounit">
+ 	   <Param name="ProtoUnit" dispName="ProtoUnit" varType="protounit">Villager</Param>
+	   <Param name="PlayerID" dispName="Player" VarType="long">1</Param>
+      <Param name="Field" dispName="Field" varType="pufield">0</Param>
+      <Param name="Delta" dispName="Delta" varType="string">1.0</Param>
+      <Command>trModifyProtounit("%ProtoUnit%", %PlayerID%, %Field%, %Delta%);</Command>
+   </Effect>
+
+<Effect name="Z Quest Var Round">
+	<Param name="qv" dispName="Quest Var" VarType="string">QV1</Param>
+		<Command>trQuestVarSet("zqvrTemp", 0);</Command>
+		<Command>if (trQuestVarGet("%qv%") > 0){</Command>
+			<Command>while (trQuestVarGet("%qv%") > trQuestVarGet("zqvrTemp") + 0.5) {</Command>
+				<Command>trQuestVarSet("zqvrTemp", trQuestVarGet("zqvrTemp") + 1);</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<Command>if (0 > trQuestVarGet("%qv%")){</Command>
+			<Command>while (trQuestVarGet("zqvrTemp") - 0.5 > trQuestVarGet("%qv%")) {</Command>
+				<Command>trQuestVarSet("zqvrTemp", trQuestVarGet("zqvrTemp") - 1);</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<Command>trQuestVarSet("%qv%", trQuestVarGet("zqvrTemp"));</Command>
+</Effect>
+
+<Effect name="Z Seekers Project Account Recover">
+	<Param name="player" dispName="Player" varType="string">1</Param>
+		<Command>trQuestVarSet("p%player%ape", trQuestVarGet("p%player%ape")*10);</Command>
+		<Command>trQuestVarSet("p%player%gazelle", trQuestVarGet("p%player%gazelle")*100);</Command>
+		<Command>trQuestVarSet("p%player%crocodile", trQuestVarGet("p%player%crocodile")*9001);</Command>
+		<Command>trQuestVarSet("p%player%hippo", trQuestVarGet("p%player%hippo")*999);</Command>
+		<Command>trQuestVarSet("p%player%rhino", trQuestVarGet("p%player%rhino")*10);</Command>
+		<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%ape") + trQuestVarGet("p%player%gazelle") + trQuestVarGet("p%player%crocodile") + trQuestVarGet("p%player%giraffe") + trQuestVarGet("p%player%hippo"));</Command>
+		<Command>trQuestVarSet("p%player%percent", trQuestVarGet("p%player%hyena") + trQuestVarGet("p%player%rhino"));</Command>
+		<!-- split -->
+		<Command>if (trQuestVarGet("p%player%number") >= 37016) {</Command>
+			<Command>trQuestVarSet("p%player%item4", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 37016);}</Command>
+		<Command>if (trQuestVarGet("p%player%number") >= 18508) {</Command>
+			<Command>trQuestVarSet("p%player%item3", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 18508);}</Command>
+		<Command>if (trQuestVarGet("p%player%number") >= 9254) {</Command>
+			<Command>trQuestVarSet("p%player%item2", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 9254);}</Command>
+		<Command>if (trQuestVarGet("p%player%number") >= 4627) {</Command>
+			<Command>trQuestVarSet("p%player%item1", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 4627);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 661) {</Command>
+			<Command>trQuestVarSet("p%player%character", trQuestVarGet("p%player%character") + 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 661);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 11) {</Command>
+			<Command>trQuestVarSet("p%player%level", trQuestVarGet("p%player%level") + 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 11);}</Command>
+</Effect>
+
+<Effect name="Z Bounty Hunters Account Recover">
+	<Param name="player" dispName="Player" varType="string">1</Param>
+		<Command>trQuestVarSet("p%player%ape", trQuestVarGet("p%player%ape")*10);</Command>
+		<Command>trQuestVarSet("p%player%gazelle", trQuestVarGet("p%player%gazelle")*103);</Command>
+		<Command>trQuestVarSet("p%player%crocodile", trQuestVarGet("p%player%crocodile")*10005);</Command>
+		<Command>trQuestVarSet("p%player%hippo", trQuestVarGet("p%player%hippo")*1004);</Command>
+		<Command>trQuestVarSet("p%player%rhino", trQuestVarGet("p%player%rhino")*10);</Command>
+		<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%ape") + trQuestVarGet("p%player%gazelle") + trQuestVarGet("p%player%crocodile") + trQuestVarGet("p%player%giraffe") + trQuestVarGet("p%player%hippo"));</Command>
+		<Command>trQuestVarSet("p%player%percent", trQuestVarGet("p%player%hyena") + trQuestVarGet("p%player%rhino"));</Command>
+		<!-- split -->
+		<Command>if (trQuestVarGet("p%player%number") >= 26936) {</Command>
+			<Command>trQuestVarSet("p%player%item4", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 26936);}</Command>
+		<Command>if (trQuestVarGet("p%player%number") >= 13468) {</Command>
+			<Command>trQuestVarSet("p%player%item3", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 13468);}</Command>
+		<Command>if (trQuestVarGet("p%player%number") >= 6734) {</Command>
+			<Command>trQuestVarSet("p%player%item2", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 6734);}</Command>
+		<Command>if (trQuestVarGet("p%player%number") >= 3367) {</Command>
+			<Command>trQuestVarSet("p%player%item1", 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 3367);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 481) {</Command>
+			<Command>trQuestVarSet("p%player%character", trQuestVarGet("p%player%character") + 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 481);}</Command>
+		<Command>while (trQuestVarGet("p%player%number") >= 8) {</Command>
+			<Command>trQuestVarSet("p%player%level", trQuestVarGet("p%player%level") + 1);</Command>
+			<Command>trQuestVarSet("p%player%number", trQuestVarGet("p%player%number") - 8);}</Command>
+</Effect>
+
+   <Effect name="Z Quest Var Vector Set 0 0 1">
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Command>trVectorQuestVarSet("%VQVName%", xsVectorSet(0,0,1));</Command>
+   </Effect>
+
+<Effect name="conditional Distance to QV Vector">
+      <Param name="SrcObject" dispName="Source Units" VarType="unit">default</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+	  <Param name="Op" dispName="Operator" VarType="operator">==</Param>
+      <Param name="Dist" dispName="Distance" VarType="float">0</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>if (trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%){</Command>
+</Effect>
+
+<Effect name="Z QV Unit Vector Modify by Angle">
+        <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+	<Param name="operator" dispName="Operator" varType="string">+</Param>
+	<Param name="angle" dispName="Radians" vartype="string">0</Param>
+	<Command>trQuestVarSet("ZQVUVMBA_negative", -1);</Command>
+	<Command>trQuestVarSet("ZQVUVMBA_x", trVectorQuestVarGetX("%VQVName%"));</Command>
+	<Command>trQuestVarSet("ZQVUVMBA_z", trVectorQuestVarGetZ("%VQVName%"));</Command>
+	<!-- Cosine -->
+	<Command>trQuestVarSet("ZQVUVMBA_cos", trQuestVarGet("ZQVUVMBA_x") * Math_cos(%angle%));</Command>
+	<Command>trQuestVarSet("ZQVUVMBA_sin", trQuestVarGet("ZQVUVMBA_z") * Math_sin(%angle%) * trQuestVarGet("ZQVUVMBA_negative"));</Command>
+	<Command>trQuestVarSet("ZQVUVMBA_newX", trQuestVarGet("ZQVUVMBA_cos") %Operator% trQuestVarGet("ZQVUVMBA_sin"));</Command>
+	<!-- Sine -->
+	<Command>trQuestVarSet("ZQVUVMBA_sin", trQuestVarGet("ZQVUVMBA_z") * Math_cos(%angle%));</Command>
+	<Command>trQuestVarSet("ZQVUVMBA_cos", trQuestVarGet("ZQVUVMBA_x") * Math_sin(%angle%));</Command>
+	<Command>trQuestVarSet("ZQVUVMBA_newZ", trQuestVarGet("ZQVUVMBA_sin") %Operator% trQuestVarGet("ZQVUVMBA_cos"));</Command> 
+	<!-- asdf -->
+	<Command>trVectorQuestVarSet("%VQVName%",xsVectorSet(trQuestVarGet("ZQVUVMBA_newX"),trVectorQuestVarGetY("%VQVName%"),trQuestVarGet("ZQVUVMBA_newZ")));</Command>
+</Effect>
+
+   <Effect name="Z Quest Var Vector Modify by QV">
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="Oper" dispName="$$23955$$Operator" VarType="string">+</Param>
+      <Param name="X" dispName="Vector X" VarType="string">QV1</Param>
+      <Param name="Y" dispName="Vector Y" VarType="string">QV1</Param>
+      <Param name="Z" dispName="Vector Z" VarType="string">QV1</Param>
+      <Param name="R" dispName="Round" varType="bool">false</Param>
+      <Command>trVectorQuestVarSet("%VQVName%", xsVectorSet(trVectorQuestVarGetX("%VQVName%") %Oper% trQuestVarGet("%X%"),trVectorQuestVarGetY("%VQVName%") %Oper% trQuestVarGet("%Y%"),trVectorQuestVarGetZ("%VQVName%") %Oper% trQuestVarGet("%Z%")));</Command>
+      <Command>if(%R%) { for(a=0; >1){}for(b=0; >1){}for(c=0; >1){}</Command>
+      <Command>a = trVectorQuestVarGetX("%VQVName%");b = trVectorQuestVarGetY("%VQVName%");c = trVectorQuestVarGetZ("%VQVName%");</Command>
+      <Command>trVectorQuestVarSet("%VQVName%",xsVectorSet(a,b,c));}</Command>
+   </Effect>
+
+
+<Effect name="Z DIE INSECT">
+	<Param name="SrcObject" dispName=" " VarType="string">default</Param>
+	<Command>trUnitSelectClear();</Command>
+	<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+	<Command>if(trUnitDead()==true){</Command>
+    <Command>trSoundPlayFN("", "0", -1, "Some noob has edited this map. DIE, INSECT","");</Command>
+		<Command>trShowWinLose("Some noob has edited this map. DIE, INSECT", "xpack\xtaunts\en\999 theme.mp3");</Command>
+     <Command>trEndGame();</Command>
+	<Command>}</Command>
+</Effect>	
+
+<Effect name="v Condition Distance to QV Vector">
+      <Param name="V" dispName="Vector Name" varType="string">V1</Param>
+	  <Param name="Op" dispName="Operator" varType="operator"><![CDATA[<=]]></Param>
+	  <Param name="Dist" dispName="Distance" varType="string">10</Param>
+	  <Command>if(trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")) %Op% %Dist%){</Command>
+</Effect>
+
+<Effect name="Z Pick Closest Unit 4">
+	<Param name="centerObj" dispName="Center Unit" varType="unit">default</Param>
+	<Param name="unit1" dispName="Unit 1" varType="unit">default</Param>
+	<Param name="unit2" dispName="Unit 2" varType="unit">default</Param>
+	<Param name="unit3" dispName="Unit 3" varType="unit">default</Param>
+	<Param name="unit4" dispName="Unit 4" varType="unit">default</Param>
+	<Param name="QV" dispName="QV" varType="string">QV1</Param>
+		<Command>trQuestVarSet("ZPCU4P1", 0);</Command>
+		<Command>trQuestVarSet("ZPCU4P2", 0);</Command>
+		<Command>trQuestVarSet("ZPCU4P3", 0);</Command>
+		<Command>trQuestVarSet("ZPCU4P4", 0);</Command>
+		<!-- Player 1 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit1">trUnitSelect("%unit1%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPCU4P1", 1);}</Command>
+		<!-- Player 2 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit2">trUnitSelect("%unit2%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPCU4P2", 1);}</Command>
+		<!-- Player 3 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit3">trUnitSelect("%unit3%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPCU4P3", 1);}</Command>
+		<!-- Player 4 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit4">trUnitSelect("%unit4%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPCU4P4", 1);}</Command>
+		<!-- pick -->	
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="centerObj">trUnitSelect("%centerObj%");</Command>
+		<!-- player 1 -->
+		<Command>if (trUnitDistanceToUnit("%unit1%") >= trUnitDistanceToUnit("%unit2%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P1", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit1%") >= trUnitDistanceToUnit("%unit3%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P1", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit1%") >= trUnitDistanceToUnit("%unit4%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P1", 0);}</Command>
+		<!-- player 2 -->
+		<Command>if (trUnitDistanceToUnit("%unit2%") > trUnitDistanceToUnit("%unit1%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P2", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit2%") >= trUnitDistanceToUnit("%unit3%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P2", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit2%") >= trUnitDistanceToUnit("%unit4%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P2", 0);}</Command>
+		<!-- player 3 -->
+		<Command>if (trUnitDistanceToUnit("%unit3%") > trUnitDistanceToUnit("%unit1%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P3", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit3%") > trUnitDistanceToUnit("%unit2%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P3", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit3%") >= trUnitDistanceToUnit("%unit4%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P3", 0);}</Command>
+		<!-- player 4 -->
+		<Command>if (trUnitDistanceToUnit("%unit4%") > trUnitDistanceToUnit("%unit1%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P4", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit4%") > trUnitDistanceToUnit("%unit2%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P4", 0);}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit4%") > trUnitDistanceToUnit("%unit3%")) {</Command>
+			<Command>trQuestVarSet("ZPCU4P4", 0);}</Command>
+		<!-- pick -->
+		<Command>if (trQuestVarGet("ZPCU4P1") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 1);}</Command>
+		<Command>if (trQuestVarGet("ZPCU4P2") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 2);}</Command>
+		<Command>if (trQuestVarGet("ZPCU4P3") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 3);}</Command>
+		<Command>if (trQuestVarGet("ZPCU4P4") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 4);}</Command>
+</Effect>
+		
+		
+<Effect name="Z Pick Farthest Unit 4">
+	<Param name="centerObj" dispName="Center Unit" varType="unit">default</Param>
+	<Param name="unit1" dispName="Unit 1" varType="unit">default</Param>
+	<Param name="unit2" dispName="Unit 2" varType="unit">default</Param>
+	<Param name="unit3" dispName="Unit 3" varType="unit">default</Param>
+	<Param name="unit4" dispName="Unit 4" varType="unit">default</Param>
+	<Param name="QV" dispName="QV" varType="string">QV1</Param>
+		<Command>trQuestVarSet("ZPFU4P1", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P2", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P3", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P4", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P1alive", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P2alive", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P3alive", 0);</Command>
+		<Command>trQuestVarSet("ZPFU4P4alive", 0);</Command>
+		<!-- Player 1 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit1">trUnitSelect("%unit1%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPFU4P1", 1);</Command>
+		<Command>trQuestVarSet("ZPFU4P1alive", 1);}</Command>
+		<!-- Player 2 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit2">trUnitSelect("%unit2%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPFU4P2", 1);</Command>
+		<Command>trQuestVarSet("ZPFU4P2alive", 1);}</Command>
+		<!-- Player 3 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit3">trUnitSelect("%unit3%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPFU4P3", 1);</Command>
+		<Command>trQuestVarSet("ZPFU4P3alive", 1);}</Command>
+		<!-- Player 4 alive -->
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="unit4">trUnitSelect("%unit4%");</Command>
+		<Command>if (trUnitAlive()==true){</Command>
+		<Command>trQuestVarSet("ZPFU4P4", 1);</Command>
+		<Command>trQuestVarSet("ZPFU4P4alive", 1);}</Command>
+		<!-- pick -->	
+		<Command>trUnitSelectClear();</Command>
+		<Command loop="" loopParm="centerObj">trUnitSelect("%centerObj%");</Command>
+		<!-- player 1 -->
+		<Command>if (trUnitDistanceToUnit("%unit2%") >= trUnitDistanceToUnit("%unit1%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P2alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P1", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit3%") >= trUnitDistanceToUnit("%unit1%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P3alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P1", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit4%") >= trUnitDistanceToUnit("%unit1%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P4alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P1", 0);}}</Command>
+		<!-- player 2 -->
+		<Command>if (trUnitDistanceToUnit("%unit1%") > trUnitDistanceToUnit("%unit2%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P1alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P2", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit3%") >= trUnitDistanceToUnit("%unit2%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P3alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P2", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit4%") >= trUnitDistanceToUnit("%unit2%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P4alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P2", 0);}}</Command>
+		<!-- player 3 -->
+		<Command>if (trUnitDistanceToUnit("%unit1%") > trUnitDistanceToUnit("%unit3%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P1alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P3", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit2%") > trUnitDistanceToUnit("%unit3%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P2alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P3", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit4%") >= trUnitDistanceToUnit("%unit3%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P4alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P3", 0);}}</Command>
+		<!-- player 4 -->
+		<Command>if (trUnitDistanceToUnit("%unit1%") > trUnitDistanceToUnit("%unit4%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P1alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P4", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit2%") > trUnitDistanceToUnit("%unit4%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P2alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P4", 0);}}</Command>
+		<Command>if (trUnitDistanceToUnit("%unit3%") > trUnitDistanceToUnit("%unit4%")) {</Command>
+			<Command>if (trQuestVarGet("ZPFU4P3alive") == 1) {</Command>
+			<Command>trQuestVarSet("ZPFU4P4", 0);}}</Command>
+		<!-- pick -->
+		<Command>if (trQuestVarGet("ZPFU4P1") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 1);}</Command>
+		<Command>if (trQuestVarGet("ZPFU4P2") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 2);}</Command>
+		<Command>if (trQuestVarGet("ZPFU4P3") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 3);}</Command>
+		<Command>if (trQuestVarGet("ZPFU4P4") == 1) {</Command>
+			<Command>trQuestVarSet("%QV%", 4);}</Command>
+</Effect>
+				
+
+<Effect name="Z Choose Unit Random 4">
+	<Param name="unit1" dispName="Unit 1" varType="unit">default</Param>
+	<Param name="unit2" dispName="Unit 2" varType="unit">default</Param>
+	<Param name="unit3" dispName="Unit 3" varType="unit">default</Param>
+	<Param name="unit4" dispName="Unit 4" varType="unit">default</Param>
+	<Param name="QV" dispName="Quest Var" varType="string">QV1</Param>
+		<Command>trQuestVarSet("%QV%", 0);</Command>
+		<Command>trQuestVarSet("ZCURRandom", 0);</Command>
+		<Command>while (trQuestVarGet("%QV%") == 0){</Command>
+			<Command>trQuestVarSetFromRand("ZCURRandom", 1, 4, true);</Command>
+			<!-- Unit 1 -->
+			<Command>if (trQuestVarGet("ZCURRandom") == 1){</Command>
+				<Command>trUnitSelectClear();</Command>
+				<Command loop="" loopParm="unit1">trUnitSelect("%unit1%");</Command>
+				<Command>if(trUnitAlive()==true){</Command>
+					<Command>trQuestVarSet("%QV%", 1);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<!-- Unit 2 -->
+			<Command>if (trQuestVarGet("ZCURRandom") == 2){</Command>
+				<Command>trUnitSelectClear();</Command>
+				<Command loop="" loopParm="unit2">trUnitSelect("%unit2%");</Command>
+				<Command>if(trUnitAlive()==true){</Command>
+					<Command>trQuestVarSet("%QV%", 2);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<!-- Unit 3 -->
+			<Command>if (trQuestVarGet("ZCURRandom") == 3){</Command>
+				<Command>trUnitSelectClear();</Command>
+				<Command loop="" loopParm="unit3">trUnitSelect("%unit3%");</Command>
+				<Command>if(trUnitAlive()==true){</Command>
+					<Command>trQuestVarSet("%QV%", 3);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<!-- Unit 4 -->
+			<Command>if (trQuestVarGet("ZCURRandom") == 4){</Command>
+				<Command>trUnitSelectClear();</Command>
+				<Command loop="" loopParm="unit4">trUnitSelect("%unit4%");</Command>
+				<Command>if(trUnitAlive()==true){</Command>
+					<Command>trQuestVarSet("%QV%", 4);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+</Effect>
+
+  <Effect name="Move to Army">
+         <Param name="SrcObject" dispName="Source Units" VarType="unit">default</Param>
+         <Param name="ArmyT" dispName="Army Target" VarType="group">0,0</Param>
+         <Param name="EventID" dispName="$$22362$$Trigger" varType="event">-1</Param>
+         <Param name="AttackMove" dispName="$$22416$$Attack Move" varType="bool">false</Param>
+           <Command>for(Aid=0;>1){} Aid = xsVectorGetY(vector(%ArmyT%,0));</Command>
+           <Command>xsSetContextPlayer(xsVectorGetX(vector(%ArmyT%,0))); kbLookAtAllUnitsOnMap();</Command>
+           <Command>trUnitSelectClear();</Command>
+           <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+           <Command>if(kbArmyGetNumberUnits(Aid)>0) {trUnitMoveToPoint(xsVectorGetX(kbArmyGetLocation(Aid)),0,xsVectorGetZ(kbArmyGetLocation(Aid)), %EventID%, %AttackMove%);}</Command>
+   </Effect>
+
+   <Effect name="conditional Quest Var Difference">
+      <Param name="QuestVar" dispName="$$23963$$Var Name 1" varType="string">QV1</Param>
+      <Param name="QuestVar2" dispName="$$23962$$Var Name 2" varType="string">QV2</Param>
+       <Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+	<Param name="number" dispName="Amount" VarType="float">1</Param>
+      <Command>if((trQuestVarGet("%QuestVar%") - trQuestVarGet("%QuestVar2%")) %Op% %number%){</Command>
+   </Effect>
+
+   <Effect name="Z QV Set Distance to QV Vector">
+      <Param name="SrcObject" dispName="$$22295$$Source Units" VarType="unit">default</Param>
+      <Param name="V" dispName="Vector Name" VarType="string">V1</Param>
+      <Param name="QV" dispName="Quest Var" VarType="string">QV1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trQuestVarSet("%QV%", trUnitDistanceToPoint(trVectorQuestVarGetX("%V%"),trVectorQuestVarGetY("%V%"),trVectorQuestVarGetZ("%V%")));</Command>
+   </Effect>
+
+<Effect name="Z Level Up Grant Item">
+	<Param name="grant" dispName="Grant QV" varType="string">p1grantItem</Param>
+	<Param name="item1" dispName="Item 1 QV" varType="string">p1item1</Param>
+	<Param name="item2" dispName="Item 2 QV" varType="string">p1item2</Param>
+	<Param name="item3" dispName="Item 3 QV" varType="string">p1item3</Param>
+		<Command>trQuestVarSet("ZLUGIDone", 0);</Command>
+		<Command>while (trQuestVarGet("ZLUGIDone") == 0){</Command>
+			<Command>trQuestVarSetFromRand("ZLUGIRandom", 1, 3, true);</Command>
+			<Command>if (trQuestVarGet("ZLUGIRandom") == 1){</Command>
+				<Command>if (trQuestVarGet("%item1%") == 0){</Command>
+					<Command>trQuestVarSet("%item1%", 1);</Command>
+					<Command>trQuestVarSet("ZLUGIDone", 1);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<Command>if (trQuestVarGet("ZLUGIRandom") == 2){</Command>
+				<Command>if (trQuestVarGet("%item2%") == 0){</Command>
+					<Command>trQuestVarSet("%item2%", 1);</Command>
+					<Command>trQuestVarSet("ZLUGIDone", 1);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+			<Command>if (trQuestVarGet("ZLUGIRandom") == 3){</Command>
+				<Command>if (trQuestVarGet("%item3%") == 0){</Command>
+					<Command>trQuestVarSet("%item3%", 1);</Command>
+					<Command>trQuestVarSet("ZLUGIDone", 1);</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<Command>trQuestVarSet("%grant%", trQuestVarGet("ZLUGIRandom"));</Command>
+</Effect>
+
+<Effect name="Z Account Recover Part 1">
+	<Param name="number" dispName="QV number" varType="string">p1number</Param>
+	<Param name="special1" dispName="Special 1 QV" varType="string">p1special1</Param>
+	<Param name="special2" dispName="Special 2 QV" varType="string">p1special2</Param>
+	<Param name="item1" dispName="Item 1 QV" VarType="string">p1item1</Param>
+	<Param name="item2" dispName="Item 2 QV" VarType="string">p1item2</Param>
+	<Param name="item3" dispName="Item 3 QV" VarType="string">p1item3</Param>
+		<Command>if (trQuestVarGet("%number%") >= 616880) {</Command>
+			<Command>trQuestVarSet("%special2%", 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 616880);}</Command>
+		<Command>if (trQuestVarGet("%number%") >= 308440) {</Command>
+			<Command>trQuestVarSet("%special1%", 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 308440);}</Command>
+		<Command>if (trQuestVarGet("%number%") >= 154220) {</Command>
+			<Command>trQuestVarSet("%item3%", 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 154220);}</Command>
+		<Command>if (trQuestVarGet("%number%") >= 77110) {</Command>
+			<Command>trQuestVarSet("%item2%", 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 77110);}</Command>
+		<Command>if (trQuestVarGet("%number%") >= 38555) {</Command>
+			<Command>trQuestVarSet("%item1%", 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 38555);}</Command>
+</Effect>
+
+<Effect name="Z Account Recover Part 2">
+	<Param name="number" dispName="QV number" VarType="string">p1number</Param>
+	<Param name="percent" dispName="Percent Levelup QV" VarType="string">p1percent</Param>
+	<Param name="level" dispName="Level QV" VarType="string">p1level</Param>
+	<Param name="character" dispName="Character QV" VarType="string">p1character</Param>
+		<Command>while (trQuestVarGet("%number%") >= 7711) {</Command>
+			<Command>trQuestVarSet("%character%", trQuestVarGet("%character%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 7711);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 701) {</Command>
+			<Command>trQuestVarSet("%level%", trQuestVarGet("%level%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 701);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 7) {</Command>
+			<Command>trQuestVarSet("%percent%", trQuestVarGet("%percent%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 7);}</Command>
+</Effect>
+
+<Effect name="Z Account Create Part 1">
+	<Param name="number" dispName="QV number" varType="string">p1number</Param>
+	<Param name="special1" dispName="Special 1 QV" varType="string">p1special1</Param>
+	<Param name="special2" dispName="Special 2 QV" varType="string">p1special2</Param>
+	<Param name="item1" dispName="Item 1 QV" VarType="string">p1item1</Param>
+	<Param name="item2" dispName="Item 2 QV" VarType="string">p1item2</Param>
+	<Param name="item3" dispName="Item 3 QV" VarType="string">p1item3</Param>
+		<Command>trQuestVarSet("%number%", 0);</Command>
+		<Command>if (trQuestVarGet("%special2%") == 1) {</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 616880);}</Command>
+		<Command>if (trQuestVarGet("%special1%") == 1) {</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 308440);}</Command>
+		<Command>if (trQuestVarGet("%item3%") == 1) {</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 154220);}</Command>
+		<Command>if (trQuestVarGet("%item2%") == 1) {</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 77110);}</Command>
+		<Command>if (trQuestVarGet("%item1%") == 1) {</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 38555);}</Command>
+</Effect>
+
+<Effect name="Z Account Create Part 2">
+	<Param name="number" dispName="QV number" VarType="string">p1number</Param>
+	<Param name="percent" dispName="Percent Levelup QV" VarType="string">p1percent</Param>
+	<Param name="level" dispName="Level QV" VarType="string">p1level</Param>
+	<Param name="character" dispName="Character QV" VarType="string">p1character</Param>
+		<Command>while (trQuestVarGet("%character%") >= 1) {</Command>
+			<Command>trQuestVarSet("%character%", trQuestVarGet("%character%") - 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 7711);}</Command>
+		<Command>while (trQuestVarGet("%level%") >= 1) {</Command>
+			<Command>trQuestVarSet("%level%", trQuestVarGet("%level%") - 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 701);}</Command>
+		<Command>while (trQuestVarGet("%percent%") >= 1) {</Command>
+			<Command>trQuestVarSet("%percent%", trQuestVarGet("%percent%") - 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") + 7);}</Command>
+</Effect>
+
+<Effect name="Z Account Create Part 3">
+	<Param name="number" dispName="QV number" VarType="string">p1number</Param>
+	<Param name="ape" dispName="Ape" VarType="string">p1ape</Param>
+	<Param name="gazelle" dispName="Gazelle" VarType="string">p1gazelle</Param>
+	<Param name="hyena" dispName="Hyena" VarType="string">p1hyena</Param>
+	<Param name="crocodile" dispName="Crocodile" VarType="string">p1crocodile</Param>
+	<Param name="giraffe" dispName="Giraffe" VarType="string">p1giraffe</Param>
+	<Param name="hippo" dispName="Hippo" VarType="string">p1hippo</Param>
+		<Command>trQuestVarSet("%ape%", 0);</Command>
+		<Command>trQuestVarSet("%gazelle%", 0);</Command>
+		<Command>trQuestVarSet("%hyena%", 0);</Command>
+		<Command>trQuestVarSet("%crocodile%", 0);</Command>
+		<Command>trQuestVarSet("%giraffe%", 0);</Command>
+		<Command>trQuestVarSet("%hippo%", 0);</Command>
+		<Command>while (trQuestVarGet("%number%") >= 111111){</Command>
+			<Command>trQuestVarSet("%giraffe%", trQuestVarGet("%giraffe%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 111111);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 11111){</Command>
+			<Command>trQuestVarSet("%hippo%", trQuestVarGet("%hippo%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 11111);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 1111){</Command>
+			<Command>trQuestVarSet("%crocodile%", trQuestVarGet("%crocodile%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 1111);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 111){</Command>
+			<Command>trQuestVarSet("%hyena%", trQuestVarGet("%hyena%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 111);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 11){</Command>
+			<Command>trQuestVarSet("%ape%", trQuestVarGet("%ape%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 11);}</Command>
+		<Command>while (trQuestVarGet("%number%") >= 1){</Command>
+			<Command>trQuestVarSet("%gazelle%", trQuestVarGet("%gazelle%") + 1);</Command>
+			<Command>trQuestVarSet("%number%", trQuestVarGet("%number%") - 1);}</Command>
+</Effect>
+
+   <Effect name="Z Disable/Enable AI player range">
+      <Param name="p1" dispName="lowest player" varType="player">1</Param>
+      <Param name="p2" dispName="highest player" varType="player">4</Param>
+      <Command>trQuestVarSet("PlayerID", %p1%);</Command>
+      <Command>while(%p2%>=trQuestVarGet("PlayerID")) {</Command>
+      <Command>for(i = 0; > 1){}</Command>
+      <Command>i = trCurrentPlayer();</Command>
+      <Command>trPlayerSetActive(trQuestVarGet("PlayerID"));</Command>
+      <Command>trPlayerResetBlackMap(%p1%);</Command>
+      <Command>trPlayerSetActive(i);</Command>
+      <Command>trQuestVarSet("PlayerID", trQuestVarGet("PlayerID")+1);}</Command>
+   </Effect>
+
+<Effect name="Z Cinematic Mode Bundle">
+	<Param name="zBool" dispName="Mode:" varType="bool">true</Param>
+		<Command>trLetterBox(%zBool%);</Command>
+		<Command>if (%zBool% == true){</Command>
+			<Command>trUIFadeToColor(0, 0, 0, 2000, 0, true);</Command>
+			<Command>trFadeOutMusic(2);</Command>
+			<Command>trSetFogAndBlackmap(false, false);</Command>
+		<Command>}</Command>
+		<Command>if (%zBool% == false){</Command>
+			<Command>trUIFadeToColor(0, 0, 0, 1000, 0, false);</Command>
+			<Command>trMusicPlayCurrent();</Command>
+			<Command>trSetFogAndBlackmap(true, true);</Command>
+		<Command>}</Command>
+</Effect>
+
+<Effect name="Z Battle Add Enemy">
+	<Param name="number" dispName="Enemy Number" VarType="long">1</Param>
+	<Param name="name" dispName="Name" VarType="string">monster</Param>
+	<Param name="health" dispName="Health" VarType="float">0</Param>
+	<Param name="physicalArmor" dispName="Physical Armor" VarType="float">0.0</Param>
+	<Param name="magicArmor" dispName="Magic Armor" VarType="float">0.0</Param>
+	<Param name="speed" dispName="Speed" VarType="float">0</Param>
+	<Param name="damage" dispName="Damage" VarType="float">0</Param>
+		<Command>trStringQuestVarSet("enemy%number%", "%name%");</Command>
+		<Command>trQuestVarSet("enemy%number%health", %health%);</Command>
+		<Command>trQuestVarSet("enemy%number%physicalArmor", %physicalArmor%);</Command>
+		<Command>trQuestVarSet("enemy%number%magicArmor", %magicArmor%);</Command>
+		<Command>trQuestVarSet("enemy%number%speed", %speed%);</Command>
+		<Command>trQuestVarSet("enemy%number%damage", %damage%);</Command>
+</Effect>
+
+<Effect name="Z Battle Copy QV">
+	<Param name="number" dispName="Enemy Number" VarType="long">1</Param>
+	<Param name="health" dispName="Health QV" VarType="string">QV1</Param>
+	<Param name="physicalArmor" dispName="Physical Armor QV" VarType="string">QV1</Param>
+	<Param name="magicArmor" dispName="Magic Armor QV" VarType="string">QV1</Param>
+	<Param name="speed" dispName="Speed QV" VarType="string">QV1</Param>
+	<Param name="damage" dispName="Damage QV" VarType="string">QV1</Param>
+		<Command>trQuestVarCopy("%health%", "enemy%number%health");</Command>
+		<Command>trQuestVarCopy("%physicalArmor%", "enemy%number%physicalArmor");</Command>
+		<Command>trQuestVarCopy("%magicArmor%", "enemy%number%magicArmor");</Command>
+		<Command>trQuestVarCopy("%speed%", "enemy%number%speed");</Command>
+		<Command>trQuestVarCopy("%damage%", "enemy%number%damage");</Command>
+</Effect>
+	
+<Effect name="Z Send Chat RPG">
+	<Param name="name" dispName="Name" VarType="stringid"></Param>
+	<Param name="icon" dispName="Icon" VarType="stringid"></Param>
+	<Param name="message" dispName="Message" VarType="stringid">default</Param>
+	<Param name="SrcObject" dispName="Units" varType="unit">default</Param>
+	<Param name="Duration" dispName="Seconds" varType="float">2.5</Param>
+	<Command>trUnitSelectClear();</Command>
+	<Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+	<Command>trUnitHighlight(%Duration%, true);</Command>
+		<Command><![CDATA[trStringQuestVarSet("ZSCRPGIcon", "<icon=(20)(%icon%)>");]]></Command>
+		<Command><![CDATA[trStringQuestVarSet("ZSCRPGColor", "<color=1,1,1>");]]></Command>
+		<Command>trChatSend(0, trStringQuestVarGet("ZSCRPGIcon") + trStringQuestVarGet("ZSCRPGColor") + "  %name%: %message%");</Command>
+</Effect>	
+
+<Effect name="yCondition Units in Area">
+		<Param name="PlayerID" dispName="$$22301$$Player" VarType="player">0</Param>
+		<Param name="UnitType" dispName="Protounit" VarType="protounit">Unit</Param>
+		<Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+		<Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+		<Param name="Count" dispName="$$22304$$Count" VarType="string">1</Param>
+		<Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+      <Command>if(trCountUnitsInArea(""+1*trQuestVarGet("%qv%") ,%PlayerID%,"%UnitType%",%Dist%) %Op% %Count%){</Command>
+</Effect>
+
+<Effect name="yCondition Units in Area2">
+		<Param name="PlayerID" dispName="$$22301$$Player" VarType="string">0</Param>
+		<Param name="UnitType" dispName="Protounit" VarType="string">Unit</Param>
+		<Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+		<Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+		<Param name="Count" dispName="$$22304$$Count" VarType="string">1</Param>
+		<Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+      <Command>if(trCountUnitsInArea(""+1*trQuestVarGet("%qv%") ,%PlayerID%,"%UnitType%",%Dist%) %Op% %Count%){</Command>
+</Effect>
+
+   <Effect name="Z Quest String Set From Player Chat">
+      <Param name="PlayerID" dispName="Player" VarType="string">1</Param>
+      <Param name="S1" dispName="String Name" VarType="string">rename</Param>
+      <Param name="tag" dispName="Chat tag" VarType="string">rename </Param>
+      <Param name="length" dispName="Length of string" VarType="long">25</Param>
+       <Command>string alphabet = "abcdefghijklmnopqrstuvwxyz1234567890 ";</Command>
+       <Command>trStringQuestVarSet("%S1%","");</Command>
+       <Command><![CDATA[for(n=1; <= %length%) {]]></Command>
+       <Command><![CDATA[for(i=1; <= 36) {]]></Command>
+       <Command>if(trChatHistoryContains("%tag%"+ trStringQuestVarGet("%S1%") +""+ String_charAt(alphabet,i), %PlayerID%)) {</Command>
+       <Command>trStringQuestVarSet("%S1%", ""+trStringQuestVarGet("%S1%") +""+ String_charAt(alphabet,i));}</Command>
+       <Command>}</Command>
+       <Command>}</Command>
+   </Effect>
+
+
+<Effect name="Z Show Leaderboard">
+	<Param name="p1QV" dispName="P1 QV" varType="string">P1score</Param>
+	<Param name="p2QV" dispName="P2 QV" varType="string">P2score</Param>
+	<Param name="p3QV" dispName="P3 QV" varType="string">P3score</Param>
+	<Param name="p4QV" dispName="P4 QV" varType="string">P4score</Param>
+	<Command>trQuestVarSet("ZLp1Place", 1);</Command>
+	<Command>trQuestVarSet("ZLp2Place", 1);</Command>
+	<Command>trQuestVarSet("ZLp3Place", 1);</Command>
+	<Command>trQuestVarSet("ZLp4Place", 1);</Command>
+	<Command><![CDATA[trStringQuestVarSet("ZLp1Color", "<color={Playercolor(1)}>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZLp2Color", "<color={Playercolor(2)}>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZLp3Color", "<color={Playercolor(3)}>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZLp4Color", "<color={Playercolor(4)}>");]]></Command>
+	<Command><![CDATA[trStringQuestVarSet("ZLWhite", "<color=1,1,1>");]]></Command>
+	<!-- Player 1 -->
+	<Command>if( trQuestVarGet("%p1QV%") > trQuestVarGet("%p2QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp2Place", trQuestVarGet("ZLp2Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p1QV%") > trQuestVarGet("%p3QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp3Place", trQuestVarGet("ZLp3Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p1QV%") > trQuestVarGet("%p4QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp4Place", trQuestVarGet("ZLp4Place") + 1);}</Command>
+	<!-- Player 2 -->
+	<Command>if( trQuestVarGet("%p2QV%") > trQuestVarGet("%p1QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp1Place", trQuestVarGet("ZLp1Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p2QV%") > trQuestVarGet("%p3QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp3Place", trQuestVarGet("ZLp3Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p2QV%") > trQuestVarGet("%p4QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp4Place", trQuestVarGet("ZLp4Place") + 1);}</Command>
+	<!-- Player 3 -->
+	<Command>if( trQuestVarGet("%p3QV%") > trQuestVarGet("%p1QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp1Place", trQuestVarGet("ZLp1Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p3QV%") > trQuestVarGet("%p2QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp2Place", trQuestVarGet("ZLp2Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p3QV%") > trQuestVarGet("%p4QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp4Place", trQuestVarGet("ZLp4Place") + 1);}</Command>
+	<!-- Player 4 -->
+	<Command>if( trQuestVarGet("%p4QV%") > trQuestVarGet("%p1QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp1Place", trQuestVarGet("ZLp1Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p4QV%") > trQuestVarGet("%p2QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp2Place", trQuestVarGet("ZLp2Place") + 1);}</Command>
+	<Command>if( trQuestVarGet("%p4QV%") > trQuestVarGet("%p3QV%") ) {</Command>
+	<Command>trQuestVarSet("ZLp3Place", trQuestVarGet("ZLp3Place") + 1);}</Command>
+	<!-- Leaderboard -->
+	<Command>trChatSend(0, trStringQuestVarGet("ZLWhite") + "-=-=-=- Leaderboard -=-=-=-");</Command>
+	<!-- First Place -->
+	<Command>if( trQuestVarGet("ZLp1Place") == 1 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp1Color") + "First Place: {Playername(1)}: " + 1*trQuestVarGet("%p1QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp2Place") == 1 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp2Color") + "First Place: {Playername(2)}: " + 1*trQuestVarGet("%p2QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp3Place") == 1 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp3Color") + "First Place: {Playername(3)}: " + 1*trQuestVarGet("%p3QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp4Place") == 1 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp4Color") + "First Place: {Playername(4)}: " + 1*trQuestVarGet("%p4QV%") + " points");}</Command>
+	<!-- Second Place -->
+	<Command>if( trQuestVarGet("ZLp1Place") == 2 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp1Color") + "Second Place: {Playername(1)}: " + 1*trQuestVarGet("%p1QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp2Place") == 2 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp2Color") + "Second Place: {Playername(2)}: " + 1*trQuestVarGet("%p2QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp3Place") == 2 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp3Color") + "Second Place: {Playername(3)}: " + 1*trQuestVarGet("%p3QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp4Place") == 2 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp4Color") + "Second Place: {Playername(4)}: " + 1*trQuestVarGet("%p4QV%") + " points");}</Command>
+	<!-- Third Place -->
+	<Command>if( trQuestVarGet("ZLp1Place") == 3 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp1Color") + "Third Place: {Playername(1)}: " + 1*trQuestVarGet("%p1QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp2Place") == 3 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp2Color") + "Third Place: {Playername(2)}: " + 1*trQuestVarGet("%p2QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp3Place") == 3 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp3Color") + "Third Place: {Playername(3)}: " + 1*trQuestVarGet("%p3QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp4Place") == 3 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp4Color") + "Third Place: {Playername(4)}: " + 1*trQuestVarGet("%p4QV%") + " points");}</Command>
+	<!-- Fourth Place -->
+	<Command>if( trQuestVarGet("ZLp1Place") == 4 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp1Color") + "Fourth Place: {Playername(1)}: " + 1*trQuestVarGet("%p1QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp2Place") == 4 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp2Color") + "Fourth Place: {Playername(2)}: " + 1*trQuestVarGet("%p2QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp3Place") == 4 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp3Color") + "Fourth Place: {Playername(3)}: " + 1*trQuestVarGet("%p3QV%") + " points");}</Command>
+	<Command>if( trQuestVarGet("ZLp4Place") == 4 ) {</Command>
+	<Command>trChatSend(0, trStringQuestVarGet("ZLp4Color") + "Fourth Place: {Playername(4)}: " + 1*trQuestVarGet("%p4QV%") + " points");}</Command>
+</Effect>
+
+<Effect name="Army Distance to Army to QV">
+<Param name="SrcArmy" dispName="Army 1" VarType="group">default</Param>
+<Param name="SrcArmy2" dispName="Army 2" VarType="group">default</Param>
+<Param name="QV" dispName="Questvar" VarType="string">QV1</Param>
+   <Command>trUnitSelectClear();</Command>
+   <Command>for(oldPlayer=xsGetContextPlayer();>99) {}</Command>
+   <Command>xsSetContextPlayer(xsVectorGetX(vector(%SrcArmy2%,-1)));</Command>
+   <Command>kbLookAtAllUnitsOnMap();</Command>
+   <Command>trArmySelect("%SrcArmy%");</Command>
+   <Command>trQuestVarSet("%QV%", trUnitDistanceToPoint(xsVectorGetX(kbArmyGetLocation(xsVectorGetY(vector(%SrcArmy2%,-1)))),0,xsVectorGetZ(kbArmyGetLocation(xsVectorGetY(vector(%SrcArmy2%,-1))))));</Command>
+   <Command>xsSetContextPlayer(oldPlayer);</Command>
+</Effect>
+
+<Effect name="conditional Quest Var Check NOT">
+	<Param name="QuestVar" dispName="$$23952$$Var Name" varType="string">QV1</Param>
+	<Param name="Op" dispName="$$22297$$Operator" VarType="operator">==</Param>
+	<Param name="Value" dispName="$$23859$$Value" VarType="float">1</Param>
+	<Command>if(trQuestVarGet("%QuestVar%") %Op% %Value%){</Command>
+	<Command>}</Command>
+	<Command>else {</Command>
+</Effect>
+
+<Effect name="Z Get Unit Vector in Direction of Unit">
+	<Param name="centerObject" dispName="Center Object" varType="unit">default</Param>
+	<Param name="targetObject" dispName="Target Object" varType="unit">default</Param>
+	<Param name="QVX" dispName="QV X" varType="string">X</Param>
+	<Param name="QVZ" dispName="QV Z" varType="string">Z</Param>
+	<!-- Center Object -->
+	<Command>trUnitSelectClear();</Command>
+	<Command loop="" loopParm="centerObject">trUnitSelect("%centerObject%");</Command>
+	<Command>trQuestVarSet("ZGUVIDOUcenterX", xsVectorGetX(kbGetBlockPosition("%centerObject%")));</Command>
+	<Command>trQuestVarSet("ZGUVIDOUcenterZ", xsVectorGetZ(kbGetBlockPosition("%centerObject%")));</Command>
+	<!-- Target Object -->
+	<Command>trUnitSelectClear();</Command>
+	<Command loop="" loopParm="targetObject">trUnitSelect("%targetObject%");</Command>
+	<Command>trQuestVarSet("ZGUVIDOUtargetX", xsVectorGetX(kbGetBlockPosition("%targetObject%")));</Command>
+	<Command>trQuestVarSet("ZGUVIDOUtargetZ", xsVectorGetZ(kbGetBlockPosition("%targetObject%")));</Command>
+	<!-- Difference -->
+	<Command>trQuestVarSet("ZGUVIDOUtargetX", trQuestVarGet("ZGUVIDOUtargetX") - trQuestVarGet("ZGUVIDOUcenterX"));</Command>
+	<Command>trQuestVarSet("ZGUVIDOUtargetZ", trQuestVarGet("ZGUVIDOUtargetZ") - trQuestVarGet("ZGUVIDOUcenterZ"));</Command>
+	<!-- Square -->
+	<Command>trQuestVarSet("ZGUVIDOUtargetXCopy", trQuestVarGet("ZGUVIDOUtargetX") * trQuestVarGet("ZGUVIDOUtargetX"));</Command>
+	<Command>trQuestVarSet("ZGUVIDOUtargetZCopy", trQuestVarGet("ZGUVIDOUtargetZ") * trQuestVarGet("ZGUVIDOUtargetZ"));</Command>
+	<!-- Add -->
+	<Command>trQuestVarSet("ZGUVIDOUhypotenuse", trQuestVarGet("ZGUVIDOUtargetXCopy") + trQuestVarGet("ZGUVIDOUtargetZCopy"));</Command>
+	<!-- Square Root -->
+	<Command>trQuestVarSet("ZGUVIDOUhypotenuse", Math_sqrt(trQuestVarGet("ZGUVIDOUhypotenuse")) );</Command>
+	<!-- Divide -->
+	<Command>trQuestVarSet("%QVX%", trQuestVarGet("ZGUVIDOUtargetX") / trQuestVarGet("ZGUVIDOUhypotenuse"));</Command>
+	<Command>trQuestVarSet("%QVZ%", trQuestVarGet("ZGUVIDOUtargetZ") / trQuestVarGet("ZGUVIDOUhypotenuse"));</Command>
+</Effect>
+
+<Effect name="Z Unit Vector Modify by Angle">
+	<Param name="QVX" dispName="QV X" varType="string">X</Param>
+	<Param name="QVZ" dispName="QV Z" varType="string">Z</Param>
+	<Param name="operator" dispName="Operator" varType="string">+</Param>
+	<Param name="angle" dispName="Radians" vartype="float">0</Param>
+	<Param name="newQVX" dispName="New QV X" varType="string">X copy</Param>
+	<Param name="newQVZ" dispName="New QV Z" varType="string">Z copy</Param>
+	<Command>trQuestVarSet("negative", -1);</Command>
+	<!-- Cosine -->
+	<Command>trQuestVarSet("cos", trQuestVarGet("%QVX%") * Math_cos(%angle%));</Command>
+	<Command>trQuestVarSet("sin", trQuestVarGet("%QVZ%") * Math_sin(%angle%) * trQuestVarGet("negative"));</Command>
+	<Command>trQuestVarSet("%newQVX%", trQuestVarGet("cos") %Operator% trQuestVarGet("sin"));</Command>
+	<!-- Sine -->
+	<Command>trQuestVarSet("sin", trQuestVarGet("%QVZ%") * Math_cos(%angle%));</Command>
+	<Command>trQuestVarSet("cos", trQuestVarGet("%QVX%") * Math_sin(%angle%));</Command>
+	<Command>trQuestVarSet("%newQVZ%", trQuestVarGet("sin") %Operator% trQuestVarGet("cos"));</Command>
+</Effect>
+
+<Effect name="Z Unit Vector Modify by Angle Degrees">
+	<Param name="QVX" dispName="QV X" varType="string">X</Param>
+	<Param name="QVZ" dispName="QV Z" varType="string">Z</Param>
+	<Param name="operator" dispName="Operator" varType="string">+</Param>
+	<Param name="angle" dispName="Degrees" vartype="float">0</Param>
+	<Param name="newQVX" dispName="New QV X" varType="string">X copy</Param>
+	<Param name="newQVZ" dispName="New QV Z" varType="string">Z copy</Param>
+	<Command>trQuestVarSet("ZUVMBAnegative", -1);</Command>
+	<Command>trQuestVarSet("ZUVMBA_angle", %angle% * 0.017453293);</Command>
+	<!-- Cosine -->
+	<Command>trQuestVarSet("ZUVMBAcos", trQuestVarGet("%QVX%") * Math_cos(trQuestVarGet("ZUVMBA_angle")));</Command>
+	<Command>trQuestVarSet("ZUVMBAsin", trQuestVarGet("%QVZ%") * Math_sin(trQuestVarGet("ZUVMBA_angle")) * trQuestVarGet("ZUVMBAnegative"));</Command>
+	<Command>trQuestVarSet("%newQVX%", trQuestVarGet("ZUVMBAcos") %Operator% trQuestVarGet("ZUVMBAsin"));</Command>
+	<!-- Sine -->
+	<Command>trQuestVarSet("ZUVMBAsin", trQuestVarGet("%QVZ%") * Math_cos(trQuestVarGet("ZUVMBA_angle")));</Command>
+	<Command>trQuestVarSet("ZUVMBAcos", trQuestVarGet("%QVX%") * Math_sin(trQuestVarGet("ZUVMBA_angle")));</Command>
+	<Command>trQuestVarSet("%newQVZ%", trQuestVarGet("ZUVMBAsin") %Operator% trQuestVarGet("ZUVMBAcos"));</Command>
+</Effect>
+
+
+
+<Effect name="O_O - Activate Trigger Loader">
+		<Command>xsEnableRule("Lewonasissoproohmygod");</Command>
+		<Command>xsDisableSelf();}}</Command>
+		
+		<Command>void ParseNumberToProtoUnits(string number = "", int id = 0) {</Command>
+			<Command>trStringQuestVarSet("PNTPU1"+id, "");</Command>
+			<Command>trStringQuestVarSet("PNTPU2"+id, "");</Command>
+			<Command>trStringQuestVarSet("PNTPU3"+id, "");</Command>
+			<Command>trStringQuestVarSet("PNTPU4"+id, "");</Command>
+			<Command><![CDATA[for(i=0;<String_length(number)) {]]></Command>
+				<Command>if (i == 0) {</Command>
+					<Command>trStringQuestVarSet("PNTPU1"+id, String_substr(number,i+1,1) + "xxx");</Command>
+				<Command>}</Command>
+				<Command>if (i == 1) {</Command>
+					<Command>trStringQuestVarSet("PNTPU2"+id, "x" + String_substr(number,i+1,1) + "xx");</Command>
+				<Command>}</Command>
+				<Command>if (i == 2) {</Command>
+					<Command>trStringQuestVarSet("PNTPU3"+id, "xx" + String_substr(number,i+1,1) + "x");</Command>
+				<Command>}</Command>
+				<Command>if (i == 3) {</Command>
+					<Command>trStringQuestVarSet("PNTPU4"+id, "xxx" + String_substr(number,i+1,1));</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		
+		<Command>rule Lewonasissoproohmygod</Command>
+		<Command>   inactive</Command>
+		<Command>   highFrequency</Command>
+		<Command>{</Command>
+		<Command>   if(true) {</Command>
+		<Command>      xsDisableSelf();</Command>
+</Effect>
+
+<Effect name="O_O - Throwing some text in there">
+		<Param name="id" dispName="Unique ID" VarType="string">0</Param>
+		<Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+		<Param name="DstObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+		<Param name="Radius" dispName="Radius" VarType="float">10</Param>
+        <Param name="PlayerL" dispName="Lowest Player" VarType="string">1</Param>
+		<Param name="PlayerH" dispName="Highest Player" VarType="string">12</Param>
+		<Param name="ProtoName" dispName="Protounit" varType="protounit">Unit</Param>
+		<Command>for(query=0;>1) {}</Command> //creating variables
+		<Command>for(currentPlayer=xsGetContextPlayer();>99) {}</Command> //old player context
+		<Command>for(UnitID=0;>1) {}</Command>
+		<Command>for(TotalDamage=0;>1) {}</Command>
+		<Command>for(playerId=%PlayerH%;>=%PlayerL%) {</Command>
+			<Command>xsSetContextPlayer(playerId);</Command>
+			<Command>kbLookAtAllUnitsOnMap();</Command>
+			<Command>query = kbUnitQueryCreate("query_TSTIT_tmp");</Command>
+			<Command>kbUnitQuerySetPlayerID(query, playerId);</Command>
+			<Command>kbUnitQuerySetUnitType(query,kbGetProtoUnitID("%ProtoName%"));</Command>
+			<Command>kbUnitQuerySetState(query, 2);</Command>
+			<Command>if(%Radius% >= 0) {</Command>
+				<Command>trUnitSelectClear();</Command>
+				<Command>trUnitSelect("%DstObject%");</Command>
+				<Command>if(trUnitAlive()==false) break;</Command>
+				<Command>kbUnitQuerySetPosition(query, kbGetBlockPosition("%DstObject%"));</Command>
+				<Command>kbUnitQuerySetMaximumDistance(query, %Radius%);</Command>
+			<Command>}</Command>
+			<Command>kbUnitQuerySetAscendingSort(query, true);</Command>
+			<Command>for(currentUnit=kbUnitQueryExecute(query)-1;>-1){ </Command>
+				<Command>trUnitSelectClear();</Command>
+				<Command>UnitID = kbUnitQueryGetResult(query,currentUnit);</Command>
+				<Command>trUnitSelectByID(UnitID);</Command>				
+				<Command>if (trQuestVarGet("DTPfirstPass"+UnitID) == 0) {</Command> //Sets QVs for the first time the trigger runs for a unit.
+					<Command>trQuestVarSet("DTPfirstPass"+UnitID, 1);</Command>
+					<Command>trQuestVarSet("DTPcurrentHP"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+					<Command>trQuestVarSet("DTPpreviousHP"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+				<Command>}</Command>
+				<Command>trQuestVarSet("DTPpreviousHP"+UnitID, trQuestVarGet("DTPcurrentHP"+UnitID));</Command>
+				<Command>trQuestVarSet("DTPcurrentHP"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+				<Command>if( (trQuestVarGet("DTPpreviousHP"+UnitID)) > (trQuestVarGet("DTPcurrentHP"+UnitID)) ) {</Command> //If the unit receives damage, then the effects will occur
+					<Command>TotalDamage = 1*trQuestVarGet("DTPpreviousHP"+UnitID) - 1*trQuestVarGet("DTPcurrentHP"+UnitID);</Command>
+					<Command>ParseNumberToProtoUnits(""+TotalDamage,%id%);</Command>
+					<Command>trQuestVarSet("zzza",xsVectorGetX(kbUnitGetPosition(UnitID)));</Command>
+					<Command>trQuestVarSet("zzzb",xsVectorGetY(kbUnitGetPosition(UnitID)));</Command>
+					<Command>trQuestVarSet("zzzc",xsVectorGetZ(kbUnitGetPosition(UnitID)));</Command>
+					<Command>if(trStringQuestVarGet("PNTPU1"+%id%) != "") {</Command>
+						<Command>trArmyDispatch("%SrcArmy%", trStringQuestVarGet("PNTPU1"+%id%), 1, trQuestVarGet("zzza"),trQuestVarGet("zzzb"),trQuestVarGet("zzzc"), 0, true);</Command>
+					<Command>}</Command>
+					<Command>if(trStringQuestVarGet("PNTPU2"+%id%) != "") {</Command>
+						<Command>trArmyDispatch("%SrcArmy%", trStringQuestVarGet("PNTPU2"+%id%), 1, trQuestVarGet("zzza"),trQuestVarGet("zzzb"),trQuestVarGet("zzzc"), 0, true);</Command>
+					<Command>}</Command>
+					<Command>if(trStringQuestVarGet("PNTPU3"+%id%) != "") {</Command>
+						<Command>trArmyDispatch("%SrcArmy%", trStringQuestVarGet("PNTPU3"+%id%), 1, trQuestVarGet("zzza"),trQuestVarGet("zzzb"),trQuestVarGet("zzzc"), 0, true);</Command>
+					<Command>}</Command>
+					<Command>if(trStringQuestVarGet("PNTPU4"+%id%) != "") {</Command>
+						<Command>trArmyDispatch("%SrcArmy%", trStringQuestVarGet("PNTPU4"+%id%), 1, trQuestVarGet("zzza"),trQuestVarGet("zzzb"),trQuestVarGet("zzzc"), 0, true);</Command>
+					<Command>}</Command>
+				<Command>}</Command>
+			<Command>}</Command>
+		<Command>}</Command>
+		<Command>trUnitSelectClear();</Command>
+		<Command>xsSetContextPlayer(currentPlayer);</Command>
+</Effect>
+
+
+<Effect name="EL IN Unit Heading Into QV Accurate">
+            <Param name="DstObject" dispName="Select Unit" varType="unit">default</Param>
+            <Param name="qvname" dispName="QV name to store heading" varType="string">QV1</Param>
+            <Command>trQuestVarSet("uhiq%DstObject%newx", xsVectorGetX(kbGetBlockPosition("%DstObject%")));</Command>
+            <Command>if(trQuestVarGet("uhiq%DstObject%oldx") > trQuestVarGet("uhiq%DstObject%newx")) trQuestVarSet("uhiqdacheck", 1);</Command>
+    <Command><![CDATA[if(trQuestVarGet("uhiq%DstObject%oldx") < trQuestVarGet("uhiq%DstObject%newx")) trQuestVarSet("uhiqdacheck", 0);]]></Command>
+            <Command>if(trQuestVarGet("uhiqdacheck") == 1) trQuestVarSet("%qvname%",360.0 - trUnitGetHeading("%DstObject%"));</Command>
+            <Command>else trQuestVarSet("%qvname%",trUnitGetHeading("%DstObject%"));</Command>
+            <Command>trQuestVarSet("uhiq%DstObject%oldx",trQuestVarGet("uhiq%DstObject%newx"));</Command>
+</Effect>
+
+<Effect name="conditional Player Current">
+  <Param name="info" dispName="Info" VarType="string">Use to apply effects only to a particular player in multiplayer</Param>
+  <Param name="Param1" dispName="Player" VarType="player">1</Param>
+      <Command>if(trCurrentPlayer() == %Param1%){</Command>
+   </Effect>
+
+<Effect name ="yCondition Damaged by amount">
+   <Param name = "Operator" dispName = "Operator" varType = "operator">==</Param>
+   <Param name = "HP" dispName = "Threshold" varType = "float">0</Param>
+   <Param name="qv" dispName="Same var as start" VarType="string">cow</Param>
+      <Command>if (trQuestVarGet("VCDBAfirstPass"+trQuestVarGet("%qv%")) == 0){</Command>
+         <Command>trQuestVarSet("VCDBAfirstPass"+trQuestVarGet("%qv%"), 1);</Command>
+         <Command>trQuestVarSet("VCDBAamount"+trQuestVarGet("%qv%"), kbUnitGetCurrentHitpoints(kbGetBlockID(1*trQuestVarGet("%qv%")));</Command>
+         <Command>trQuestVarSet("VCDBAamount2"+trQuestVarGet("%qv%"), kbUnitGetCurrentHitpoints(kbGetBlockID(1*trQuestVarGet("%qv%"))));}</Command>
+      <Command>trQuestVarSet("VCDBAamount2"+trQuestVarGet("%qv%"), trQuestVarGet("VCDBAamount"+trQuestVarGet("%qv%")));</Command>
+      <Command>trQuestVarSet("VCDBAamount"+trQuestVarGet("%qv%"), kbUnitGetCurrentHitpoints(kbGetBlockID(1*trQuestVarGet("%qv%"))));</Command>
+      <Command>if( (trQuestVarGet("VCDBAamount2"+trQuestVarGet("%qv%"))-%HP%) %Operator% (trQuestVarGet("VCDBAamount"+trQuestVarGet("%qv%"))) ) {</Command>
+</Effect>
+
+<Effect name ="v Condition Damaged by amount">
+   <Param name = "Operator" dispName = "Operator" varType = "operator">==</Param>
+   <Param name = "HP" dispName = "Threshold" varType = "float">0</Param>
+      <Command>if (trQuestVarGet("VCDBAfirstPass"+UnitID) == 0){</Command>
+         <Command>trQuestVarSet("VCDBAfirstPass"+UnitID, 1);</Command>
+         <Command>trQuestVarSet("VCDBAamount"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+         <Command>trQuestVarSet("VCDBAamount2"+UnitID, kbUnitGetCurrentHitpoints(UnitID));}</Command>
+      <Command>trQuestVarSet("VCDBAamount2"+UnitID, trQuestVarGet("VCDBAamount"+UnitID));</Command>
+      <Command>trQuestVarSet("VCDBAamount"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+      <Command>if( (trQuestVarGet("VCDBAamount2"+UnitID)-%HP%) %Operator% (trQuestVarGet("VCDBAamount"+UnitID)) ) {</Command>
+</Effect>
+
+<Effect name ="v Condition Damaged by amount2">
+<Param  name = "minthreshold" dispName = "Min" varType = "float">0</Param>
+<Param  name = "maxthreshold" dispName = "Max" varType = "float">0</Param>
+<Command>if (trQuestVarGet("VCDBA2firstPass"+UnitID) == 0){</Command>
+<Command>trQuestVarSet("VCDBA2firstPass"+UnitID, 1);</Command>
+<Command>trQuestVarSet("VCDBA2amount"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+<Command>trQuestVarSet("VCDBA2amount2"+UnitID, kbUnitGetCurrentHitpoints(UnitID));}</Command>
+<Command>trQuestVarSet("VCDBA2true"+UnitID, 0);</Command>
+<Command>trQuestVarSet("VCDBA2amount2"+UnitID, trQuestVarGet("VCDBA2amount"+UnitID));</Command>
+<Command>trQuestVarSet("VCDBA2amount"+UnitID, kbUnitGetCurrentHitpoints(UnitID));</Command>
+<Command><![CDATA[if( ((trQuestVarGet("VCDBA2amount2"+UnitID)-%minthreshold%) >= (trQuestVarGet("VCDBA2amount"+UnitID))) && ((trQuestVarGet("VCDBA2amount"+UnitID)) >= (trQuestVarGet("VCDBA2amount2"+UnitID)-%maxthreshold%)) ) {]]></Command>
+</Effect>
+
+
+<Effect name="Army Deploy in a circle">
+      <Param name="SrcArmy" dispName="Army" VarType="group">0,0</Param>
+      <Param name="Object" dispName="Unit" VarType="unit">-1</Param>
+      <Param name="ProtoName" dispName="ProtoName" VarType="protounit"></Param>
+      <Param name="Radius" dispName="Radius" VarType="long">10</Param>
+      <Param name="Count" dispName="Units in every iteration" VarType="float">1</Param>
+      <Param name="Amt" dispName="Number of increments" VarType="long">10</Param>
+      <Param name="Heading" dispName="Heading" VarType="long">0</Param>
+<Command>if (%Amt% >= 1){</Command> //if the arguments are somewhat valid
+
+<Command>for (i=0;>1){}</Command> //Setting some vars
+<Command>for (j=0;>1){}</Command>
+<Command>for (f=0;>1){}</Command>
+<Command>for (neg=0;>1){}</Command>
+<Command>for (quad=0;>1){}</Command>
+
+<Command>trQuestVarSet("circlevarnotouch", 360.0/%Amt%);</Command> //Calculating amount of increments in degrees/per and +1 to maintain count
+<Command>while (360.0 > trQuestVarGet("circlevarnotouch")){</Command>//While we haven't done a full circle
+<Command>trQuestVarSet("srslydonttouchme", trQuestVarGet("circlevarnotouch"));quad = 0;</Command> //setting a QV to the degrees in between increments
+<Command>while (trQuestVarGet("srslydonttouchme") > 90){</Command>
+<Command>trQuestVarSet("srslydonttouchme", trQuestVarGet("srslydonttouchme") - 90.0); quad++;}</Command> //calculating which of the 4 quadrants this unit will apear (0-3)
+<Command>trQuestVarSet("srslydonttouchme", trQuestVarGet("srslydonttouchme")*3.1415926535 / 180.0);</Command> //putting angle to radians
+<Command>trQuestVarSet("improbablyaplaceholder", 0);</Command> //resetting a qv that will hold the angle in Sine
+
+<Command>i=0; while (6 > i){</Command> //Begin to calculate Sine
+<Command>trQuestVarSet("dontusemeimjustalonecalculation", 1.0);</Command>
+<Command>j=0; neg=1; while (i > j){neg=neg*(-1);j++;}</Command>
+<Command>j=0;  while ((2*i+1) > j){</Command>
+<Command>trQuestVarSet("dontusemeimjustalonecalculation", (trQuestVarGet("dontusemeimjustalonecalculation") * trQuestVarGet("srslydonttouchme")) );j++;}</Command>
+<Command>j=1; f = 1;while ((2*i+1) >= j){f = (f*j);j++;}</Command>
+<Command>trQuestVarSet("improbablyaplaceholder", (trQuestVarGet("improbablyaplaceholder") + </Command>
+<Command> ( 1.0*((1.0*neg)*trQuestVarGet("dontusemeimjustalonecalculation")/(1.0*f))))   );i++;}</Command> //finish calculating sine
+
+<Command>trQuestVarSet("zzzc", trQuestVarGet("improbablyaplaceholder") * %Radius%);</Command> //"zzzc" is the community picked "z" coordinate QV.  It's the sine of the angle times the radius (hypotenuse)
+
+<Command>trQuestVarSet("improbablyaplaceholder", 0);</Command> //resetting holding angle qv
+<Command>i=0; while (6 > i){</Command> //Begin to calculate Cosine
+<Command>trQuestVarSet("dontusemeimjustalonecalculation", 1.0);</Command>
+<Command>j=0; neg=1; while (i > j){neg=neg*(-1);j++;}</Command>
+<Command>j=0;  while ((2*i) > j){</Command>
+<Command>trQuestVarSet("dontusemeimjustalonecalculation", (trQuestVarGet("dontusemeimjustalonecalculation") * trQuestVarGet("srslydonttouchme")) );j++;}</Command>
+<Command>j=1; f = 1;while ((2*i) >= j){f = (f*j);j++;}</Command>
+<Command>trQuestVarSet("improbablyaplaceholder", (trQuestVarGet("improbablyaplaceholder") + </Command>
+<Command> ( 1.0*((1.0*neg)*trQuestVarGet("dontusemeimjustalonecalculation")/(1.0*f))))   );i++;}</Command> //finish calculating cosine
+
+<Command>trQuestVarSet("zzza", trQuestVarGet("improbablyaplaceholder") * %Radius%);</Command> //"zzza" is the community picked "x" coordinate.  This one is the cosine times the radius
+
+<Command>if (quad == 1){</Command>  //all calculations must be done in the first quadrant (0), therefore
+<Command>trQuestVarSet("improbablyaplaceholder", trQuestVarGet("zzzc"));</Command> //we must make fixes depending on which quadrant it was in
+<Command>trQuestVarSet("zzzc", trQuestVarGet("zzza") * (-1.0));</Command>
+<Command>trQuestVarSet("zzza", trQuestVarGet("improbablyaplaceholder"));}</Command>
+
+<Command>if (quad == 2){</Command>
+<Command>trQuestVarSet("zzza", trQuestVarGet("zzza") * (-1.0));</Command>
+<Command>trQuestVarSet("zzzc", trQuestVarGet("zzzc") * (-1.0));}</Command>
+
+<Command>if (quad == 3){</Command>
+<Command>trQuestVarSet("improbablyaplaceholder", trQuestVarGet("zzza"));</Command>
+<Command>trQuestVarSet("zzza", trQuestVarGet("zzzc") * (-1.0));</Command>
+<Command>trQuestVarSet("zzzc", trQuestVarGet("improbablyaplaceholder"));}</Command>
+
+<Command>trQuestVarSet("zzza", trQuestVarGet("zzza") + xsVectorGetX(kbGetBlockPosition("%Object%")) );</Command>
+<Command>trQuestVarSet("zzzc", trQuestVarGet("zzzc") + xsVectorGetZ(kbGetBlockPosition("%Object%")) );</Command>
+
+<Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, trQuestVarGet("zzza"), 0, trQuestVarGet("zzzc"), %heading%, true);</Command> //deploy on this one instance of the circle
+<Command>trQuestVarSet("circlevarnotouch", (trQuestVarGet("circlevarnotouch") + (360.0/%Amt%)) );</Command> //increment the next angle we use by the A0 angle
+<Command>}</Command> //our circle while-loop
+<Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, (xsVectorGetX(kbGetBlockPosition("%Object%"))-%Radius%), 0, xsVectorGetZ(kbGetBlockPosition("%Object%")), %heading%, true);</Command> //this completes the circle in an easier fashion
+<Command>}</Command> //our original check to see if arguments were reasonable
+</Effect>
+
+
+   <Effect name="conditional PLAYER Human">
+      <Param name="Player" dispName="Player" VarType="player">1</Param>
+      <Param name="MyBool" dispName="YesNo" VarType="bool">false</Param>
+       <Command>if(kbIsPlayerHuman(%Player%)==%MyBool%){</Command>
+   </Effect>
+
+
+   <Effect name="QV on units in area">
+      <Param name="DstObject" dispName="$$22300$$Center Unit" VarType="unit">default</Param>
+      <Param name="Player" dispName="$$22301$$Player" VarType="player">0</Param>
+      <Param name="UnitType" dispName="$$22302$$Unit Type" VarType="string">Unit</Param>
+      <Param name="Dist" dispName="$$22303$$Radius" VarType="float">10</Param>
+      <Param name="QV" dispName="Set to QV" varType="string">QV1</Param>
+   <Command>trQuestVarSet("%QV%", trCountUnitsInArea("%DstObject%",%Player%,"%UnitType%",%Dist%));</Command>
+   </Effect>
+
+
+   <Effect name="Camera Cut Oboe">
+      <Param name="SrcObject" dispName="Object" VarType="unit">-1</Param>
+      <Param name="Psi" dispName="Heading" VarType="string">trQuestVarGet("_")</Param>
+      <Param name="Theta" dispName="Pitch" VarType="string">trQuestVarGet("_")</Param>
+      <Param name="Phi" dispName="Roll" VarType="string">trQuestVarGet("_")</Param>
+      <Param name="Zoom" dispName="Zoom" VarType="string">trQuestVarGet("_")</Param>
+       <Command>trQuestVarSet("xx", Math_cos(%Theta%*PI/180.0)*Math_cos((%Psi%-90.0)*PI/180.0));</Command>
+       <Command>trQuestVarSet("xy",-1.0*Math_sin(%Theta%*PI/180.0));</Command>
+       <Command>trQuestVarSet("xz",-1.0*Math_cos(%Theta%*PI/180.0)*Math_sin((%Psi%-90.0)*PI/180.0));</Command>
+       <Command>trQuestVarSet("yx", Math_cos(%Phi%*PI/180.0)*Math_sin(%Theta%*PI/180.0)*Math_cos((%Psi%-90.0)*PI/180.0)+Math_sin(%Phi%*PI/180.0)*Math_sin((%Psi%-90.0)*PI/180.0));</Command>
+       <Command>trQuestVarSet("yy", Math_cos(%Phi%*PI/180.0)*Math_cos(%Theta%*PI/180.0));</Command>
+       <Command>trQuestVarSet("yz",-1.0*Math_cos(%Phi%*PI/180.0)*Math_sin(%Theta%*PI/180.0)*Math_sin((%Psi%-90.0)*PI/180.0)+Math_sin(%Phi%*PI/180.0)*Math_cos((%Psi%-90.0)*PI/180.0));</Command>
+       <Command>trQuestVarSet("zx", Math_sin(%Phi%*PI/180.0)*Math_sin(%Theta%*PI/180.0)*Math_cos((%Psi%-90.0)*PI/180.0)-Math_cos(%Phi%*PI/180.0)*Math_sin((%Psi%-90.0)*PI/180.0));</Command>
+       <Command>trQuestVarSet("zy", Math_sin(%Phi%*PI/180.0)*Math_cos(%Theta%*PI/180.0));</Command>
+       <Command>trQuestVarSet("zz",-1.0*Math_sin(%Phi%*PI/180.0)*Math_sin(%Theta%*PI/180.0)*Math_sin((%Psi%-90.0)*PI/180.0)-Math_cos(%Phi%*PI/180.0)*Math_cos((%Psi%-90.0)*PI/180.0));</Command>
+       <Command>trVectorQuestVarSet("dirx", xsVectorSet(trQuestVarGet("xx"),trQuestVarGet("xy"),trQuestVarGet("xz")));</Command>
+       <Command>trVectorQuestVarSet("upy", xsVectorSet(trQuestVarGet("yx"),trQuestVarGet("yy"),trQuestVarGet("yz")));</Command>
+       <Command>trVectorQuestVarSet("rightz", xsVectorSet(trQuestVarGet("zx"),trQuestVarGet("zy"),trQuestVarGet("zz")));</Command>
+       <Command>trVectorQuestVarSet("camposit",kbGetBlockPosition("%SrcObject%")-trVectorQuestVarGet("dirx")*%Zoom%);</Command>
+       <Command>trCameraCut(trVectorQuestVarGet("camposit"),trVectorQuestVarGet("dirx"),trVectorQuestVarGet("upy"),trVectorQuestVarGet("rightz"));</Command>
+   </Effect>
+
+
+   <Effect name="Army Heading QV">
+      <Param name="SrcArmy" dispName="Army" VarType="group">default</Param>
+      <Param name="QuestVar" dispName="Var Name" varType="string">QV1</Param>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+      <Command>trUnitSetHeading(trQuestVarGet("%QuestVar%"));</Command>
+   </Effect>
+   
+   <Effect name="Unit Heading QV">
+      <Param name="SrcObject" dispName="Source Units" varType="unit">default</Param>
+      <Param name="QuestVar" dispName="Var Name" varType="string">QV1</Param>
+      <Command>trUnitSelectClear();</Command>
+      <Command loop="" loopParm="SrcObject">trUnitSelect("%SrcObject%");</Command>
+      <Command>trUnitSetHeading(trQuestVarGet("%QuestVar%"));</Command>
+   </Effect>
+
+   <Effect name="Disable Triggers - Numbered Suffix 01-09 version">
+      <Param name="TrigName" dispName="Trigger Prefix" varType="string">My_Trigger_</Param>
+      <Param name="TrigMin" dispName="Trigger Suffix Min" varType="long">1</Param> 
+      <Param name="TrigMax" dispName="Trigger Suffix Max" varType="long">10</Param>     
+      <Command>for (suffix=%TrigMax%; >= %TrigMin%) {</Command>    
+      <Command>if (10>suffix) {</Command>
+      <Command>xsDisableRule("_%TrigName%0"+suffix);</Command>
+      <Command>}</Command>
+      <Command>else {</Command>
+      <Command>xsDisableRule("_%TrigName%"+suffix);</Command>
+      <Command>}</Command>
+      <Command>}</Command>
+   </Effect>
+
+   <Effect name="Disable Trigger Group">
+      <Param name="TrigName" dispName="Group Name" varType="string">default</Param>
+      <Command>xsDisableRuleGroup("_%TrigName%");</Command>
+   </Effect>
+
+<Effect name="mzzMap Unit path">
+<Param name="SrcObject" dispName="Unit" varType="unit">default</Param>
+<Param name="Var" dispName="Var Name" varType="string">path var</Param>
+<Param name="Varcnt" dispName="counter Var" varType="string">counter var</Param>
+<Command>trQuestVarSet("%Varcnt%", (trQuestVarGet("%Varcnt%")+1));</Command>
+<Command>trQuestVarSet("%Var%x"+1*trQuestVarGet("%Varcnt%"), xsVectorGetX(kbGetBlockPosition("%SrcObject%")));</Command>
+<Command>trQuestVarSet("%Var%z"+1*trQuestVarGet("%Varcnt%"), xsVectorGetZ(kbGetBlockPosition("%SrcObject%")));</Command>
+</Effect>
+
+<Effect name="mzzMap clear">
+<Param name="Var" dispName="Var" varType="string">clears all paths of this var</Param>
+<Param name="Varcnt" dispName="Counter Var" varType="string">the counter var attatched to this path</Param>
+<Command>while (trQuestVarGet("%Varcnt%") > 0){</Command>
+<Command>trQuestVarSet("%Var%z"+1*trQuestVarGet("%Varcnt%"), 0);</Command>
+<Command>trQuestVarSet("%Var%x"+1*trQuestVarGet("%Varcnt%"), 0);</Command>
+<Command>trQuestVarSet("%Varcnt%", (trQuestVarGet("%Varcnt%")-1));}</Command>
+</Effect>
+
+   <Effect name="mzArmy Deploy">
+      <Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+      <Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+      <Param name="Count"  dispName="$$22435$$Count" varType="long">0</Param>
+      <Param name="Heading" dispName="$$22432$$Heading" varType="long">0</Param>
+<Param name="mapQV" dispName="Path QV" varType="string">QV1</Param>
+<Param name="countQV" dispName="Counter QV" varType="string">QV2</Param>
+      <Param name="Clear" dispName="$$22464$$Clear Existing Units:" varType="bool">true</Param>
+<Command>trQuestVarSet("fakecount", trQuestVarGet("%countQV%"));</Command>
+<Command>while (trQuestVarGet("fakecount") > 0){</Command>
+<Command>trQuestVarSet("mapx", trQuestVarGet("%mapQV%x"+1*trQuestVarGet("fakecount")));</Command>
+<Command>trQuestVarSet("mapz", trQuestVarGet("%mapQV%z"+1*trQuestVarGet("fakecount")));</Command>
+<Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, trQuestVarGet("mapx"),0,trQuestVarGet("mapz"), %Heading%, %clear%);</Command>
+<Command>trQuestVarSet("fakecount", (trQuestVarGet("fakecount")-1));}</Command>
+   </Effect>
+
+<Effect name="mzArmy Deploy at last x paths">
+<Param name="SrcArmy" dispName="$$22348$$Army" VarType="group">default</Param>
+<Param name="ProtoName" dispName="$$22434$$ProtoName" varType="protounit">Villager</Param>
+<Param name="Count"  dispName="$$22435$$Count" varType="float">0</Param>
+<Param name="Heading" dispName="$$22432$$Heading" varType="long">0</Param>
+<Param name="mapQV" dispName="Path QV" varType="string">QV1</Param>
+<Param name="countQV" dispName="Counter QV" varType="string">QV2</Param>
+<Param name="last" dispName="Deploy on previous x paths" varType="float">1</Param>
+<Command>trQuestVarSet("amtleft", %last%);</Command>
+<Command>while (trQuestVarGet("amtleft") > trQuestVarGet("%countQV%")){</Command>
+<Command>trQuestVarSet("amtleft", trQuestVarGet("amtleft")-1);}</Command>
+<Command>while (trQuestVarGet("%countQV%")+trQuestVarGet("amtleft") != trQuestVarGet("%countQV%")){</Command>
+<Command>trQuestVarSet("mapx", trQuestVarGet("%mapQV%x"+1*((trQuestVarGet("%countQV%")+1)-trQuestVarGet("amtleft"))));</Command>
+<Command>trQuestVarSet("mapz", trQuestVarGet("%mapQV%z"+1*((trQuestVarGet("%countQV%")+1)-trQuestVarGet("amtleft"))));</Command>
+<Command>trArmyDispatch("%SrcArmy%", "%ProtoName%", %Count%, trQuestVarGet("mapx"),0,trQuestVarGet("mapz"), %Heading%, true);</Command>
+<Command>trQuestVarSet("amtleft", trQuestVarGet("amtleft")-1);}</Command>
+</Effect>
+
+   <Effect name="v Unit Position To QV Vector">
+      <Param name="VQVName" dispName="Vector Name" VarType="string">V1</Param>
+      <Command>trVectorQuestVarSet("%VQVName%", kbUnitGetPosition(UnitID));</Command>
+   </Effect>
+
+<Effect name="V prioritze one unit out of search">
+
+<Command>trQuestVarSet("vprivx", xsVectorGetX(kbUnitGetPosition(UnitID)));</Command>
+<Command>trQuestVarSet("vprivy", xsVectorGetY(kbUnitGetPosition(UnitID)));</Command>
+<Command>trQuestVarSet("vprivz", xsVectorGetZ(kbUnitGetPosition(UnitID)));</Command>
+</Effect>
+
+<Effect name="V Change Unit Type PRI">
+      <Param name="radius" dispName="keep adding 1 if trigger fails" VarType="long">1</Param>
+      <Param name="SrcArmy" dispName="player-owned Army" VarType="group">default</Param>
+      <Param name="FromType" dispName="From" VarType="protounit">default</Param>
+      <Param name="ToProto" dispName="to" VarType="protounit">default</Param>
+     <Param name="unused" dispName="Unused Flying Unit" VarType="protounit">default</Param>
+      <Param name="asdf" dispName="WARNING" VarType="string">you MUST end search after this</Param>
+<Command>trArmyDispatch("%SrcArmy%", "%unused%", 1, trQuestVarGet("vprivx"),trQuestVarGet("vprivy"),trQuestVarGet("vprivz"), 0, true);</Command>
+      <Command>trArmySelect("%SrcArmy%");</Command>
+     <Command>trUnitChangeInArea(trQuestVarGet("vplayerid"), trQuestVarGet("vplayerid"),"%FromType%","%ToProto%",%radius%);</Command>
+      <Command>trUnitChangeProtoUnit("Cinematic Block");</Command>
+
+</Effect>
+
+   <Effect name="Conditional Player is Player">
+      <Param name="Player" dispName="Player" VarType="player">1</Param>
+      <Command>if (%Player% == trCurrentPlayer()){</Command>
+      <Command>trPlayerSetActive(trCurrentPlayer());</Command>
+   </Effect>
+
+   <Effect name="Z Copy Selected Unit To Clipboard">
+	<Command>uiCopyToClipboard();</Command>
+</Effect>
+
+   <Effect name="Z Paste From Clipboard To Mouse">
+	<Command>uiPasteFromClipboard();</Command>
+</Effect>
+
+<Effect name="QV Root">
+    <Param name="QVName" dispName="$$23952$$Var Name" VarType="string">QV1</Param>
+<Param name="Count" dispName="Accuracy" varType="long">0.1</Param>
+      <Command>trQuestVarSet("ModProtoRandomQV", 0);</Command>
+      <Command>while(trQuestVarGet("%QVName%")>=trQuestVarGet("ModProtoRandomQV") * trQuestVarGet("ModProtoRandomQV")) {</Command>
+      <Command>trQuestVarSet("ModProtoRandomQV", trQuestVarGet("ModProtoRandomQV") + %count%);}</Command>
+      <Command>trQuestVarSet("%QVName%", trQuestVarGet("ModProtoRandomQV"));</Command>
+   </Effect>
+
+<Effect name="QV Root Improved">
+    <Param name="QVName" dispName="$$23952$$Var Name" VarType="string">QV1</Param>
+<Param name="Count" dispName="Accuracy" varType="long">0.1</Param>
+      <Command>trQuestVarSet("SCRtrigQVI", trQuestVarGet("%QVName%"));</Command>
+      <Command>trQuestVarSet("SCRtrigQVII", 1);</Command>
+      <Command>while(trQuestVarGet("SCRtrigQVI")>=10) {</Command>
+      <Command>trQuestVarSet("SCRtrigQVII", trQuestVarGet("SCRtrigQVII") * 3.162);</Command>
+      <Command>trQuestVarSet("SCRtrigQVI", trQuestVarGet("SCRtrigQVI") * 0.1);}</Command>
+      <Command>trQuestVarSet("ModProtoRandomQV", trQuestVarGet("SCRtrigQVII"));</Command>
+      <Command>while(trQuestVarGet("%QVName%")>=trQuestVarGet("ModProtoRandomQV") * trQuestVarGet("ModProtoRandomQV")) {</Command>
+      <Command>trQuestVarSet("ModProtoRandomQV", trQuestVarGet("ModProtoRandomQV") + %count%);}</Command>
+      <Command>trQuestVarSet("%QVName%", trQuestVarGet("ModProtoRandomQV"));</Command>
+   </Effect>
+
+
+</Effects>
+</trigger>
